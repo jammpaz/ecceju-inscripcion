@@ -9,17 +9,19 @@ install_dependencies:
 	  $(PYTHON_IMAGE) \
 	sh  -c "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
 
-run_inscripcion:
+run:
 	@docker run \
 	  --rm \
 	  --name run_inscripcion \
+	  -it \
 	  -v $(shell pwd)/inscripcion:/inscripcion \
 	  -w /inscripcion \
 	  --expose 5000 \
+	  -e FLASK_APP=inscripcion.py \
 	  $(PYTHON_IMAGE) \
-	  sh -c "source venv/bin/activate && python inscripcion.py"
+	  sh -c "source venv/bin/activate && flask run --host=0.0.0.0"
 
-ssh_inscripcion:
+ssh:
 	@docker run \
 	  --rm \
 	  --name ssh_inscripcion \
@@ -28,4 +30,14 @@ ssh_inscripcion:
 	  -w /inscripcion \
 	  $(PYTHON_IMAGE) \
 	  ash
+
+test:
+	@docker run \
+	  --rm \
+	  --name test_inscripcion \
+	  -v $(shell pwd)/inscripcion:/inscripcion \
+	  -w /inscripcion \
+	  -e FLASK_APP=inscripcion.py \
+	  $(PYTHON_IMAGE) \
+	  sh -c "source venv/bin/activate && flask test"
 
