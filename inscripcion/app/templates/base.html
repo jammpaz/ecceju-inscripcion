@@ -7,3 +7,11 @@
   {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+{% endblock %}
+
+{% block footer %}
+  {% include "includes/footer.html" %}
+{% endblock %}
