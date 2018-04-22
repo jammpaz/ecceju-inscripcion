@@ -1,0 +1,45 @@
+<ul id="dropdown-menu" class="dropdown-content">
+  <li>
+    <a href="{{ site['formulario']['url'] }}">
+      <span class="red-text text-darken-1">{{ site['formulario']['name'] }}</span>
+    </a>
+  </li>
+</ul>
+
+<nav class="white" role="navigation">
+  <div class="nav-wrapper container">
+    <a id="logo-container" class="brand-logo" href="{{ site['home']['url'] }}">
+      <img src="{{ "/static/img/logo.png" }}" class="responsive-img" alt="Logo">
+    </a>
+
+    <ul class="right hide-on-med-and-down">
+      <li>
+        <a href="{{ site['home']['url'] }}">
+          <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
+          <i class="material-icons right icon-red">home</i>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-button" data-constrainWidth="false" data-activates="dropdown-menu">
+          <span class="red-text text-darken-1">Menu</span>
+          <i class="material-icons right icon-red">arrow_drop_down</i>
+        </a>
+      </li>
+    </ul>
+
+    <ul id="nav-mobile" class="side-nav">
+      <li>
+        <a href="{{ site['home']['url'] }}">
+          <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ site['formulario']['url'] }}">
+          <span class="red-text text-darken-1">{{ site['formulario']['name'] }}</span>
+        </a>
+      </li>
+    </ul>
+
+      <a data-activates="nav-mobile" class="button-collapse"><i class="material-icons icon-red">menu</i></a>
+    </div>
+</nav>
