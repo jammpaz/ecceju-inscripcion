@@ -32,7 +32,7 @@ ssh:
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
 	  $(PYTHON_IMAGE) \
-	  ash
+	  sh -c "source venv/bin/activate && ash"
 
 test:
 	@docker run \
