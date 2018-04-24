@@ -1,5 +1,6 @@
 from flask import render_template
 from . import main
+from .forms import InscripcionForm
 
 site = {
         'title': 'Inscripciones ECCEJU 2018',
@@ -18,4 +19,7 @@ site = {
 
 @main.route('/formulario', methods = ['GET'])
 def formulario():
-    return render_template('formulario.html', site = site), 200
+    form = InscripcionForm()
+    return render_template('formulario.html',
+            site = site,
+            form = form), 200

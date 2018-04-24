@@ -21,6 +21,7 @@ run_dev:
 	  --expose 5000 \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -e FLASK_DEBUG=1 \
+	  --env-file $(shell pwd)/.env \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask run --host=0.0.0.0"
 

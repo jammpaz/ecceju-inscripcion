@@ -17,3 +17,14 @@ class FormularioTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue('Formulario de inscripción' in response.get_data(as_text = True))
 
+    def test_guarda_informacion_formulario(self):
+        response = self.client.post('/formulario',
+                data = {
+                    'localidad': 'Quito',
+                    'servidor': 'Conny Riera',
+                    'monto': '150.00',
+                    'fecha': '2018-08-01',
+                    'comprobante_uri': 'https://s3.aws.com/comprobante.jpg'
+                    })
+        self.assertEqual(response.status_code, 302)
+

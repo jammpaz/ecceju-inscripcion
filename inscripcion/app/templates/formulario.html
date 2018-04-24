@@ -1,5 +1,29 @@
 {% extends "default.html" %}
 
 {% block body %}
-<h1>Formulario de inscripción</h1>
+<h2>Formulario de inscripción</h2>
+
+<div class="row">
+  <form method="POST" class="col s12">
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">map</i>
+        {{ form.localidad(class = 'validate') }}
+        {{ form.localidad.label }}
+      </div>
+
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">account_circle</i>
+        {{ form.servidor(class = 'validate') }}
+        {{ form.servidor.label }}
+      </div>
+    </div>
+
+    {{ form.guardar(class = 'waves-effect waves-light btn') }}
+
+  </form>
+</div>
+
 {% endblock %}
