@@ -4,11 +4,9 @@
     {% include "includes/head.html" %}
   {% endblock %}
 
-  <body class="grey lighten-4">
+  <body>
     {% include "includes/header.html" %}
-    <div class="container white">
-      {% block body %}{% endblock %}
-    </div>
+    {% block body %}{% endblock %}
     {% include "includes/footer.html" %}
     {% include "includes/script.html" %}
   </body>
