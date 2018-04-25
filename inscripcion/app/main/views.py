@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, redirect, url_for, session
 from . import main
 from .forms import InscripcionForm
 
@@ -17,9 +17,12 @@ site = {
             }
         }
 
-@main.route('/formulario', methods = ['GET'])
+@main.route('/formulario', methods = ['GET', 'POST'])
 def formulario():
     form = InscripcionForm()
+    print("{}".format(form.localidad.data))
+    if form.validate_on_submit():
+        return redirect(url_for('main.formulario'))
     return render_template('formulario.html',
             site = site,
-            form = form), 200
+            form = form)

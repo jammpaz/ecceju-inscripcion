@@ -27,4 +27,5 @@ class FormularioTestCase(unittest.TestCase):
                     'comprobante_uri': 'https://s3.aws.com/comprobante.jpg'
                     })
         self.assertEqual(response.status_code, 302)
+        # self.assertTrue('Quito' in response.get_data(as_text=True))
 

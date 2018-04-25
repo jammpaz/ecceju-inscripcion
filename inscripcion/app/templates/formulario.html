@@ -7,7 +7,6 @@
 
   <div class="container">
     <h4>Formulario de inscripción</h4>
-    <hr>
 
     <div class="row">
       <div class="input-field col s12 l6">
@@ -30,7 +29,15 @@
         {{ form.monto.label }}
       </div>
 
-      <div class="file-field input-field col s12 m6">
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">access_time</i>
+        {{ form.fecha(class = 'datepicker') }}
+        {{ form.fecha.label }}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="file-field input-field col s12">
         <div class="btn black">
           <span>Subir</span>
           {{ form.comprobante_uri }}
@@ -44,8 +51,7 @@
 
   <div style="background: #ddd">
     <div class="container last-post">
-      {{ form.guardar(class = 'waves-effect waves-light btn black right') }}
-      {{ form.enviar(class = 'waves-effect waves-light btn orange') }}
+      {{ form.guardar(class = 'waves-effect waves-light btn black') }}
     </div>
   </div>
 </form>
