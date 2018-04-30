@@ -16,6 +16,12 @@ class FormularioTestCase(unittest.TestCase):
         response = self.client.get('/formulario')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('Formulario de inscripción' in response.get_data(as_text = True))
+        self.assertTrue('Nombre de la Localidad' in response.get_data(as_text = True))
+        self.assertTrue('Nombre del servidor/a' in response.get_data(as_text = True))
+        self.assertTrue('Monto cancelado' in response.get_data(as_text = True))
+        self.assertTrue('Fecha de pago' in response.get_data(as_text = True))
+        self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
+        self.assertTrue('Participantes' in response.get_data(as_text = True))
 
     def test_guarda_informacion_formulario(self):
         response = self.client.post('/formulario',
