@@ -19,6 +19,7 @@ run_dev:
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
 	  --expose 5000 \
+	  -p 5000:5000 \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -e FLASK_DEBUG=1 \
 	  --env-file $(shell pwd)/.env \

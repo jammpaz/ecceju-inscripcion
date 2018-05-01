@@ -10,7 +10,7 @@ site = {
         'instagram': 'https://www.instagram.com/eccejuquito',
         'formulario': {
             'name': 'Inscripciones',
-            'url': '/formulario'
+            'url': '/inscripcion'
             },
         'home': {
             'name': 'Inicio',
@@ -18,8 +18,8 @@ site = {
             }
         }
 
-@main.route('/formulario')
-def view_formulario():
+@main.route('/inscripcion')
+def view_inscripcion():
     inscripcion = Inscripcion(localidad = 'Quito',
             servidor = 'Conny Riera',
             monto = '150.00',
@@ -32,15 +32,15 @@ def view_formulario():
 
     inscripcion.addParticipante(participante)
 
-    return render_template('view_formulario.html',
+    return render_template('view_inscripcion.html',
             inscripcion = inscripcion,
             site = site)
 
-@main.route('/formulario', methods = ['POST'])
-def edit_formulario():
+@main.route('/inscripcion', methods = ['POST'])
+def edit_inscripcion():
     form = InscripcionForm()
     if form.validate_on_submit():
-        return redirect(url_for('main.edit_formulario'))
-    return render_template('formulario.html',
+        return redirect(url_for('main.edit_inscripcion'))
+    return render_template('inscripcion.html',
             site = site,
             form = form)

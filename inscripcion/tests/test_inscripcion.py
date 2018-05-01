@@ -12,8 +12,8 @@ class FormularioTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
-    def test_muestra_formulario(self):
-        response = self.client.get('/formulario')
+    def test_muestra_inscripcion(self):
+        response = self.client.get('/inscripcion')
         self.assertEqual(response.status_code, 200)
         self.assertTrue('Formulario de inscripción' in response.get_data(as_text = True))
         self.assertTrue('Nombre de la Localidad' in response.get_data(as_text = True))
@@ -23,8 +23,8 @@ class FormularioTestCase(unittest.TestCase):
         self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
         self.assertTrue('Participantes' in response.get_data(as_text = True))
 
-    def test_guarda_informacion_formulario(self):
-        response = self.client.post('/formulario',
+    def test_guarda_informacion_inscripcion(self):
+        response = self.client.post('/inscripcion',
                 data = {
                     'localidad': 'Quito',
                     'servidor': 'Conny Riera',
