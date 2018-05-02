@@ -1,8 +1,10 @@
 import unittest
+import uuid
 from flask import current_app
 from app import create_app
+from domain.models import Inscripcion
 
-class FormularioTestCase(unittest.TestCase):
+class InscripcionTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -12,16 +14,21 @@ class FormularioTestCase(unittest.TestCase):
     def tearDown(self):
         self.app_context.pop()
 
-    def test_muestra_inscripcion(self):
-        response = self.client.get('/inscripcion')
+    def test_show_a_inscripcion(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                monto = '150.00',
+                fecha = '2018-08-01',
+                comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+        response = self.client.get("/inscripciones/{inscripcion.id}")
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Formulario de inscripción' in response.get_data(as_text = True))
-        self.assertTrue('Nombre de la Localidad' in response.get_data(as_text = True))
-        self.assertTrue('Nombre del servidor/a' in response.get_data(as_text = True))
-        self.assertTrue('Monto cancelado' in response.get_data(as_text = True))
-        self.assertTrue('Fecha de pago' in response.get_data(as_text = True))
-        self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
-        self.assertTrue('Participantes' in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 
     def test_guarda_informacion_inscripcion(self):
         response = self.client.post('/inscripcion',

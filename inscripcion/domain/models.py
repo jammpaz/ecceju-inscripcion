@@ -1,5 +1,6 @@
 class Inscripcion:
-    def __init__(self, localidad, servidor, monto, fecha, comprobante_uri):
+    def __init__(self, id, localidad, servidor, monto, fecha, comprobante_uri):
+        self.id = id
         self.localidad = localidad
         self.servidor = servidor
         self.monto = monto

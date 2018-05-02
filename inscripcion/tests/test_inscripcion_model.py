@@ -1,10 +1,13 @@
 import unittest
+import uuid
 from domain.models import Inscripcion, Participante
 
 class InscripcionTestCase(unittest.TestCase):
 
     def test_adds_new_participante(self):
-        inscripcion = Inscripcion(localidad = 'Quito',
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
                 servidor = 'Conny Riera',
                 monto = '150.00',
                 fecha = '2018-08-01',

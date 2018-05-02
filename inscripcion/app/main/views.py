@@ -18,9 +18,11 @@ site = {
             }
         }
 
-@main.route('/inscripcion')
-def view_inscripcion():
-    inscripcion = Inscripcion(localidad = 'Quito',
+@main.route('/inscripciones/<id>')
+def show_inscripcion(id):
+    inscripcion = Inscripcion(
+            id,
+            localidad = 'Quito',
             servidor = 'Conny Riera',
             monto = '150.00',
             fecha = '2018-08-01',
@@ -32,7 +34,7 @@ def view_inscripcion():
 
     inscripcion.addParticipante(participante)
 
-    return render_template('view_inscripcion.html',
+    return render_template('show_inscripcion.html',
             inscripcion = inscripcion,
             site = site)
 
