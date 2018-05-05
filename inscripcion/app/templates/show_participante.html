@@ -1,0 +1,58 @@
+{% extends "default.html" %}
+
+{% block body %}
+
+<div class="container">
+  <br/>
+  <div class="row">
+    <div class="col s10">
+      <h4 class="header red-text">Detalle del participante</h4>
+    </div>
+    <div class="col s2">
+      <a class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">create</i></a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Identificador:</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.id }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Nombres completos :</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.nombres_completos }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Sexo:</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.sexo }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Telefono contacto:</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.telefono_contacto }}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

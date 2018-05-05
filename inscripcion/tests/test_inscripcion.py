@@ -22,8 +22,9 @@ class InscripcionTestCase(unittest.TestCase):
                 monto = '150.00',
                 fecha = '2018-08-01',
                 comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
-        response = self.client.get("/inscripciones/{inscripcion.id}")
+        response = self.client.get(f"/inscripciones/{inscripcion.id}")
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(str(inscripcion.id) in response.get_data(as_text = True))
         self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
         self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
         self.assertTrue(inscripcion.monto in response.get_data(as_text = True))

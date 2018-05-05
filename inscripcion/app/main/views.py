@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, session
 from . import main
 from .forms import InscripcionForm
 from domain.models import Inscripcion, Participante
+import uuid
 
 site = {
         'title': 'Inscripciones ECCEJU 2018',
@@ -28,7 +29,9 @@ def show_inscripcion(id):
             fecha = '2018-08-01',
             comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
 
-    participante = Participante(nombres_completos = 'Isabel de las Mercedes',
+    participante = Participante(
+            id = uuid.uuid1(),
+            nombres_completos = 'Isabel de las Mercedes',
             sexo = "Mujer",
             telefono_contacto = '5252525')
 
@@ -36,6 +39,18 @@ def show_inscripcion(id):
 
     return render_template('show_inscripcion.html',
             inscripcion = inscripcion,
+            site = site)
+
+@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
+def show_participante(inscripcion_id, participante_id):
+    participante = Participante(
+            id = participante_id,
+            nombres_completos = 'Isabel de las Mercedes',
+            sexo = "Mujer",
+            telefono_contacto = '5252525')
+
+    return render_template('show_participante.html',
+            participante = participante,
             site = site)
 
 @main.route('/inscripcion', methods = ['POST'])

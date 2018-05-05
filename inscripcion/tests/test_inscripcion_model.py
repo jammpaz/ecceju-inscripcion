@@ -13,7 +13,9 @@ class InscripcionTestCase(unittest.TestCase):
                 fecha = '2018-08-01',
                 comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
 
-        participante = Participante(nombres_completos = 'Isabel de las Mercedes',
+        participante = Participante(
+                id = uuid.uuid1(),
+                nombres_completos = 'Isabel de las Mercedes',
                 sexo = "Mujer",
                 telefono_contacto = '5252525')
 
