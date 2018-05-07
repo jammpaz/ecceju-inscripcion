@@ -2,6 +2,8 @@ from flask import render_template, redirect, url_for, session
 from . import main
 from .forms import InscripcionForm
 from domain.models import Inscripcion, Participante
+from app.repositories import InscripcionRepository
+from app import db
 import uuid
 
 site = {
@@ -19,15 +21,11 @@ site = {
             }
         }
 
+inscripcion_repository = InscripcionRepository(db.session)
+
 @main.route('/inscripciones/<id>')
 def show_inscripcion(id):
-    inscripcion = Inscripcion(
-            id,
-            localidad = 'Quito',
-            servidor = 'Conny Riera',
-            monto = '150.00',
-            fecha = '2018-08-01',
-            comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+    inscripcion = inscripcion_repository.find_by(id)
 
     participante = Participante(
             id = uuid.uuid1(),
@@ -35,7 +33,7 @@ def show_inscripcion(id):
             sexo = "Mujer",
             telefono_contacto = '5252525')
 
-    inscripcion.addParticipante(participante)
+    inscripcion.add_participante(participante)
 
     return render_template('show_inscripcion.html',
             inscripcion = inscripcion,

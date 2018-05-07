@@ -19,6 +19,6 @@ class InscripcionTestCase(unittest.TestCase):
                 sexo = "Mujer",
                 telefono_contacto = '5252525')
 
-        inscripcion.addParticipante(participante)
+        inscripcion.add_participante(participante)
 
         self.assertTrue(participante in inscripcion.participantes)

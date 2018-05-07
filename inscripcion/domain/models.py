@@ -8,7 +8,7 @@ class Inscripcion:
         self.comprobante_uri = comprobante_uri
         self.participantes = []
 
-    def addParticipante(self, participante):
+    def add_participante(self, participante):
         self.participantes.append(participante)
 
 class Participante:
