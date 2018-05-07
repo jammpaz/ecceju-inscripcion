@@ -27,5 +27,19 @@ class InscripcionRepository:
                 fecha = data.fecha,
                 comprobante_uri = data.comprobante_uri)
 
+    def find_all(self):
+        data_list = InscripcionData.query.all()
+        return list(map(lambda data:
+                Inscripcion(id = data.id,
+                    localidad = data.localidad,
+                    servidor = data.servidor,
+                    monto = data.monto,
+                    fecha = data.fecha,
+                    comprobante_uri = data.comprobante_uri), data_list))
+
+
+
+
+
 
 

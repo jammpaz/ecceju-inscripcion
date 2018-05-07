@@ -11,3 +11,4 @@ instance/
 .venv
 venv/
 .env
+*.sqlite

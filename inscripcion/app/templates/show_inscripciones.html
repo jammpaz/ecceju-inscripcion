@@ -1,0 +1,23 @@
+{% extends "default.html" %}
+
+{% block body %}
+
+<div class="container">
+  <br/>
+  <div class="row">
+    <ul class="collection with-header">
+      <li class="collection-header"><h4 class="header red-text">Inscripciones</h4></li>
+      {% for inscripcion in inscripciones %}
+      <li class="collection-item">
+        <span class="title">{{ inscripcion.localidad }}</span>
+        <p>
+          <b>Identificador:</b> {{ inscripcion.id }} <br>
+          <b>Monto:</b> {{ inscripcion.monto }}
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

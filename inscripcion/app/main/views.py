@@ -39,6 +39,13 @@ def show_inscripcion(id):
             inscripcion = inscripcion,
             site = site)
 
+@main.route('/inscripciones/')
+def show_inscripciones():
+    return render_template('show_inscripciones.html',
+            inscripciones = inscripcion_repository.find_all(),
+            site = site)
+
+
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
 def show_participante(inscripcion_id, participante_id):
     participante = Participante(

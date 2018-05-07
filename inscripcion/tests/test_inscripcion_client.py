@@ -27,7 +27,9 @@ class InscripcionTestCase(unittest.TestCase):
                 monto = '150.00',
                 fecha = '2018-08-01',
                 comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+
         self.inscripcion_repository.add(inscripcion)
+
         response = self.client.get(f"/inscripciones/{inscripcion.id}")
         self.assertEqual(response.status_code, 200)
         self.assertTrue(str(inscripcion.id) in response.get_data(as_text = True))
@@ -36,6 +38,34 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
         self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
         self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
+
+    def test_show_a_list_of_inscripcion(self):
+        inscripcion_1 = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                monto = '280.00',
+                fecha = '2018-09-01',
+                comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+        inscripcion_2 = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Santo Domingo',
+                servidor = 'Maria Isabel ',
+                monto = '2408.57',
+                fecha = '2018-08-31',
+                comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+        self.inscripcion_repository.add(inscripcion_1)
+        self.inscripcion_repository.add(inscripcion_2)
+
+        response = self.client.get(f"/inscripciones/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(str(inscripcion_1.id) in response.get_data(as_text = True))
+        self.assertTrue(str(inscripcion_2.id) in response.get_data(as_text = True))
+        self.assertTrue(inscripcion_1.localidad in response.get_data(as_text = True))
+        self.assertTrue(inscripcion_2.localidad in response.get_data(as_text = True))
+        self.assertTrue(inscripcion_1.monto in response.get_data(as_text = True))
+        self.assertTrue(inscripcion_2.monto in response.get_data(as_text = True))
 
     def test_guarda_informacion_inscripcion(self):
         response = self.client.post('/inscripcion',
