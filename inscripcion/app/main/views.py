@@ -39,9 +39,9 @@ def show_inscripcion(id):
             inscripcion = inscripcion,
             site = site)
 
-@main.route('/inscripciones/')
-def show_inscripciones():
-    return render_template('show_inscripciones.html',
+@main.route('/inscripciones')
+def index_inscripcion():
+    return render_template('index_inscripcion.html',
             inscripciones = inscripcion_repository.find_all(),
             site = site)
 
@@ -58,11 +58,30 @@ def show_participante(inscripcion_id, participante_id):
             participante = participante,
             site = site)
 
-@main.route('/inscripcion', methods = ['POST'])
-def edit_inscripcion():
+
+@main.route('/inscripciones/new')
+def new_inscripcion():
+    form = InscripcionForm()
+
+    return render_template('create_inscripcion.html',
+            site = site,
+            form = form)
+
+
+@main.route('/inscripciones', methods = ['POST'])
+def create_inscripcion():
     form = InscripcionForm()
     if form.validate_on_submit():
-        return redirect(url_for('main.edit_inscripcion'))
-    return render_template('inscripcion.html',
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = form.localidad.data,
+                servidor = form.servidor.data,
+                monto = form.monto.data,
+                fecha = form.fecha.data,
+                comprobante_uri = form.comprobante_uri.data)
+        inscripcion_repository.add(inscripcion)
+        return redirect(url_for('main.index_inscripcion'))
+
+    return render_template('create_inscripcion.html',
             site = site,
             form = form)

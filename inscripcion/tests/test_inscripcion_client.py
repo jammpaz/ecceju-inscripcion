@@ -39,7 +39,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
         self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 
-    def test_show_a_list_of_inscripcion(self):
+    def test_index_of_inscripcion(self):
         inscripcion_1 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -57,7 +57,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.inscripcion_repository.add(inscripcion_1)
         self.inscripcion_repository.add(inscripcion_2)
 
-        response = self.client.get(f"/inscripciones/")
+        response = self.client.get(f"/inscripciones")
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(str(inscripcion_1.id) in response.get_data(as_text = True))
@@ -67,8 +67,19 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(inscripcion_1.monto in response.get_data(as_text = True))
         self.assertTrue(inscripcion_2.monto in response.get_data(as_text = True))
 
-    def test_guarda_informacion_inscripcion(self):
-        response = self.client.post('/inscripcion',
+    def test_new_inscripcion(self):
+        response = self.client.get("/inscripciones/new")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('Nombre de la Localidad' in response.get_data(as_text = True))
+        self.assertTrue('Nombre del servidor/a' in response.get_data(as_text = True))
+        self.assertTrue('Monto cancelado (USD)' in response.get_data(as_text = True))
+        self.assertTrue('Fecha de pago' in response.get_data(as_text = True))
+        self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
+
+
+    def test_create_a_inscripcion(self):
+        response = self.client.post('/inscripciones',
                 data = {
                     'localidad': 'Quito',
                     'servidor': 'Conny Riera',
@@ -76,6 +87,12 @@ class InscripcionTestCase(unittest.TestCase):
                     'fecha': '2018-08-01',
                     'comprobante_uri': 'https://s3.aws.com/comprobante.jpg'
                     })
+        inscripciones = self.inscripcion_repository.find_all()
+        filtered_inscripcion = list(filter(lambda i:
+                i.localidad == 'Quito' and
+                i.servidor == 'Conny Riera',
+                inscripciones))
+        self.assertTrue(len(filtered_inscripcion) == 1)
         self.assertEqual(response.status_code, 302)
-        # self.assertTrue('Quito' in response.get_data(as_text=True))
+
 
