@@ -32,6 +32,7 @@ ssh:
 	  --name ssh_inscripcion \
 	  -it \
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
+	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -w /$(APPLICATION_FOLDER) \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && ash"

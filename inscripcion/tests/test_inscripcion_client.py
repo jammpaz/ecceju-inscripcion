@@ -2,10 +2,13 @@ import unittest
 import uuid
 from flask import current_app
 from app import create_app, db
+from io import BytesIO
 from domain.models import Inscripcion
 from app.repositories import InscripcionRepository
 
 class InscripcionTestCase(unittest.TestCase):
+
+
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
@@ -14,10 +17,12 @@ class InscripcionTestCase(unittest.TestCase):
         self.client = self.app.test_client(use_cookies = True)
         self.inscripcion_repository = InscripcionRepository(db.session)
 
+
     def tearDown(self):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
+
 
     def test_show_a_inscripcion(self):
         inscripcion = Inscripcion(
@@ -38,6 +43,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
         self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
         self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
+
 
     def test_index_of_inscripcion(self):
         inscripcion_1 = Inscripcion(
@@ -67,6 +73,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(inscripcion_1.monto in response.get_data(as_text = True))
         self.assertTrue(inscripcion_2.monto in response.get_data(as_text = True))
 
+
     def test_new_inscripcion(self):
         response = self.client.get("/inscripciones/new")
 
@@ -79,14 +86,21 @@ class InscripcionTestCase(unittest.TestCase):
 
 
     def test_create_a_inscripcion(self):
-        response = self.client.post('/inscripciones',
+        response = self.client.post(
+                '/inscripciones',
+                content_type = 'multipart/form-data',
+                buffered = True,
                 data = {
-                    'localidad': 'Quito',
-                    'servidor': 'Conny Riera',
-                    'monto': '150.00',
-                    'fecha': '2018-08-01',
-                    'comprobante_uri': 'https://s3.aws.com/comprobante.jpg'
-                    })
+                        'localidad': 'Quito',
+                        'servidor': 'Conny Riera',
+                        'monto': '150.00',
+                        'fecha': '2018-08-01',
+                        'comprobante_uri': (
+                            BytesIO('Comprobante sample content'.encode('utf-8')),
+                            'comprobante.jpg'
+                            )
+                       }
+                )
         inscripciones = self.inscripcion_repository.find_all()
         filtered_inscripcion = list(filter(lambda i:
                 i.localidad == 'Quito' and

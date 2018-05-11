@@ -78,7 +78,7 @@ def create_inscripcion():
                 servidor = form.servidor.data,
                 monto = form.monto.data,
                 fecha = form.fecha.data,
-                comprobante_uri = form.comprobante_uri.data)
+                comprobante_uri = form.comprobante_uri.data.filename)
         inscripcion_repository.add(inscripcion)
         return redirect(url_for('main.index_inscripcion'))
 
