@@ -24,7 +24,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.app_context.pop()
 
 
-    def test_show_a_inscripcion(self):
+    def test_show_an_inscripcion(self):
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -52,7 +52,7 @@ class InscripcionTestCase(unittest.TestCase):
                 servidor = 'Conny Riera',
                 monto = '280.00',
                 fecha = '2018-09-01',
-                comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
+                comprobante_uri = 'comprobante.jpg')
         inscripcion_2 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Santo Domingo',
@@ -85,7 +85,7 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
 
 
-    def test_create_a_inscripcion(self):
+    def test_create_an_inscripcion(self):
         response = self.client.post(
                 '/inscripciones/new',
                 content_type = 'multipart/form-data',
@@ -109,4 +109,22 @@ class InscripcionTestCase(unittest.TestCase):
         self.assertTrue(len(filtered_inscripcion) == 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_should_return_form_for_edit_an_inscripcion(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                monto = '150.00',
+                fecha = '2018-08-01',
+                comprobante_uri = 'https://s3.aws.com/comprobante.jpg')
 
+        self.inscripcion_repository.add(inscripcion)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/edit")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
+        self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
+        # self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))

@@ -76,3 +76,20 @@ def create_inscripcion():
     return render_template('create_inscripcion.html',
             site = site,
             form = form)
+
+@main.route('/inscripciones/<id>/edit' , methods = ['GET'])
+def edit_inscripcion(id):
+    inscripcion = inscripcion_repository.find_by(id)
+    form = InscripcionForm()
+    form.localidad.data = inscripcion.localidad
+    form.servidor.data = inscripcion.servidor
+    form.monto.data = inscripcion.monto
+    form.fecha.data = inscripcion.fecha
+    # TODO: create a google drive client to fetch file
+    comprobante_file = open("comprobante.jpg", "w+")
+    comprobante_file.close()
+    form.comprobante_uri.data = comprobante_file
+
+    return render_template('create_inscripcion.html',
+            form = form,
+            site = site)
