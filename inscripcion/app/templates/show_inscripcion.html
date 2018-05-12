@@ -60,6 +60,7 @@
     </div>
   </div>
 
+  {% if feature.is_enabled("COMPROBANTE_PAGO") %}
   <div class="row">
     <div class="col s12 l6">
       <b>Comprobante de pago:</b>
@@ -69,6 +70,7 @@
       {{ inscripcion.comprobante_uri }}
     </div>
   </div>
+  {% endif %}
 
   <div class="fixed-action-btn">
     <a href="/inscripciones/{{ inscripcion.id }}/edit" class="btn-floating btn-large blue darken-3">

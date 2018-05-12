@@ -3,7 +3,7 @@ from . import main
 from .forms import InscripcionForm
 from domain.models import Inscripcion, Participante
 from app.repositories import InscripcionRepository
-from app import db
+from app import db, feature
 import uuid
 
 site = {
@@ -36,6 +36,7 @@ def show_inscripcion(id):
     inscripcion.add_participante(participante)
 
     return render_template('show_inscripcion.html',
+            feature = feature,
             inscripcion = inscripcion,
             site = site)
 
@@ -68,12 +69,16 @@ def create_inscripcion():
                 localidad = form.localidad.data,
                 servidor = form.servidor.data,
                 monto = form.monto.data,
-                fecha = form.fecha.data,
-                comprobante_uri = form.comprobante_uri.data.filename)
+                fecha = form.fecha.data)
+
+        if feature.is_enabled("COMPROBANTE_PAGO"):
+            inscripcion.comprobante_uri = form.comprobante_uri.data.filename
+
         inscripcion_repository.add(inscripcion)
         return redirect(url_for('main.index_inscripcion'))
 
     return render_template('create_inscripcion.html',
+            feature = feature,
             site = site,
             form = form)
 
@@ -85,11 +90,14 @@ def edit_inscripcion(id):
     form.servidor.data = inscripcion.servidor
     form.monto.data = inscripcion.monto
     form.fecha.data = inscripcion.fecha
+
     # TODO: create a google drive client to fetch file
-    comprobante_file = open("comprobante.jpg", "w+")
-    comprobante_file.close()
-    form.comprobante_uri.data = comprobante_file
+    if feature.is_enabled("COMPROBANTE_PAGO"):
+        comprobante_file = open("comprobante.jpg", "w+")
+        comprobante_file.close()
+        form.comprobante_uri.data = comprobante_file
 
     return render_template('create_inscripcion.html',
+            feature = feature,
             form = form,
             site = site)
