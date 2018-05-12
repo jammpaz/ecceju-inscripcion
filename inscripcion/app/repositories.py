@@ -17,6 +17,16 @@ class InscripcionRepository:
         self.session.add(data)
         self.session.commit()
 
+    def update(self, inscripcion):
+        data = InscripcionData.query.filter_by(id = str(inscripcion.id)).first()
+        data.localidad = inscripcion.localidad
+        data.servidor = inscripcion.servidor
+        data.monto = inscripcion.monto
+        data.fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d')
+        data.comprobante_uri = inscripcion.comprobante_uri
+        self.session.add(data)
+        self.session.commit()
+
     def find_by(self, inscripcion_id):
         data = InscripcionData.query.filter_by(id = str(inscripcion_id)).first()
         return Inscripcion(

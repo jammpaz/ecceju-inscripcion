@@ -77,15 +77,29 @@ def create_inscripcion():
         inscripcion_repository.add(inscripcion)
         return redirect(url_for('main.index_inscripcion'))
 
-    return render_template('create_inscripcion.html',
+    return render_template('save_inscripcion.html',
             feature = feature,
             site = site,
             form = form)
 
-@main.route('/inscripciones/<id>/edit' , methods = ['GET'])
+@main.route('/inscripciones/<id>/edit' , methods = ['GET', 'POST'])
 def edit_inscripcion(id):
-    inscripcion = inscripcion_repository.find_by(id)
     form = InscripcionForm()
+    if form.validate_on_submit():
+        inscripcion = Inscripcion(
+                id = id,
+                localidad = form.localidad.data,
+                servidor = form.servidor.data,
+                monto = form.monto.data,
+                fecha = form.fecha.data)
+
+        if feature.is_enabled("COMPROBANTE_PAGO"):
+            inscripcion.comprobante_uri = form.comprobante_uri.data.filename
+
+        inscripcion_repository.update(inscripcion)
+        return redirect(url_for('main.index_inscripcion'))
+
+    inscripcion = inscripcion_repository.find_by(id)
     form.localidad.data = inscripcion.localidad
     form.servidor.data = inscripcion.servidor
     form.monto.data = inscripcion.monto
@@ -97,7 +111,7 @@ def edit_inscripcion(id):
         comprobante_file.close()
         form.comprobante_uri.data = comprobante_file
 
-    return render_template('create_inscripcion.html',
+    return render_template('save_inscripcion.html',
             feature = feature,
             form = form,
             site = site)
