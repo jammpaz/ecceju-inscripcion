@@ -87,7 +87,7 @@ class InscripcionTestCase(unittest.TestCase):
 
     def test_create_a_inscripcion(self):
         response = self.client.post(
-                '/inscripciones',
+                '/inscripciones/new',
                 content_type = 'multipart/form-data',
                 buffered = True,
                 data = {

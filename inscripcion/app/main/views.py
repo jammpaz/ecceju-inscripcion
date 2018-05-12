@@ -59,16 +59,7 @@ def show_participante(inscripcion_id, participante_id):
             site = site)
 
 
-@main.route('/inscripciones/new')
-def new_inscripcion():
-    form = InscripcionForm()
-
-    return render_template('create_inscripcion.html',
-            site = site,
-            form = form)
-
-
-@main.route('/inscripciones', methods = ['POST'])
+@main.route('/inscripciones/new', methods = ['GET', 'POST'])
 def create_inscripcion():
     form = InscripcionForm()
     if form.validate_on_submit():
