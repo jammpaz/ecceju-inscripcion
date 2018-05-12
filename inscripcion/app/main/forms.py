@@ -7,4 +7,3 @@ class InscripcionForm(FlaskForm):
     monto = DecimalField('Monto cancelado (USD)')
     fecha = StringField('Fecha de pago')
     comprobante_uri = FileField('Comprobante de pago')
-    guardar = SubmitField('Guardar')
