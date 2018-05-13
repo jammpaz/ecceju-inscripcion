@@ -7,3 +7,8 @@ class InscripcionForm(FlaskForm):
     monto = DecimalField('Monto cancelado (USD)')
     fecha = StringField('Fecha de pago')
     comprobante_uri = FileField('Comprobante de pago')
+
+class ParticipanteForm(FlaskForm):
+    nombres_completos = StringField('Nombres completos')
+    sexo = StringField('Sexo')
+    telefono_contacto = StringField('Telefono de contacto')

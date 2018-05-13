@@ -1,6 +1,7 @@
+import uuid
 from datetime import datetime
-from app.models import InscripcionData
-from domain.models import Inscripcion
+from app.models import InscripcionData, ParticipanteData
+from domain.models import Inscripcion, Participante
 
 class InscripcionRepository:
     def __init__(self, session):
@@ -48,8 +49,52 @@ class InscripcionRepository:
                     comprobante_uri = data.comprobante_uri), data_list))
 
 
+class ParticipanteRepository:
+    def __init__(self, session):
+        self.session = session
 
 
+    def add(self, participante, inscripcion_id):
+        data = ParticipanteData(
+                id = str(participante.id),
+                nombres_completos = participante.nombres_completos,
+                sexo = participante.sexo,
+                telefono_contacto = participante.telefono_contacto,
+                inscripcion_id = str(inscripcion_id))
+        self.session.add(data)
+        self.session.commit()
 
 
+    def update(self, participante):
+        data = ParticipanteData.query.filter_by(id = str(participante.id)).first()
+        data.nombres_completos = participante.nombres_completos
+        data.sexo = participante.sexo
+        data.telefono_contacto = participante.telefono_contacto
+        self.session.add(data)
+        self.session.commit()
+
+
+    def delete(self, participante):
+        data = ParticipanteData.query.filter_by(id = str(participante.id)).first()
+        self.session.delete(data)
+        self.session.commit()
+
+
+    def find_by(self, participante_id):
+        data = ParticipanteData.query.filter_by(id = str(participante_id)).first()
+        return Participante(
+                id = uuid.UUID(data.id),
+                nombres_completos = data.nombres_completos,
+                sexo = data.sexo,
+                telefono_contacto = data.telefono_contacto)
+
+
+    def find_all(self, inscripcion_id):
+        data_list = ParticipanteData.query.filter_by(inscripcion_id = str(inscripcion_id)).all()
+        return list(map(lambda data:
+                Participante(
+                    id = uuid.UUID(data.id),
+                    nombres_completos = data.nombres_completos,
+                    sexo = data.sexo,
+                    telefono_contacto = data.telefono_contacto), data_list))
 

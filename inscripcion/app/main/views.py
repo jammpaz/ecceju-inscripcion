@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, session
 from . import main
-from .forms import InscripcionForm
+from .forms import InscripcionForm, ParticipanteForm
 from domain.models import Inscripcion, Participante
-from app.repositories import InscripcionRepository
+from app.repositories import InscripcionRepository, ParticipanteRepository
 from app import db, feature
 import uuid
 
@@ -22,41 +22,19 @@ site = {
         }
 
 inscripcion_repository = InscripcionRepository(db.session)
+participante_repository = ParticipanteRepository(db.session)
 
 @main.route('/inscripciones/<id>')
 def show_inscripcion(id):
-    inscripcion = inscripcion_repository.find_by(id)
-
-    participante = Participante(
-            id = uuid.uuid1(),
-            nombres_completos = 'Isabel de las Mercedes',
-            sexo = "Mujer",
-            telefono_contacto = '5252525')
-
-    inscripcion.add_participante(participante)
-
     return render_template('show_inscripcion.html',
             feature = feature,
-            inscripcion = inscripcion,
+            inscripcion = inscripcion_repository.find_by(id),
             site = site)
 
 @main.route('/inscripciones')
 def index_inscripcion():
     return render_template('index_inscripcion.html',
             inscripciones = inscripcion_repository.find_all(),
-            site = site)
-
-
-@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
-def show_participante(inscripcion_id, participante_id):
-    participante = Participante(
-            id = participante_id,
-            nombres_completos = 'Isabel de las Mercedes',
-            sexo = "Mujer",
-            telefono_contacto = '5252525')
-
-    return render_template('show_participante.html',
-            participante = participante,
             site = site)
 
 
@@ -113,5 +91,38 @@ def edit_inscripcion(id):
 
     return render_template('save_inscripcion.html',
             feature = feature,
+            form = form,
+            site = site)
+
+@main.route('/inscripciones/<inscripcion_id>/participantes')
+def index_participante(inscripcion_id):
+    return render_template('index_participante.html',
+            inscripcion_id = inscripcion_id,
+            participantes = participante_repository.find_all(inscripcion_id),
+            site = site)
+
+@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
+def show_participante(inscripcion_id, participante_id):
+    return render_template('show_participante.html',
+            inscripcion_id = inscripcion_id,
+            participante = participante_repository.find_by(participante_id),
+            site = site)
+
+@main.route('/inscripciones/<inscripcion_id>/participantes/new')
+def create_participante(inscripcion_id):
+    form = ParticipanteForm()
+    if form.validate_on_submit():
+        participante = Participante(
+                id = uuid.uuid1(),
+                nombres_completos = form.nombres_completos.data,
+                sexo = form.sexo.data,
+                telefono_contacto = form.telefono_contacto.data)
+
+        participante_repository.add(participante, inscripcion_id)
+        return redirect(url_for(
+            'main.index_participante',
+            inscripcion_id = inscripcion_id))
+
+    return render_template('save_participante.html',
             form = form,
             site = site)

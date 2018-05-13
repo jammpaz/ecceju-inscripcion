@@ -12,7 +12,7 @@ class Inscripcion:
         self.participantes.append(participante)
 
 class Participante:
-    def __init__(self, id, nombres_completos, sexo, telefono_contacto):
+    def __init__(self, id, nombres_completos, sexo, telefono_contacto = ''):
         self.id = id
         self.nombres_completos = nombres_completos
         self.sexo = sexo

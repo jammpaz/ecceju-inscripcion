@@ -8,7 +8,6 @@ from app.repositories import InscripcionRepository
 
 class InscripcionTestCase(unittest.TestCase):
 
-
     def setUp(self):
         self.app = create_app('testing')
         self.app_context = self.app.app_context()
