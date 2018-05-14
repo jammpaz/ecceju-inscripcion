@@ -126,7 +126,6 @@ class ParticipanteTestCase(unittest.TestCase):
                 data = participante_data)
 
         participantes = self.participante_repository.find_all(inscripcion.id)
-        print(f"{participantes}")
         filtered_participante = list(filter(lambda i:
                 i.nombres_completos == 'Nayeli Chiriboga' and
                 i.sexo == 'M' and
@@ -135,26 +134,29 @@ class ParticipanteTestCase(unittest.TestCase):
         self.assertTrue(len(filtered_participante) == 1)
         self.assertEqual(response.status_code, 302)
 
-    # def test_should_return_form_for_edit_an_inscripcion(self):
-        # inscripcion = Inscripcion(
-                # id = uuid.uuid1(),
-                # localidad = 'Quito',
-                # servidor = 'Conny Riera',
-                # monto = '150.00',
-                # fecha = '2018-08-01')
+    def test_should_return_form_for_edit_a_participante(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                monto = '150.00',
+                fecha = '2018-08-01')
 
-        # if feature.is_enabled("COMPROBANTE_PAGO"):
-            # inscripcion.comprobante_uri = 'comprobante.jpg'
+        self.inscripcion_repository.add(inscripcion)
 
-        # self.inscripcion_repository.add(inscripcion)
+        participante = Participante(
+                id = uuid.uuid1(),
+                nombres_completos = 'Raul Riera',
+                sexo = 'H',
+                telefono_contacto = '9999999999')
+        self.participante_repository.add(participante, inscripcion.id)
 
-        # response = self.client.get(f"/inscripciones/{inscripcion.id}/edit")
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/{participante.id}/edit")
 
-        # self.assertEqual(response.status_code, 200)
-        # self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
-        # self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
-        # self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
-        # self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(participante.nombres_completos in response.get_data(as_text = True))
+        self.assertTrue(participante.sexo in response.get_data(as_text = True))
+        self.assertTrue(participante.telefono_contacto in response.get_data(as_text = True))
 
     # def test_should_edit_an_inscripcion(self):
         # inscripcion = Inscripcion(
