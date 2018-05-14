@@ -127,19 +127,19 @@ def create_participante(inscripcion_id):
             form = form,
             site = site)
 
-@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/edit' , methods = ['GET'])
+@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/edit' , methods = ['GET', 'POST'])
 def edit_participante(inscripcion_id, participante_id):
     form = ParticipanteForm()
-    # if form.validate_on_submit():
-        # inscripcion = Inscripcion(
-                # id = id,
-                # localidad = form.localidad.data,
-                # servidor = form.servidor.data,
-                # monto = form.monto.data,
-                # fecha = form.fecha.data)
+    if form.validate_on_submit():
+        participante = Participante(
+                id = participante_id,
+                nombres_completos = form.nombres_completos.data,
+                sexo = form.sexo.data,
+                telefono_contacto = form.telefono_contacto.data)
 
-        # inscripcion_repository.update(inscripcion)
-        # return redirect(url_for('main.index_inscripcion'))
+        participante_repository.update(participante)
+        return redirect(url_for('main.index_participante',
+            inscripcion_id = inscripcion_id))
 
     participante = participante_repository.find_by(participante_id)
     form.nombres_completos.data = participante.nombres_completos

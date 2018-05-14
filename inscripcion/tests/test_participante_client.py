@@ -158,48 +158,38 @@ class ParticipanteTestCase(unittest.TestCase):
         self.assertTrue(participante.sexo in response.get_data(as_text = True))
         self.assertTrue(participante.telefono_contacto in response.get_data(as_text = True))
 
-    # def test_should_edit_an_inscripcion(self):
-        # inscripcion = Inscripcion(
-                # id = uuid.uuid1(),
-                # localidad = 'Quito',
-                # servidor = 'Conny Riera',
-                # monto = '150.00',
-                # fecha = '2018-08-01')
 
-        # if feature.is_enabled("COMPROBANTE_PAGO"):
-            # inscripcion.comprobante_uri = 'comprobante.jpg'
+    def test_should_edit_a_participante(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                monto = '150.00',
+                fecha = '2018-08-01')
+        self.inscripcion_repository.add(inscripcion)
 
-        # self.inscripcion_repository.add(inscripcion)
+        participante = Participante(
+                id = uuid.uuid1(),
+                nombres_completos = 'Raul Riera',
+                sexo = 'H',
+                telefono_contacto = '9999999999')
+        self.participante_repository.add(participante, inscripcion.id)
 
-        # inscripcion_data = {
-                        # 'localidad': 'Quito Norte',
-                        # 'servidor': 'Raul Riera',
-                        # 'monto': '450.00',
-                        # 'fecha': '2018-09-01'
-                       # }
+        participante_data = {
+                        'nombres_completos': 'Nayeli Chiriboga',
+                        'sexo': 'M',
+                        'telefono_contacto': '9999999999'
+                       }
 
-        # if feature.is_enabled('COMPROBANTE_PAGO'):
-            # inscripcion_data = {
-                        # 'localidad': 'Quito Norte',
-                        # 'servidor': 'Raul Riera',
-                        # 'monto': '450.00',
-                        # 'fecha': '2018-09-01',
-                        # 'comprobante_uri': (
-                            # BytesIO('Comprobante sample content'.encode('utf-8')),
-                            # 'comprobante.jpg'
-                            # )
-                       # }
+        response = self.client.post(
+                f'/inscripciones/{inscripcion.id}/participantes/{participante.id}/edit',
+                data = participante_data)
 
-        # response = self.client.post(
-                # f'/inscripciones/{inscripcion.id}/edit',
-                # content_type = 'multipart/form-data',
-                # buffered = True,
-                # data = inscripcion_data)
-
-        # inscripciones = self.inscripcion_repository.find_all()
-        # filtered_inscripcion = list(filter(lambda i:
-                # i.localidad == 'Quito Norte' and
-                # i.servidor == 'Raul Riera',
-                # inscripciones))
-        # self.assertTrue(len(filtered_inscripcion) == 1)
-        # self.assertEqual(response.status_code, 302)
+        participantes = self.participante_repository.find_all(inscripcion.id)
+        filtered_participante = list(filter(lambda i:
+                i.nombres_completos == 'Nayeli Chiriboga' and
+                i.sexo == 'M' and
+                i.telefono_contacto == '9999999999',
+                participantes))
+        self.assertTrue(len(filtered_participante) == 1)
+        self.assertEqual(response.status_code, 302)
