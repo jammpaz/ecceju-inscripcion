@@ -108,7 +108,7 @@ def show_participante(inscripcion_id, participante_id):
             participante = participante_repository.find_by(participante_id),
             site = site)
 
-@main.route('/inscripciones/<inscripcion_id>/participantes/new')
+@main.route('/inscripciones/<inscripcion_id>/participantes/new', methods=['GET', 'POST'])
 def create_participante(inscripcion_id):
     form = ParticipanteForm()
     if form.validate_on_submit():
