@@ -13,7 +13,7 @@ site = {
         'instagram': 'https://www.instagram.com/eccejuquito',
         'formulario': {
             'name': 'Inscripciones',
-            'url': '/inscripcion'
+            'url': '/inscripciones'
             },
         'home': {
             'name': 'Inicio',
