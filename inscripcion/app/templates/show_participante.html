@@ -5,11 +5,8 @@
 <div class="container">
   <br/>
   <div class="row">
-    <div class="col s10">
+    <div class="col s12">
       <h4 class="header red-text">Detalle del Participante</h4>
-    </div>
-    <div class="col s2">
-      <a class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">create</i></a>
     </div>
   </div>
 
@@ -51,6 +48,12 @@
     <div class="col s12 l6">
       {{ participante.telefono_contacto }}
     </div>
+  </div>
+
+  <div class="fixed-action-btn">
+    <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}/edit" class="btn-floating btn-large blue darken-3">
+       <i class="large material-icons">create</i>
+    </a>
   </div>
 
 </div>

@@ -11,7 +11,8 @@
       <li class="collection-item">
         <h5 class="title orange-text">{{ participante.nombres_completos }}</h5>
         <p>
-          <b>Identificador:</b> {{ participante.id }}
+          <b>Identificador: </b>
+          <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}"> {{ participante.id }} </a>
         </p>
       </li>
       {% endfor %}
