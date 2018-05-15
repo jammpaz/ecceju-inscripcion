@@ -1,6 +1,7 @@
 override PYTHON_IMAGE = python:3.6-alpine3.7
 override APPLICATION_SCRIPT = inscripcion.py
 override APPLICATION_FOLDER = inscripcion
+override IMAGE_TAG = ecceju/inscripcion
 
 install_dependencies:
 	@docker run \
@@ -46,3 +47,35 @@ test:
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"
+
+
+build_image:
+	@docker build \
+	  -t $(IMAGE_TAG):latest \
+	  -f $(APPLICATION_FOLDER)/Dockerfile \
+	  $(APPLICATION_FOLDER)
+
+
+run_container:
+	@docker run \
+	  --rm \
+	  --name ecceju-inscripcion-container \
+	  -e PORT=5000 \
+	  -e SECRET_KEY=secure-key \
+	  --expose 5000 \
+	  $(IMAGE_TAG):latest
+
+
+define deploy_to
+	docker tag $(IMAGE_TAG):latest registry.heroku.com/ecceju-inscripcion-$(1)/web
+	@docker login --username=_ --password=$(2) registry.heroku.com
+	docker push registry.heroku.com/ecceju-inscripcion-$(1)/web
+endef
+
+deploy_to_qa:
+	$(call deploy_to,qa,$(TOKEN))
+
+deploy_to_prod:
+	$(if $(filter no, $(BUILD_DEBUG)), \
+	  $(call deploy_to,prod,$(TOKEN)), \
+	  @echo "INFO: This build will not be deployed on production environment")

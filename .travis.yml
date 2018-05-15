@@ -1,0 +1,19 @@
+sudo: required
+
+env:
+  - secure: "Q3Ha5tsSoz+8+kdDMgGK7w3+i2KEGG8XsPWEpE5VzIhUsBAcCqjAobQDtvIJclgIQLN9qtUGcHt9+rgWP2A7/EfOTogTtU/07WtA51ZPsfxkF8lc2K/rQJghsqBXWrcepy0JUIIKkF0XV4RNPFJn3B6yMvps6l6aLaWh1BZ15GCEbYmJuKe0RYCiU8L5be/FeZ+lhXJB5K6BxT5SUNrjcLUdbWOr91pQ/nvKLsHqs2uvKs4iQPiNkTESNw0lHNS9Cf7T/ZsAepQO2BanaDvBcjTjes1VPXwkybuaF1VpMfHwtgydjgoFyd2gxTtaY6lIP2FGwBvpSW9KlIqRlBc0mGaZcbHD2tpDDWMoDpXNJcww96ytPbWXz68Ti/CCL/+YeHXD8kMAp6ToBy2HM0UvLDs9LrmJCav20S8d7A35KIB7qixQJYgmueLubP3t0z8CLFqk7TuCb0KaQF/I7+XbKhOTEUUgM0jb/HEKFBgN7ISYwrYbh/k/WiVIbzHBNSxKqAflUJdmB27WQ6Kxa7h4JG+pedI3zgxYRAjvkXJWxR6mvwSaae6tJ5llv/1XxGEWZQkVrKG3r1c5j0ChUmkduyhC5X4Uujcz911eeGKUm5T4d7HaVNLvinhAKqGs0nzu11kdTJic+zVxpFocdX2A4AXebwJo8L+lylfq+d2rHYI="
+
+services:
+  - docker
+
+install: make
+
+before_script:
+  - make install_dependencies
+
+script:
+  - make test
+  - make build_image
+  - make deploy_to_qa
+  - make deploy_to_prod BUILD_DEBUG=yes
+
