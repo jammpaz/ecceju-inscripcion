@@ -14,4 +14,5 @@ def test():
 
 @app.cli.command()
 def deploy():
+    """Run database migrations"""
     upgrade()

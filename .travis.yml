@@ -16,4 +16,3 @@ script:
   - make build_image
   - make deploy_to_qa
   - make deploy_to_prod BUILD_DEBUG=yes
-
