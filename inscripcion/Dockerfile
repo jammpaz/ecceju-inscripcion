@@ -18,4 +18,4 @@ COPY migrations migrations
 COPY inscripcion.py config.py boot.sh feature.py features.yaml ./
 
 # runtime configuration
-ENTRYPOINT ["./boot.sh"]
+CMD ["./boot.sh"]
