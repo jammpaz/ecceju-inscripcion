@@ -16,3 +16,9 @@ class ParticipanteData(db.Model):
     sexo = db.Column(db.String(1), nullable = False)
     telefono_contacto = db.Column(db.String(15))
     inscripcion_id = db.Column(db.String, db.ForeignKey('inscripciones.id'))
+
+class Usuario(db.Model):
+    __tablename__ = 'usuarios'
+    id = db.Column(db.String, primary_key = True)
+    nombre_usuario = db.Column(db.String(64), unique = True, index = True)
+    hashed_password = db.Column(db.String(128))
