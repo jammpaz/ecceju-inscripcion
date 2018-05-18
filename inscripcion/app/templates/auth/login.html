@@ -2,27 +2,33 @@
 
 {% block body %}
 
-<form method="POST" class="col s12">
-  {{ form.hidden_tag() }}
+<div class="container">
+  <center>
+    <div class="section"></div>
+    <h5 class="orange-text">Por favor ingrese sus credenciales:</h5>
+    <div class="section"></div>
+    <div class="z-depth-1 grey lighten-3 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+      <form method="POST" class="col s12">
+        {{ form.hidden_tag() }}
 
-  <div class="container">
-    <div class="row">
-      <div class="input-field col s12 m6 l4">
-        <i class="material-icons prefix">person</i>
-        {{ form.nombre_usuario(class = 'validate') }}
-        {{ form.nombre_usuario.label }}
-      </div>
-      <div class="input-field col s12 m6 l4">
-        <i class="material-icons prefix">lock</i>
-        {{ form.clave(class = 'validate') }}
-        {{ form.clave.label }}
-      </div>
-      <div class="input-field col s12 l4">
-        {{ form.iniciar(class = 'waves-effect waves-light btn black') }}
-      </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">person</i>
+            {{ form.nombre_usuario(class = 'validate') }}
+            {{ form.nombre_usuario.label }}
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">lock</i>
+            {{ form.clave(class = 'validate') }}
+            {{ form.clave.label }}
+          </div>
+        </div>
+        <div class="row">
+            {{ form.iniciar(class = 'col s12 m4 waves-effect waves-light btn-large black') }}
+        </div>
+      </form>
     </div>
-  </div>
-
-</form>
+  </center>
+</div>
 
 {% endblock %}
