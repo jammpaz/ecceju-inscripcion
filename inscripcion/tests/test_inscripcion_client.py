@@ -22,6 +22,12 @@ class InscripcionTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    def test_show_login_in(self):
+        response = self.client.get('/auth/login')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('Nombre de usuario' in response.get_data(as_text = True))
+        self.assertTrue('Clave' in response.get_data(as_text = True))
+
 
     def test_show_an_inscripcion(self):
         inscripcion = Inscripcion(

@@ -1,0 +1,28 @@
+{% extends "default.html" %}
+
+{% block body %}
+
+<form method="POST" class="col s12">
+  {{ form.hidden_tag() }}
+
+  <div class="container">
+    <div class="row">
+      <div class="input-field col s12 m6 l4">
+        <i class="material-icons prefix">person</i>
+        {{ form.nombre_usuario(class = 'validate') }}
+        {{ form.nombre_usuario.label }}
+      </div>
+      <div class="input-field col s12 m6 l4">
+        <i class="material-icons prefix">lock</i>
+        {{ form.clave(class = 'validate') }}
+        {{ form.clave.label }}
+      </div>
+      <div class="input-field col s12 l4">
+        {{ form.iniciar(class = 'waves-effect waves-light btn black') }}
+      </div>
+    </div>
+  </div>
+
+</form>
+
+{% endblock %}
