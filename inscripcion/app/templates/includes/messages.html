@@ -1,3 +1,9 @@
 {% for message in get_flashed_messages() %}
-  <div class="card-panel red">{{ message }}</div>
+<div class="container">
+  <div class="card-panel red">
+    <span class="white-text">
+      {{ message }}
+    </span>
+  </div>
+</div>
 {% endfor %}
