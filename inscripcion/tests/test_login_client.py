@@ -82,8 +82,11 @@ class LoginIntTestCase(unittest.TestCase):
                 'inscripciones',
                 'inscripciones/new',
                 'inscripciones/<inscripcion_id>',
+                'inscripciones/<inscripcion_id>/edit',
                 'inscripciones/<inscripcion_id>/participantes',
+                'inscripciones/<inscripcion_id>/participantes/new',
                 'inscripciones/<inscripcion_id>/participantes/<participante_id>',
+                'inscripciones/<inscripcion_id>/participantes/<participante_id>/edit',
                 ]
         for url in protected_urls:
             response = self.client.get(url, follow_redirects = True)

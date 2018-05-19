@@ -133,6 +133,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_should_return_form_for_edit_an_inscripcion(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -154,6 +155,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(inscripcion.fecha, response)
 
     def test_should_edit_an_inscripcion(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',

@@ -94,6 +94,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
 
 
     def test_new_participante(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -111,6 +112,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
 
 
     def test_create_a_participante(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -139,6 +141,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_should_return_form_for_edit_a_participante(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -164,6 +167,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
 
 
     def test_should_edit_a_participante(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',

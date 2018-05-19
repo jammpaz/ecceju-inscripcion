@@ -65,7 +65,7 @@ def create_inscripcion():
             form = form)
 
 @main.route('/inscripciones/<id>/edit' , methods = ['GET', 'POST'])
-# @login_required
+@login_required
 def edit_inscripcion(id):
     form = InscripcionForm()
     if form.validate_on_submit():
@@ -116,7 +116,7 @@ def show_participante(inscripcion_id, participante_id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/new', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def create_participante(inscripcion_id):
     form = ParticipanteForm()
     if form.validate_on_submit():
@@ -136,7 +136,7 @@ def create_participante(inscripcion_id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/edit' , methods = ['GET', 'POST'])
-# @login_required
+@login_required
 def edit_participante(inscripcion_id, participante_id):
     form = ParticipanteForm()
     if form.validate_on_submit():
