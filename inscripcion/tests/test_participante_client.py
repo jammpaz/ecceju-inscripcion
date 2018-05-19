@@ -4,8 +4,10 @@ from flask import current_app
 from app import create_app, db, feature
 from domain.models import Inscripcion, Participante
 from app.repositories import InscripcionRepository, ParticipanteRepository
+from app.models import Usuario
+from utils.security import PasswordManager
 
-class ParticipanteTestCase(unittest.TestCase):
+class ParticipanteIntTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app('testing')
@@ -24,6 +26,7 @@ class ParticipanteTestCase(unittest.TestCase):
 
 
     def test_show_a_participante(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -49,6 +52,7 @@ class ParticipanteTestCase(unittest.TestCase):
 
 
     def test_index_of_participantes(self):
+        self._login()
         inscripcion_1 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -193,3 +197,28 @@ class ParticipanteTestCase(unittest.TestCase):
                 participantes))
         self.assertTrue(len(filtered_participante) == 1)
         self.assertEqual(response.status_code, 302)
+
+
+    def _assert_static_text(self, static_text, response):
+        self.assertTrue(static_text in response.get_data(as_text = True))
+
+    def _new_usuario(self, nombre_usuario, clave):
+        usuario = Usuario(
+                nombre_usuario = nombre_usuario,
+                hashed_password = PasswordManager(clave).hash())
+        db.session.add(usuario)
+        db.session.commit()
+        return usuario
+
+    def _login(self):
+        nombre_usuario = 'usuario_1'
+        clave = 'secreto'
+        self._new_usuario(nombre_usuario, clave)
+        login_data = {
+                'nombre_usuario': nombre_usuario,
+                'clave': clave
+                }
+        return self.client.post(
+                '/auth/login',
+                data = login_data,
+                follow_redirects = True)

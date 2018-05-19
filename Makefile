@@ -44,6 +44,7 @@ test:
 	  --name test_inscripcion \
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
+	  -e SECRET_KEY='secret' \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"

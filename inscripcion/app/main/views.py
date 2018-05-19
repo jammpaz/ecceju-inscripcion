@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, session
+from flask_login import login_required
 from . import main
 from .forms import InscripcionForm, ParticipanteForm
 from domain.models import Inscripcion, Participante
@@ -25,6 +26,7 @@ inscripcion_repository = InscripcionRepository(db.session)
 participante_repository = ParticipanteRepository(db.session)
 
 @main.route('/inscripciones/<id>')
+@login_required
 def show_inscripcion(id):
     return render_template('show_inscripcion.html',
             feature = feature,
@@ -32,6 +34,7 @@ def show_inscripcion(id):
             site = site)
 
 @main.route('/inscripciones')
+@login_required
 def index_inscripcion():
     return render_template('index_inscripcion.html',
             inscripciones = inscripcion_repository.find_all(),
@@ -39,6 +42,7 @@ def index_inscripcion():
 
 
 @main.route('/inscripciones/new', methods = ['GET', 'POST'])
+@login_required
 def create_inscripcion():
     form = InscripcionForm()
     if form.validate_on_submit():
@@ -61,6 +65,7 @@ def create_inscripcion():
             form = form)
 
 @main.route('/inscripciones/<id>/edit' , methods = ['GET', 'POST'])
+# @login_required
 def edit_inscripcion(id):
     form = InscripcionForm()
     if form.validate_on_submit():
@@ -95,6 +100,7 @@ def edit_inscripcion(id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes')
+@login_required
 def index_participante(inscripcion_id):
     return render_template('index_participante.html',
             inscripcion_id = inscripcion_id,
@@ -102,6 +108,7 @@ def index_participante(inscripcion_id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
+@login_required
 def show_participante(inscripcion_id, participante_id):
     return render_template('show_participante.html',
             inscripcion_id = inscripcion_id,
@@ -109,6 +116,7 @@ def show_participante(inscripcion_id, participante_id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/new', methods=['GET', 'POST'])
+# @login_required
 def create_participante(inscripcion_id):
     form = ParticipanteForm()
     if form.validate_on_submit():
@@ -128,6 +136,7 @@ def create_participante(inscripcion_id):
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/edit' , methods = ['GET', 'POST'])
+# @login_required
 def edit_participante(inscripcion_id, participante_id):
     form = ParticipanteForm()
     if form.validate_on_submit():

@@ -1,4 +1,6 @@
+from flask_login import UserMixin
 from . import db
+from . import login_manager
 
 class InscripcionData(db.Model):
     __tablename__ = 'inscripciones'
@@ -17,8 +19,12 @@ class ParticipanteData(db.Model):
     telefono_contacto = db.Column(db.String(15))
     inscripcion_id = db.Column(db.String, db.ForeignKey('inscripciones.id'))
 
-class Usuario(db.Model):
+class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
-    id = db.Column(db.String, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     nombre_usuario = db.Column(db.String(64), unique = True, index = True)
     hashed_password = db.Column(db.String(128))
+
+@login_manager.user_loader
+def load_user(usuario_id):
+    return Usuario.query.get(int(usuario_id))

@@ -5,8 +5,10 @@ from app import create_app, db, feature
 from io import BytesIO
 from domain.models import Inscripcion
 from app.repositories import InscripcionRepository
+from app.models import Usuario
+from utils.security import PasswordManager
 
-class InscripcionTestCase(unittest.TestCase):
+class InscripcionIntTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app('testing')
@@ -22,14 +24,9 @@ class InscripcionTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def test_show_login_in(self):
-        response = self.client.get('/auth/login')
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue('Nombre de usuario' in response.get_data(as_text = True))
-        self.assertTrue('Clave' in response.get_data(as_text = True))
-
 
     def test_show_an_inscripcion(self):
+        self._login()
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -38,21 +35,22 @@ class InscripcionTestCase(unittest.TestCase):
                 fecha = '2018-08-01')
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'https://s3.aws.com/comprobante.jpg'
-
         self.inscripcion_repository.add(inscripcion)
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}")
+
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(str(inscripcion.id) in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
+        self._assert_static_text(str(inscripcion.id), response)
+        self._assert_static_text(inscripcion.localidad, response)
+        self._assert_static_text(inscripcion.servidor, response)
+        self._assert_static_text(inscripcion.monto, response)
+        self._assert_static_text(inscripcion.fecha, response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 
 
     def test_index_of_inscripcion(self):
+        self._login()
         inscripcion_1 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
@@ -77,27 +75,30 @@ class InscripcionTestCase(unittest.TestCase):
         response = self.client.get(f"/inscripciones")
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(str(inscripcion_1.id) in response.get_data(as_text = True))
-        self.assertTrue(str(inscripcion_2.id) in response.get_data(as_text = True))
-        self.assertTrue(inscripcion_1.localidad in response.get_data(as_text = True))
-        self.assertTrue(inscripcion_2.localidad in response.get_data(as_text = True))
-        self.assertTrue(inscripcion_1.monto in response.get_data(as_text = True))
-        self.assertTrue(inscripcion_2.monto in response.get_data(as_text = True))
+        self._assert_static_text(str(inscripcion_1.id), response)
+        self._assert_static_text(str(inscripcion_2.id), response)
+        self._assert_static_text(inscripcion_1.localidad, response)
+        self._assert_static_text(inscripcion_2.localidad, response)
+        self._assert_static_text(inscripcion_1.monto, response)
+        self._assert_static_text(inscripcion_2.monto, response)
 
 
     def test_new_inscripcion(self):
+        self._login()
         response = self.client.get("/inscripciones/new")
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Nombre de la Localidad' in response.get_data(as_text = True))
-        self.assertTrue('Nombre del servidor/a' in response.get_data(as_text = True))
-        self.assertTrue('Monto cancelado (USD)' in response.get_data(as_text = True))
-        self.assertTrue('Fecha de pago' in response.get_data(as_text = True))
+
+        self._assert_static_text('Nombre de la Localidad', response)
+        self._assert_static_text('Nombre del servidor/a', response)
+        self._assert_static_text('Monto cancelado (USD)', response)
+        self._assert_static_text('Fecha de pago', response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
 
 
     def test_create_an_inscripcion(self):
+        self._login()
         inscripcion_data = {
                         'localidad': 'Quito',
                         'servidor': 'Conny Riera',
@@ -147,10 +148,10 @@ class InscripcionTestCase(unittest.TestCase):
         response = self.client.get(f"/inscripciones/{inscripcion.id}/edit")
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(inscripcion.localidad in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.servidor in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.monto in response.get_data(as_text = True))
-        self.assertTrue(inscripcion.fecha in response.get_data(as_text = True))
+        self._assert_static_text(inscripcion.localidad, response)
+        self._assert_static_text(inscripcion.servidor, response)
+        self._assert_static_text(inscripcion.monto, response)
+        self._assert_static_text(inscripcion.fecha, response)
 
     def test_should_edit_an_inscripcion(self):
         inscripcion = Inscripcion(
@@ -197,3 +198,28 @@ class InscripcionTestCase(unittest.TestCase):
                 inscripciones))
         self.assertTrue(len(filtered_inscripcion) == 1)
         self.assertEqual(response.status_code, 302)
+
+    def _assert_static_text(self, static_text, response):
+        self.assertTrue(static_text in response.get_data(as_text = True))
+
+    def _new_usuario(self, nombre_usuario, clave):
+        usuario = Usuario(
+                nombre_usuario = nombre_usuario,
+                hashed_password = PasswordManager(clave).hash())
+        db.session.add(usuario)
+        db.session.commit()
+        return usuario
+
+    def _login(self):
+        nombre_usuario = 'usuario_1'
+        clave = 'secreto'
+        self._new_usuario(nombre_usuario, clave)
+        login_data = {
+                'nombre_usuario': nombre_usuario,
+                'clave': clave
+                }
+        return self.client.post(
+                '/auth/login',
+                data = login_data,
+                follow_redirects = True)
+
