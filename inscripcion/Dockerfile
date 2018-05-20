@@ -3,7 +3,9 @@ FROM python:3.6-alpine
 ENV FLASK_APP inscripcion.py
 ENV FLASK_CONFIG docker
 
-RUN adduser -D inscripcion
+RUN apk add py-psycopg2 --update && \
+    adduser -D inscripcion
+
 USER inscripcion
 
 WORKDIR /home/inscripcion
