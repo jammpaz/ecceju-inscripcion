@@ -2,6 +2,7 @@ import os
 from app import create_app, db
 from flask_migrate import Migrate, upgrade
 from app.models import Usuario, InscripcionData, ParticipanteData
+from utils.security import PasswordManager
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
@@ -22,6 +23,7 @@ def deploy():
 def make_shell_context():
     return dict(
             db = db,
+            PasswordManager=PasswordManager,
             Usuario=Usuario,
             InscripcionData=InscripcionData,
             ParticipanteData=ParticipanteData

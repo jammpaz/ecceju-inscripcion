@@ -1,12 +1,4 @@
 <header>
-  <ul id="dropdown-menu" class="dropdown-content">
-    <li>
-      <a href="{{ site['formulario']['url'] }}">
-        <span class="red-text text-darken-1">{{ site['formulario']['name'] }}</span>
-      </a>
-    </li>
-  </ul>
-
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" class="brand-logo" href="{{ site['home']['url'] }}">
@@ -15,30 +7,37 @@
 
       <ul class="right hide-on-med-and-down">
         <li>
-          <a href="{{ site['home']['url'] }}">
-            <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
-            <i class="material-icons right icon-red">home</i>
+          <a href="{{ url_for('main.index_inscripcion') }}">
+            <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
+            <i class="material-icons right icon-red">format_list_bulleted</i>
           </a>
         </li>
+
+
+        {% if current_user.is_authenticated %}
         <li>
-          <a class="dropdown-button" data-constrainWidth="false" data-activates="dropdown-menu">
-            <span class="red-text text-darken-1">Menu</span>
-            <i class="material-icons right icon-red">arrow_drop_down</i>
+          <a href="{{ url_for('auth.logout') }}">
+            <span class="red-text text-darken-1">{{ site['logout']['name'] }}</span>
+            <i class="material-icons right icon-red">exit_to_app</i>
           </a>
         </li>
+        {% endif %}
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li>
-          <a href="{{ site['home']['url'] }}">
-            <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
+          <a href="{{ url_for('main.index_inscripcion') }}">
+            <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
           </a>
         </li>
+
+        {% if current_user.is_authenticated %}
         <li>
-          <a href="{{ site['formulario']['url'] }}">
-            <span class="red-text text-darken-1">{{ site['formulario']['name'] }}</span>
+          <a href="{{ url_for('auth.logout') }}">
+            <span class="red-text text-darken-1">{{ site['logout']['name'] }}</span>
           </a>
         </li>
+        {% endif %}
       </ul>
 
       <a data-activates="nav-mobile" class="button-collapse"><i class="material-icons icon-red">menu</i></a>

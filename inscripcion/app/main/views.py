@@ -12,12 +12,13 @@ site = {
         'description': 'XXXII Encuentro Carismático Católico Ecuatoriano Juvenil Quito 2018',
         'facebook': 'https://www.facebook.com/eccejuquito2018',
         'instagram': 'https://www.instagram.com/eccejuquito',
-        'formulario': {
+        'logout': {
+            'name': 'Salir',
+            },
+        'inscripciones': {
             'name': 'Inscripciones',
-            'url': '/inscripciones'
             },
         'home': {
-            'name': 'Inicio',
             'url': '/'
             }
         }
