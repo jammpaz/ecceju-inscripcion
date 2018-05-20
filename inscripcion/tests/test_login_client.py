@@ -92,6 +92,10 @@ class LoginIntTestCase(unittest.TestCase):
             response = self.client.get(url, follow_redirects = True)
             self._assert_login_form(response)
 
+    def test_show_logout(self):
+        response = self.client.get('/auth/logout', follow_redirects = True)
+
+        self._assert_login_form(response)
 
     def _new_usuario(self, nombre_usuario, clave):
         usuario = Usuario(
