@@ -25,6 +25,12 @@ site = {
 inscripcion_repository = InscripcionRepository(db.session)
 participante_repository = ParticipanteRepository(db.session)
 
+
+@main.route('/')
+def index():
+    return redirect(url_for('auth.login'))
+
+
 @main.route('/inscripciones/<id>')
 @login_required
 def show_inscripcion(id):

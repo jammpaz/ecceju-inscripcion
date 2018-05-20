@@ -25,6 +25,12 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.app_context.pop()
 
 
+    def test_show_login_in_main_route(self):
+        response = self.client.get('/', follow_redirects = True)
+
+        self.assertEqual(response.status_code, 200)
+
+
     def test_show_an_inscripcion(self):
         self._login()
         inscripcion = Inscripcion(

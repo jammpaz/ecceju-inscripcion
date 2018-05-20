@@ -20,6 +20,7 @@ site = {
             }
         }
 
+
 @auth.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
