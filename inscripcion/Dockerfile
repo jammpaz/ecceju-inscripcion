@@ -15,6 +15,7 @@ RUN venv/bin/pip install -r requirements.txt
 COPY app app
 COPY domain domain
 COPY migrations migrations
+COPY utils utils
 COPY inscripcion.py config.py boot.sh feature.py features.yaml ./
 
 # runtime configuration
