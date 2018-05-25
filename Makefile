@@ -68,7 +68,7 @@ run_container:
 
 
 define deploy_to
-	docker tag $(IMAGE_TAG):latest registry.heroku.com/ecceju-inscripcion-$(1)/web
+	docker tag $(IMAGE_TAG):latest registry.heroku.com/$(1)/web
 	@docker login --username=_ --password=$(2) registry.heroku.com
 	docker push registry.heroku.com/$(1)/web
 endef
