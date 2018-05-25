@@ -70,13 +70,13 @@ run_container:
 define deploy_to
 	docker tag $(IMAGE_TAG):latest registry.heroku.com/ecceju-inscripcion-$(1)/web
 	@docker login --username=_ --password=$(2) registry.heroku.com
-	docker push registry.heroku.com/ecceju-inscripcion-$(1)/web
+	docker push registry.heroku.com/$(1)/web
 endef
 
 deploy_to_qa:
-	$(call deploy_to,qa,$(TOKEN))
+	$(call deploy_to,ecceju-inscripcion-qa,$(TOKEN))
 
 deploy_to_prod:
 	$(if $(filter no, $(BUILD_DEBUG)), \
-	  $(call deploy_to,prod,$(TOKEN)), \
+	  $(call deploy_to,ecceju-inscripcion,$(TOKEN)), \
 	  @echo "INFO: This build will not be deployed on production environment")
