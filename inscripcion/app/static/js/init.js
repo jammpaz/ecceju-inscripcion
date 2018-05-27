@@ -11,6 +11,7 @@
       today: 'hoy',
       monthsFull: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"]
     });
+    $('select').material_select();
 
   }); // end of document ready
 })(jQuery); // end of jQuery name space

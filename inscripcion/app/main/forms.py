@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DecimalField, FileField, DateField
+from wtforms import StringField, SubmitField, DecimalField, FileField, DateField, SelectField
 
 class InscripcionForm(FlaskForm):
     localidad = StringField('Nombre de la Localidad')
@@ -10,5 +10,5 @@ class InscripcionForm(FlaskForm):
 
 class ParticipanteForm(FlaskForm):
     nombres_completos = StringField('Nombres completos')
-    sexo = StringField('Sexo')
+    sexo = SelectField('Sexo', choices = [( 'H', 'Hombre' ), ( 'M', 'Mujer' )])
     telefono_contacto = StringField('Telefono de contacto')
