@@ -22,9 +22,9 @@ def deploy():
 @app.shell_context_processor
 def make_shell_context():
     return dict(
-            db = db,
-            PasswordManager=PasswordManager,
-            Usuario=Usuario,
-            InscripcionData=InscripcionData,
-            ParticipanteData=ParticipanteData
+                db = db,
+                PasswordManager=PasswordManager,
+                Usuario=Usuario,
+                InscripcionData=InscripcionData,
+                ParticipanteData=ParticipanteData
             )
