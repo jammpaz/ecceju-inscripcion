@@ -18,6 +18,13 @@ site = {
             },
         'home': {
             'url': '/',
+            },
+        'ecceju-urls':  {
+                'programacion': 'https://ecceju.rccec.org/programacion',
+                'ministerios': 'https://ecceju.rccec.org/ministerios',
+                'musica': 'https://ecceju.rccec.org/musica',
+                'inscripciones': 'https://inscripciones.ecceju.rccec.org',
+                'acerca-de': 'https://ecceju.rccec.org/about/',
             }
         }
 
