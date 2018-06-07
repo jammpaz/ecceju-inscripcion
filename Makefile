@@ -71,6 +71,7 @@ define deploy_to
 	docker tag $(IMAGE_TAG):latest registry.heroku.com/$(1)/web
 	@docker login --username=_ --password=$(2) registry.heroku.com
 	docker push registry.heroku.com/$(1)/web
+	heroku container:release web --app $(1)
 endef
 
 deploy_to_qa:
