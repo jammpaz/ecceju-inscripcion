@@ -80,3 +80,9 @@ deploy_to_prod:
 	$(if $(filter no, $(BUILD_DEBUG)), \
 	  $(call deploy_to,ecceju-inscripcion,$(TOKEN)), \
 	  @echo "INFO: This build will not be deployed on production environment")
+
+setup_credentials:
+	@echo $(value HEROKU_SECRETS) | base64 --decode > ~/.netrc
+
+clean_credentials:
+	rm ~/.netrc
