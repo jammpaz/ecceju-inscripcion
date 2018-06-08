@@ -34,7 +34,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         usuario = Usuario.query.filter_by(
-                nombre_usuario = form.nombre_usuario.data
+                nombre_usuario = form.nombre_usuario.data.strip()
                 ).first()
 
         if usuario is not None and PasswordManager(

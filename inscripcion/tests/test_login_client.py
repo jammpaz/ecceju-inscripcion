@@ -43,6 +43,7 @@ class LoginIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self._assert_static_text('inscripciones/new', response)
 
+
     def test_begin_login_in_session_wrong_password(self):
         nombre_usuario = 'conny'
         clave = 'secreto'
