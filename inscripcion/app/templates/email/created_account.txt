@@ -1,0 +1,22 @@
+Inscripciones ECCEJU 2018
+
+Hola {{ name }},
+
+Dios y la Virgen María te bendigan abundamente a ti y a los tuyos.
+
+Si recibiste este correo es porque te hemos creado una cuenta para ti de tal modo que puedas acceder a la aplicación de Inscripciones del ECCEJU UIO 2018.
+
+A continuación tus credenciales:
+
+ Usuario: {{ username }}
+ Password: {{ password }}
+
+
+Recuerda no divulgar tus credenciales y guardarlas en un sitio seguro.
+
+Para acceder a la aplicación de inscripciones lo puedes hacer através de este enlace: https://inscripciones.ecceju.rccec.org
+
+En caso de algún error o problema no dudes de contactarnos al correo: {{ contact_email }}
+
+Atentamente,
+Comisión de Comunicación del ECCEJU 2018

@@ -34,6 +34,7 @@ ssh:
 	  -it \
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
+	  --env-file $(shell pwd)/.env \
 	  -w /$(APPLICATION_FOLDER) \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && ash"
@@ -44,8 +45,8 @@ test:
 	  --name test_inscripcion \
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
-	  -e SECRET_KEY='secret' \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
+	  --env-file $(shell pwd)/.env \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"
 

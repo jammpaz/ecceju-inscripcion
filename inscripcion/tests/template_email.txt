@@ -1,0 +1,5 @@
+Dear {{ user }},
+
+This email is just for testing purposes.
+
+Please, {{ reply }}.

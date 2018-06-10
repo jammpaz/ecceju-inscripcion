@@ -23,6 +23,7 @@ class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
     id = db.Column(db.Integer, primary_key = True)
     nombre_usuario = db.Column(db.String(64), unique = True, index = True)
+    readable_name = db.Column(db.String(128))
     hashed_password = db.Column(db.String(128))
 
 @login_manager.user_loader

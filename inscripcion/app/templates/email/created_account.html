@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+
+}
+    </style>
+  </head>
+  <body>
+
+    <p><img src="https://inscripciones.ecceju.rccec.org/static/img/logo.png"/></p>
+
+    <h2>Inscripciones ECCEJU 2018</h2>
+
+    <p>Hola <b>{{ name }},</b></p>
+
+    <p>Dios y la Virgen María te bendigan abundamente a ti y a los tuyos.</p>
+
+    <p>Si recibiste este correo es porque te hemos creado una cuenta para ti de tal modo que puedas acceder a la aplicación de Inscripciones del ECCEJU UIO 2018.</p>
+
+    <p>A continuación tus credenciales:</p>
+
+    <table>
+      <tr>
+        <th>Usuario</th>
+        <th>Password</th>
+      </tr>
+      <tr>
+        <td>{{ username }}</td>
+        <td>{{ password }}</td>
+      </tr>
+    </table>
+
+    <p>Recuerda no divulgar tus credenciales y guardarlas en un sitio seguro.</p>
+
+    <p>Para acceder a la aplicación de inscripciones lo puedes hacer através de este <a href="https://inscripciones.ecceju.rccec.org">enlace</a></p>
+
+    <p>En caso de algún error o problema no dudes de contactarnos al correo: <b>{{ contact_email }}</b></p>
+
+    <p>Atentamente,</p>
+    <b>Comisión de Comunicación del ECCEJU 2018</b>
+  </body>
+</html>
