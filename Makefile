@@ -46,7 +46,7 @@ test:
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
-	  --env-file $(shell pwd)/.env \
+	  -e SECRET_KEY=secret \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"
 
