@@ -29,6 +29,20 @@
         {{ form.telefono_contacto.label }}
       </div>
     </div>
+
+    <div class="row">
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">attach_money</i>
+        {{ form.monto(class = 'validate') }}
+        {{ form.monto.label }}
+      </div>
+
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">receipt</i>
+        {{ form.numero_deposito(class = 'validate') }}
+        {{ form.numero_deposito.label }}
+      </div>
+    </div>
   </div>
 
   <div class="fixed-action-btn">

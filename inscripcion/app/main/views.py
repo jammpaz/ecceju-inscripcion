@@ -138,7 +138,9 @@ def create_participante(inscripcion_id):
                 id = uuid.uuid1(),
                 nombres_completos = form.nombres_completos.data,
                 sexo = form.sexo.data,
-                telefono_contacto = form.telefono_contacto.data)
+                telefono_contacto = form.telefono_contacto.data,
+                monto = form.monto.data,
+                numero_deposito = form.numero_deposito.data)
 
         participante_repository.add(participante, inscripcion_id)
         return redirect(url_for(
@@ -158,7 +160,9 @@ def edit_participante(inscripcion_id, participante_id):
                 id = participante_id,
                 nombres_completos = form.nombres_completos.data,
                 sexo = form.sexo.data,
-                telefono_contacto = form.telefono_contacto.data)
+                telefono_contacto = form.telefono_contacto.data,
+                monto = form.monto.data,
+                numero_deposito = form.numero_deposito.data)
 
         participante_repository.update(participante)
         return redirect(url_for('main.index_participante',

@@ -39,7 +39,9 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
-                telefono_contacto = '9999999999')
+                telefono_contacto = '9999999999',
+                numero_deposito = '12312',
+                monto = 25.00 )
         self.participante_repository.add(participante, inscripcion.id)
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/{participante.id}")
@@ -49,6 +51,8 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue(participante.nombres_completos in response.get_data(as_text = True))
         self.assertTrue(participante.sexo in response.get_data(as_text = True))
         self.assertTrue(participante.telefono_contacto in response.get_data(as_text = True))
+        self.assertTrue(str(participante.monto) in response.get_data(as_text = True))
+        self.assertTrue(participante.numero_deposito in response.get_data(as_text = True))
 
 
     def test_index_of_participantes(self):
@@ -71,13 +75,15 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
-                telefono_contacto = '9999999999')
+                telefono_contacto = '9999999999',
+                numero_deposito = '123456')
 
         participante_2 = Participante(
                 id = uuid.uuid1(),
                 nombres_completos = 'Gustavo de las Mercedes Riera',
                 sexo = 'H',
-                telefono_contacto = '8888888888')
+                telefono_contacto = '8888888888',
+                numero_deposito = '12457')
 
         self.inscripcion_repository.add(inscripcion_1)
         self.inscripcion_repository.add(inscripcion_2)
@@ -109,6 +115,8 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue('Nombres completos' in response.get_data(as_text = True))
         self.assertTrue('Sexo' in response.get_data(as_text = True))
         self.assertTrue('Telefono de contacto' in response.get_data(as_text = True))
+        self.assertTrue('Monto' in response.get_data(as_text = True))
+        self.assertTrue('Número de depósito' in response.get_data(as_text = True))
 
 
     def test_create_a_participante(self):
@@ -155,7 +163,8 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
-                telefono_contacto = '9999999999')
+                telefono_contacto = '9999999999',
+                numero_deposito = '14566185')
         self.participante_repository.add(participante, inscripcion.id)
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/{participante.id}/edit")
@@ -180,7 +189,8 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
-                telefono_contacto = '9999999999')
+                telefono_contacto = '9999999999',
+                numero_deposito = '14587')
         self.participante_repository.add(participante, inscripcion.id)
 
         participante_data = {

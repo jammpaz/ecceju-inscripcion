@@ -50,6 +50,26 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Monto cancelado (USD)</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.monto }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Número de depósito</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.numero_deposito }}
+    </div>
+  </div>
+
   <div class="fixed-action-btn">
     <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}/edit" class="btn-floating btn-large blue darken-3">
        <i class="large material-icons">create</i>

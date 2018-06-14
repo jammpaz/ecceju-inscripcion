@@ -12,3 +12,5 @@ class ParticipanteForm(FlaskForm):
     nombres_completos = StringField('Nombres completos')
     sexo = SelectField('Sexo', choices = [( 'H', 'Hombre' ), ( 'M', 'Mujer' )])
     telefono_contacto = StringField('Telefono de contacto')
+    monto = DecimalField('Monto cancelado (USD)')
+    numero_deposito = StringField('Número de depósito')

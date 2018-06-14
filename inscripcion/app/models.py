@@ -18,6 +18,8 @@ class ParticipanteData(db.Model):
     sexo = db.Column(db.String(1), nullable = False)
     telefono_contacto = db.Column(db.String(15))
     inscripcion_id = db.Column(db.String, db.ForeignKey('inscripciones.id'))
+    monto = db.Column(db.Numeric(8,2))
+    numero_deposito = db.Column(db.String(64))
 
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'

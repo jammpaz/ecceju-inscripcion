@@ -60,6 +60,8 @@ class ParticipanteRepository:
                 nombres_completos = participante.nombres_completos,
                 sexo = participante.sexo,
                 telefono_contacto = participante.telefono_contacto,
+                monto = participante.monto,
+                numero_deposito = participante.numero_deposito,
                 inscripcion_id = str(inscripcion_id))
         self.session.add(data)
         self.session.commit()
@@ -70,6 +72,8 @@ class ParticipanteRepository:
         data.nombres_completos = participante.nombres_completos
         data.sexo = participante.sexo
         data.telefono_contacto = participante.telefono_contacto
+        data.monto = participante.monto
+        data.numero_deposito = participante.numero_deposito
         self.session.add(data)
         self.session.commit()
 
@@ -86,7 +90,9 @@ class ParticipanteRepository:
                 id = uuid.UUID(data.id),
                 nombres_completos = data.nombres_completos,
                 sexo = data.sexo,
-                telefono_contacto = data.telefono_contacto)
+                telefono_contacto = data.telefono_contacto,
+                monto = data.monto,
+                numero_deposito = data.numero_deposito)
 
 
     def find_all(self, inscripcion_id):
@@ -96,5 +102,7 @@ class ParticipanteRepository:
                     id = uuid.UUID(data.id),
                     nombres_completos = data.nombres_completos,
                     sexo = data.sexo,
-                    telefono_contacto = data.telefono_contacto), data_list))
+                    telefono_contacto = data.telefono_contacto,
+                    monto = data.monto,
+                    numero_deposito = data.numero_deposito), data_list))
 
