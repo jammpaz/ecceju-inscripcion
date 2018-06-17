@@ -12,7 +12,6 @@ class InscripcionRepository:
                 id = str(inscripcion.id),
                 localidad = inscripcion.localidad,
                 servidor = inscripcion.servidor,
-                monto = inscripcion.monto,
                 fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d'),
                 comprobante_uri = inscripcion.comprobante_uri)
         self.session.add(data)
@@ -22,7 +21,6 @@ class InscripcionRepository:
         data = InscripcionData.query.filter_by(id = str(inscripcion.id)).first()
         data.localidad = inscripcion.localidad
         data.servidor = inscripcion.servidor
-        data.monto = inscripcion.monto
         data.fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d')
         data.comprobante_uri = inscripcion.comprobante_uri
         self.session.add(data)
@@ -34,7 +32,6 @@ class InscripcionRepository:
                 id = data.id,
                 localidad = data.localidad,
                 servidor = data.servidor,
-                monto = data.monto,
                 fecha = data.fecha,
                 comprobante_uri = data.comprobante_uri)
 
@@ -44,7 +41,6 @@ class InscripcionRepository:
                 Inscripcion(id = data.id,
                     localidad = data.localidad,
                     servidor = data.servidor,
-                    monto = data.monto,
                     fecha = data.fecha,
                     comprobante_uri = data.comprobante_uri), data_list))
 
@@ -61,6 +57,7 @@ class ParticipanteRepository:
                 sexo = participante.sexo,
                 telefono_contacto = participante.telefono_contacto,
                 monto = participante.monto,
+                fecha_inscripcion = participante.fecha_inscripcion,
                 numero_deposito = participante.numero_deposito,
                 inscripcion_id = str(inscripcion_id))
         self.session.add(data)
@@ -73,6 +70,7 @@ class ParticipanteRepository:
         data.sexo = participante.sexo
         data.telefono_contacto = participante.telefono_contacto
         data.monto = participante.monto
+        data.fecha_inscripcion = participante.fecha_inscripcion
         data.numero_deposito = participante.numero_deposito
         self.session.add(data)
         self.session.commit()
@@ -92,6 +90,7 @@ class ParticipanteRepository:
                 sexo = data.sexo,
                 telefono_contacto = data.telefono_contacto,
                 monto = data.monto,
+                fecha_inscripcion = data.fecha_inscripcion,
                 numero_deposito = data.numero_deposito)
 
 
@@ -104,5 +103,6 @@ class ParticipanteRepository:
                     sexo = data.sexo,
                     telefono_contacto = data.telefono_contacto,
                     monto = data.monto,
+                    fecha_inscripcion = data.fecha_inscripcion,
                     numero_deposito = data.numero_deposito), data_list))
 

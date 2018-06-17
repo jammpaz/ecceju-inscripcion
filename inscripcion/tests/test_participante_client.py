@@ -6,6 +6,7 @@ from domain.models import Inscripcion, Participante
 from app.repositories import InscripcionRepository, ParticipanteRepository
 from app.models import Usuario
 from utils.security import PasswordManager
+from decimal import Decimal
 
 class ParticipanteIntTestCase(unittest.TestCase):
 
@@ -31,7 +32,6 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
         self.inscripcion_repository.add(inscripcion)
 
@@ -61,14 +61,12 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '280.00',
                 fecha = '2018-09-01')
 
         inscripcion_2 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Santo Domingo',
                 servidor = 'Maria Isabel ',
-                monto = '2408.57',
                 fecha = '2018-08-31')
 
         participante_1 = Participante(
@@ -76,6 +74,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
+                monto = Decimal('280.00'),
                 numero_deposito = '123456')
 
         participante_2 = Participante(
@@ -83,6 +82,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Gustavo de las Mercedes Riera',
                 sexo = 'H',
                 telefono_contacto = '8888888888',
+                monto = Decimal('2408.57'),
                 numero_deposito = '12457')
 
         self.inscripcion_repository.add(inscripcion_1)
@@ -105,7 +105,6 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
         self.inscripcion_repository.add(inscripcion)
 
@@ -125,14 +124,15 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
         self.inscripcion_repository.add(inscripcion)
 
         participante_data = {
                         'nombres_completos': 'Nayeli Chiriboga',
                         'sexo': 'M',
-                        'telefono_contacto': '9999999999'
+                        'telefono_contacto': '9999999999',
+                        'monto': 45.00,
+                        'numero_deposito': 'ABCD-1111'
                        }
 
         response = self.client.post(
@@ -154,7 +154,6 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
 
         self.inscripcion_repository.add(inscripcion)
@@ -164,6 +163,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
+                monto = Decimal('25.00'),
                 numero_deposito = '14566185')
         self.participante_repository.add(participante, inscripcion.id)
 
@@ -181,7 +181,6 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
         self.inscripcion_repository.add(inscripcion)
 
@@ -190,13 +189,16 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
+                monto = Decimal('280.00'),
                 numero_deposito = '14587')
         self.participante_repository.add(participante, inscripcion.id)
 
         participante_data = {
                         'nombres_completos': 'Nayeli Chiriboga',
                         'sexo': 'M',
-                        'telefono_contacto': '9999999999'
+                        'telefono_contacto': '9999999999',
+                        'monto': 25.20,
+                        'numero_deposito': 'xxxxx'
                        }
 
         response = self.client.post(

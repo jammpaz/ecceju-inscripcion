@@ -7,7 +7,6 @@ class InscripcionData(db.Model):
     id = db.Column(db.String, primary_key = True)
     localidad = db.Column(db.String(200), nullable = False)
     servidor = db.Column(db.String(200), nullable = False)
-    monto = db.Column(db.Numeric(8,2))
     fecha = db.Column(db.Date)
     comprobante_uri = db.Column(db.String(500))
 
@@ -20,6 +19,7 @@ class ParticipanteData(db.Model):
     inscripcion_id = db.Column(db.String, db.ForeignKey('inscripciones.id'))
     monto = db.Column(db.Numeric(8,2))
     numero_deposito = db.Column(db.String(64))
+    fecha_inscripcion = db.Column(db.Date)
 
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'

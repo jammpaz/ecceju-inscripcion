@@ -64,7 +64,6 @@ def create_inscripcion():
                 id = uuid.uuid1(),
                 localidad = form.localidad.data,
                 servidor = form.servidor.data,
-                monto = form.monto.data,
                 fecha = form.fecha.data)
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
@@ -87,7 +86,6 @@ def edit_inscripcion(id):
                 id = id,
                 localidad = form.localidad.data,
                 servidor = form.servidor.data,
-                monto = form.monto.data,
                 fecha = form.fecha.data)
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
@@ -99,7 +97,6 @@ def edit_inscripcion(id):
     inscripcion = inscripcion_repository.find_by(id)
     form.localidad.data = inscripcion.localidad
     form.servidor.data = inscripcion.servidor
-    form.monto.data = inscripcion.monto
     form.fecha.data = inscripcion.fecha
 
     # TODO: create a google drive client to fetch file

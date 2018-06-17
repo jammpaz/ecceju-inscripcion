@@ -37,7 +37,6 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'https://s3.aws.com/comprobante.jpg'
@@ -49,7 +48,6 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion.id), response)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
-        self._assert_static_text(inscripcion.monto, response)
         self._assert_static_text(inscripcion.fecha, response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
@@ -61,7 +59,6 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '280.00',
                 fecha = '2018-09-01')
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion_1.comprobante_uri = 'comprobante.jpg'
@@ -70,7 +67,6 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Santo Domingo',
                 servidor = 'Maria Isabel ',
-                monto = '2408.57',
                 fecha = '2018-08-31')
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion_2.comprobante_uri = 'comprobante.jpg'
@@ -85,8 +81,6 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion_2.id), response)
         self._assert_static_text(inscripcion_1.localidad, response)
         self._assert_static_text(inscripcion_2.localidad, response)
-        self._assert_static_text(inscripcion_1.monto, response)
-        self._assert_static_text(inscripcion_2.monto, response)
 
 
     def test_new_inscripcion(self):
@@ -97,7 +91,6 @@ class InscripcionIntTestCase(unittest.TestCase):
 
         self._assert_static_text('Nombre de la Localidad', response)
         self._assert_static_text('Nombre del servidor/a', response)
-        self._assert_static_text('Monto cancelado (USD)', response)
         self._assert_static_text('Fecha de pago', response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
@@ -144,7 +137,6 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
@@ -157,7 +149,6 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
-        self._assert_static_text(inscripcion.monto, response)
         self._assert_static_text(inscripcion.fecha, response)
 
     def test_should_edit_an_inscripcion(self):
@@ -166,7 +157,6 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                monto = '150.00',
                 fecha = '2018-08-01')
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
