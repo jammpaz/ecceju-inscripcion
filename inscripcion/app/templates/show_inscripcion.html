@@ -42,21 +42,11 @@
 
   <div class="row">
     <div class="col s12 l6">
-      <b>Monto cancelado:</b>
+      <b>Monto total:</b>
     </div>
 
     <div class="col s12 l6">
-      {{ inscripcion.monto }}
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col s12 l6">
-      <b>Fecha de pago:</b>
-    </div>
-
-    <div class="col s12 l6">
-      {{ inscripcion.fecha }}
+      {{ inscripcion.total_amount() }}
     </div>
   </div>
 

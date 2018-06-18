@@ -17,6 +17,8 @@ class Inscripcion:
 
     def total_amount(self):
         from functools import reduce
+        if not self.participantes:
+            return Decimal('0.00')
         return reduce(lambda p1, p2: p1.monto + p2.monto, self.participantes)
 
 class Participante:
@@ -27,8 +29,8 @@ class Participante:
             numero_deposito,
             fecha_inscripcion = date.today(),
             telefono_contacto = '',
-            monto = Decimal('0.00')):
-        if monto is None or monto < Decimal('25.00'):
+            monto = Decimal(0.00)):
+        if monto is None or Decimal(monto) < Decimal('25.00'):
             raise InvalidMonto('El valor del monto debe ser 25.00 USD')
 
         self.id = id
@@ -38,6 +40,15 @@ class Participante:
         self.monto = monto
         self.numero_deposito = numero_deposito
         self.fecha_inscripcion = fecha_inscripcion
+
+    def readable_sexo(self):
+        if (self.sexo is "M"):
+            return "Mujer"
+        elif(self.sexo is "H"):
+            return "Hombre"
+        else:
+            return "Desconocido"
+
 
 class InvalidMonto(Exception):
     pass

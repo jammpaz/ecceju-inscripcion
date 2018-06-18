@@ -48,7 +48,6 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion.id), response)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
-        self._assert_static_text(inscripcion.fecha, response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 

@@ -166,9 +166,12 @@ def edit_participante(inscripcion_id, participante_id):
             inscripcion_id = inscripcion_id))
 
     participante = participante_repository.find_by(participante_id)
+
     form.nombres_completos.data = participante.nombres_completos
     form.sexo.data = participante.sexo
     form.telefono_contacto.data = participante.telefono_contacto
+    form.monto.data = float(participante.monto)
+    form.numero_deposito.data = participante.numero_deposito
 
     return render_template('save_participante.html',
             form = form,

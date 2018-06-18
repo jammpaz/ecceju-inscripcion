@@ -33,3 +33,12 @@ class InscripcionTestCase(unittest.TestCase):
 
         self.assertEqual([ participante_1, participante_2 ],  inscripcion.participantes)
         self.assertEqual(inscripcion.total_amount(), 50.75)
+
+    def test_total_amount_is_zero_if_participantes_are_emtpy(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01')
+
+        self.assertEqual(inscripcion.total_amount(), 0.00)

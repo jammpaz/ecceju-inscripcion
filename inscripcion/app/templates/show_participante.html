@@ -36,7 +36,7 @@
     </div>
 
     <div class="col s12 l6">
-      {{ participante.sexo }}
+      {{ participante.readable_sexo() }}
     </div>
   </div>
 
@@ -67,6 +67,16 @@
 
     <div class="col s12 l6">
       {{ participante.numero_deposito }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 l6">
+      <b>Fecha de inscripción</b>
+    </div>
+
+    <div class="col s12 l6">
+      {{ participante.fecha_inscripcion }}
     </div>
   </div>
 
