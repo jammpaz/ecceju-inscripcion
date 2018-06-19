@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session
-from flask_login import login_required
+from flask_login import login_required, current_user
 from . import main
 from .forms import InscripcionForm, ParticipanteForm
 from domain.models import Inscripcion, Participante
@@ -42,16 +42,24 @@ def index():
 @main.route('/inscripciones/<id>')
 @login_required
 def show_inscripcion(id):
+    inscripcion = inscripcion_repository.find_by(id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     return render_template('show_inscripcion.html',
             feature = feature,
-            inscripcion = inscripcion_repository.find_by(id),
+            inscripcion = inscripcion,
             site = site)
 
 @main.route('/inscripciones')
 @login_required
 def index_inscripcion():
+    inscripciones = inscripcion_repository.find_all_by_admin(current_user.nombre_usuario)
+    if not inscripciones:
+        return render_template('401.html', site = site), 401
+
     return render_template('index_inscripcion.html',
-            inscripciones = inscripcion_repository.find_all(),
+            inscripciones = inscripciones,
             site = site)
 
 
@@ -95,6 +103,9 @@ def edit_inscripcion(id):
         return redirect(url_for('main.index_inscripcion'))
 
     inscripcion = inscripcion_repository.find_by(id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     form.localidad.data = inscripcion.localidad
     form.servidor.data = inscripcion.servidor
     form.fecha.data = inscripcion.fecha
@@ -113,6 +124,10 @@ def edit_inscripcion(id):
 @main.route('/inscripciones/<inscripcion_id>/participantes')
 @login_required
 def index_participante(inscripcion_id):
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     return render_template('index_participante.html',
             inscripcion_id = inscripcion_id,
             participantes = participante_repository.find_all(inscripcion_id),
@@ -121,6 +136,10 @@ def index_participante(inscripcion_id):
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
 @login_required
 def show_participante(inscripcion_id, participante_id):
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     return render_template('show_participante.html',
             inscripcion_id = inscripcion_id,
             participante = participante_repository.find_by(participante_id),
@@ -129,6 +148,10 @@ def show_participante(inscripcion_id, participante_id):
 @main.route('/inscripciones/<inscripcion_id>/participantes/new', methods=['GET', 'POST'])
 @login_required
 def create_participante(inscripcion_id):
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     form = ParticipanteForm()
     if form.validate_on_submit():
         participante = Participante(
@@ -151,6 +174,10 @@ def create_participante(inscripcion_id):
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/edit' , methods = ['GET', 'POST'])
 @login_required
 def edit_participante(inscripcion_id, participante_id):
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     form = ParticipanteForm()
     if form.validate_on_submit():
         participante = Participante(

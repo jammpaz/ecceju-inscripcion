@@ -3,7 +3,9 @@ import uuid
 from flask import current_app
 from app import create_app, db
 from app.models import Usuario
+from domain.models import Inscripcion
 from utils.security import PasswordManager
+from app.repositories import InscripcionRepository
 
 class LoginIntTestCase(unittest.TestCase):
 
@@ -13,6 +15,7 @@ class LoginIntTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
         self.client = self.app.test_client(use_cookies = True)
+        self.inscripcion_repository = InscripcionRepository(db.session)
 
 
     def tearDown(self):
@@ -34,6 +37,14 @@ class LoginIntTestCase(unittest.TestCase):
                 'nombre_usuario': nombre_usuario,
                 'clave': clave
                 }
+
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = ['usuario_admin', 'conny'])
+        self.inscripcion_repository.add(inscripcion)
 
         response = self.client.post(
                 '/auth/login',

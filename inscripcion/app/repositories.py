@@ -8,12 +8,14 @@ class InscripcionRepository:
         self.session = session
 
     def add(self, inscripcion):
+        administradores_string = ','.join(inscripcion.administradores)
         data = InscripcionData(
                 id = str(inscripcion.id),
                 localidad = inscripcion.localidad,
                 servidor = inscripcion.servidor,
                 fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d'),
-                comprobante_uri = inscripcion.comprobante_uri)
+                comprobante_uri = inscripcion.comprobante_uri,
+                administradores = administradores_string)
         self.session.add(data)
         self.session.commit()
 
@@ -28,12 +30,21 @@ class InscripcionRepository:
 
     def find_by(self, inscripcion_id):
         data = InscripcionData.query.filter_by(id = str(inscripcion_id)).first()
+        administradores = data.administradores.split(',')
         return Inscripcion(
                 id = data.id,
                 localidad = data.localidad,
                 servidor = data.servidor,
                 fecha = data.fecha,
-                comprobante_uri = data.comprobante_uri)
+                comprobante_uri = data.comprobante_uri,
+                administradores = administradores)
+
+    def find_by_id_and_admin(self, inscripcion_id, admin):
+        inscripcion = self.find_by(inscripcion_id)
+        if admin in inscripcion.administradores:
+            return inscripcion
+        else:
+            return None
 
     def find_all(self):
         data_list = InscripcionData.query.all()
@@ -42,7 +53,12 @@ class InscripcionRepository:
                     localidad = data.localidad,
                     servidor = data.servidor,
                     fecha = data.fecha,
-                    comprobante_uri = data.comprobante_uri), data_list))
+                    comprobante_uri = data.comprobante_uri,
+                    administradores = data.administradores.split(',')), data_list))
+
+    def find_all_by_admin(self, admin):
+        inscripciones = self.find_all()
+        return list(filter(lambda i: admin in i.administradores, inscripciones))
 
 
 class ParticipanteRepository:

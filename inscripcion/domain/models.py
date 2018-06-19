@@ -4,13 +4,14 @@ from decimal import getcontext, Decimal
 getcontext().prec = 2
 
 class Inscripcion:
-    def __init__(self, id, localidad, servidor, fecha, comprobante_uri = ''):
+    def __init__(self, id, localidad, servidor, fecha, comprobante_uri = '', administradores = []):
         self.id = id
         self.localidad = localidad
         self.servidor = servidor
         self.fecha = fecha
         self.comprobante_uri = comprobante_uri
         self.participantes = []
+        self.administradores = administradores
 
     def add_participante(self, participante):
         self.participantes.append(participante)
@@ -20,6 +21,9 @@ class Inscripcion:
         if not self.participantes:
             return Decimal('0.00')
         return reduce(lambda p1, p2: p1.monto + p2.monto, self.participantes)
+
+    def is_managed_by(self, admin):
+        return admin in self.administradores
 
 class Participante:
     def __init__(self,

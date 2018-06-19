@@ -10,6 +10,7 @@ class InscripcionData(db.Model):
     monto = db.Column(db.Numeric(8,2))
     fecha = db.Column(db.Date)
     comprobante_uri = db.Column(db.String(500))
+    administradores = db.Column(db.String(500))
 
 class ParticipanteData(db.Model):
     __tablename__ = 'participantes'

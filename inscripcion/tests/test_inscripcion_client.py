@@ -32,12 +32,14 @@ class InscripcionIntTestCase(unittest.TestCase):
 
 
     def test_show_an_inscripcion(self):
-        self._login()
+        self._login('usuario_1', 'secreto')
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                fecha = '2018-08-01')
+                fecha = '2018-08-01',
+                administradores = ['usuario_1'])
+
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'https://s3.aws.com/comprobante.jpg'
         self.inscripcion_repository.add(inscripcion)
@@ -51,24 +53,36 @@ class InscripcionIntTestCase(unittest.TestCase):
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 
+    def test_should_not_show_an_inscripcion_if_current_user_does_not_belong_to_admin_group_of_inscripcion(self):
+        self._login('usuario_1', 'secreto')
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = ['usuario_admin', 'usuario_2'])
+        self.inscripcion_repository.add(inscripcion)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}")
+
+        self.assertEqual(response.status_code, 401)
+
 
     def test_index_of_inscripcion(self):
-        self._login()
+        self._login('usuario_1', 'secreto')
         inscripcion_1 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                fecha = '2018-09-01')
-        if feature.is_enabled("COMPROBANTE_PAGO"):
-            inscripcion_1.comprobante_uri = 'comprobante.jpg'
+                fecha = '2018-09-01',
+                administradores = ['usuario_1', 'admin'])
 
         inscripcion_2 = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Santo Domingo',
                 servidor = 'Maria Isabel ',
-                fecha = '2018-08-31')
-        if feature.is_enabled("COMPROBANTE_PAGO"):
-            inscripcion_2.comprobante_uri = 'comprobante.jpg'
+                fecha = '2018-08-31',
+                administradores = ['usuario_1', 'admin'])
 
         self.inscripcion_repository.add(inscripcion_1)
         self.inscripcion_repository.add(inscripcion_2)
@@ -131,15 +145,13 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_should_return_form_for_edit_an_inscripcion(self):
-        self._login()
+        self._login('conny', 'secreto')
         inscripcion = Inscripcion(
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                fecha = '2018-08-01')
-
-        if feature.is_enabled("COMPROBANTE_PAGO"):
-            inscripcion.comprobante_uri = 'comprobante.jpg'
+                fecha = '2018-08-01',
+                administradores = ['conny', 'admin'])
 
         self.inscripcion_repository.add(inscripcion)
 
@@ -149,6 +161,22 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
         self._assert_static_text(inscripcion.fecha, response)
+
+    def test_should_not_to_allow_edit_an_inscripcion_if_current_user_is_not_admin(self):
+        self._login('conny', 'secreto')
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = ['raul', 'admin'])
+
+        self.inscripcion_repository.add(inscripcion)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/edit")
+
+        self.assertEqual(response.status_code, 401)
+
 
     def test_should_edit_an_inscripcion(self):
         self._login()
@@ -207,9 +235,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         db.session.commit()
         return usuario
 
-    def _login(self):
-        nombre_usuario = 'usuario_1'
-        clave = 'secreto'
+    def _login(self, nombre_usuario = 'usuario_1', clave = 'secreto'):
         self._new_usuario(nombre_usuario, clave)
         login_data = {
                 'nombre_usuario': nombre_usuario,
