@@ -3,6 +3,7 @@ import click
 from app import create_app, db, mail
 from flask_migrate import Migrate, upgrade
 from app.models import Usuario, InscripcionData, ParticipanteData
+from app.repositories import InscripcionRepository
 from utils.security import PasswordManager
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -45,6 +46,19 @@ def create_user(name, email, password):
             password = password,
             contact_email = os.getenv('ECCEJU_MAIL_SENDER')
             )
+
+@app.cli.command()
+@click.argument('inscripcion_id')
+@click.argument('admin')
+def register_admin_in(inscripcion_id, admin):
+    inscripcion_repository = InscripcionRepository(db.session)
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(admin):
+        inscripcion.administradores.append(admin)
+        inscripcion_repository.update(inscripcion)
+        print(f"El usuario '{admin}' fue agregado a '{inscripcion.localidad}' con exito")
+    else:
+        print(f"El usuario '{admin}' ya existe como admin en '{inscripcion.localidad}'")
 
 
 @app.shell_context_processor

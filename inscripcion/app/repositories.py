@@ -25,6 +25,7 @@ class InscripcionRepository:
         data.servidor = inscripcion.servidor
         data.fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d')
         data.comprobante_uri = inscripcion.comprobante_uri
+        data.administradores = ','.join(inscripcion.administradores)
         self.session.add(data)
         self.session.commit()
 
@@ -35,7 +36,7 @@ class InscripcionRepository:
                 id = data.id,
                 localidad = data.localidad,
                 servidor = data.servidor,
-                fecha = data.fecha,
+                fecha = f"{data.fecha:%Y-%m-%d}",
                 comprobante_uri = data.comprobante_uri,
                 administradores = administradores)
 
