@@ -48,3 +48,20 @@ class InscripcionRepositoryTestCase(unittest.TestCase):
                 list(map(lambda i: i.id, response))
                 )
 
+    def test_find_all_with_no_administradores(self):
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito Norte',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = None)
+
+        self.inscripcion_repository.add(inscripcion)
+
+        response = self.inscripcion_repository.find_all()
+
+        self.assertEqual(
+                [str(inscripcion.id)],
+                list(map(lambda i: i.id, response))
+                )
+

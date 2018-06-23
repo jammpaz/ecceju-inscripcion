@@ -8,14 +8,13 @@ class InscripcionRepository:
         self.session = session
 
     def add(self, inscripcion):
-        administradores_string = ','.join(inscripcion.administradores)
         data = InscripcionData(
                 id = str(inscripcion.id),
                 localidad = inscripcion.localidad,
                 servidor = inscripcion.servidor,
                 fecha = datetime.strptime(inscripcion.fecha, '%Y-%m-%d'),
                 comprobante_uri = inscripcion.comprobante_uri,
-                administradores = administradores_string)
+                administradores = '' if inscripcion.administradores is None else ','.join(inscripcion.administradores))
         self.session.add(data)
         self.session.commit()
 
@@ -55,7 +54,7 @@ class InscripcionRepository:
                     servidor = data.servidor,
                     fecha = data.fecha,
                     comprobante_uri = data.comprobante_uri,
-                    administradores = data.administradores.split(',')), data_list))
+                    administradores = [] if data.administradores is None else data.administradores.split(',')), data_list))
 
     def find_all_by_admin(self, admin):
         inscripciones = self.find_all()
