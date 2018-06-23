@@ -197,7 +197,7 @@ def edit_participante(inscripcion_id, participante_id):
     form.nombres_completos.data = participante.nombres_completos
     form.sexo.data = participante.sexo
     form.telefono_contacto.data = participante.telefono_contacto
-    form.monto.data = float(participante.monto)
+    form.monto.data = float('0.00') if participante.monto is None else float(participante.monto)
     form.numero_deposito.data = participante.numero_deposito
 
     return render_template('save_participante.html',
