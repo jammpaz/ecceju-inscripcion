@@ -30,14 +30,13 @@ class InscripcionRepository:
 
     def find_by(self, inscripcion_id):
         data = InscripcionData.query.filter_by(id = str(inscripcion_id)).first()
-        administradores = data.administradores.split(',')
         return Inscripcion(
                 id = data.id,
                 localidad = data.localidad,
                 servidor = data.servidor,
                 fecha = f"{data.fecha:%Y-%m-%d}",
                 comprobante_uri = data.comprobante_uri,
-                administradores = administradores)
+                administradores = [] if data.administradores is None else data.administradores.split(','))
 
     def find_by_id_and_admin(self, inscripcion_id, admin):
         inscripcion = self.find_by(inscripcion_id)
