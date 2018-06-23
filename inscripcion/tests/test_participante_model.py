@@ -8,6 +8,7 @@ getcontext().prec = 2
 
 class ParticipanteTestCase(unittest.TestCase):
 
+    @unittest.skip("TODO: move this to participante form")
     def test_error_if_monto_is_not_25_at_15_aug(self):
         with self.assertRaises(InvalidMonto) as context:
             Participante(

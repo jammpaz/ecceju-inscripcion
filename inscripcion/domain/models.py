@@ -34,9 +34,6 @@ class Participante:
             fecha_inscripcion = date.today(),
             telefono_contacto = '',
             monto = Decimal(0.00)):
-        if monto is None or Decimal(monto) < Decimal('25.00'):
-            raise InvalidMonto('El valor del monto debe ser 25.00 USD')
-
         self.id = id
         self.nombres_completos = nombres_completos
         self.sexo = sexo
