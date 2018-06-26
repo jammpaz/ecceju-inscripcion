@@ -10,7 +10,7 @@ install: make
 
 before_script:
   - sudo apt-get --yes install snapd
-  - sudo snap install --edge heroku
+  - snap install --edge heroku
   - make install_dependencies
   - make setup_credentials
 
