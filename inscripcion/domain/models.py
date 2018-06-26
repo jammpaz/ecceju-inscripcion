@@ -20,7 +20,7 @@ class Inscripcion:
         from functools import reduce
         if not self.participantes:
             return Decimal('0.00')
-        return reduce(lambda p1, p2: p1.monto + p2.monto, self.participantes)
+        return sum(list(map(lambda p: p.monto, self.participantes)))
 
     def is_managed_by(self, admin):
         return admin in self.administradores

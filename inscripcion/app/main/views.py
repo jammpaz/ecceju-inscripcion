@@ -129,12 +129,13 @@ def index_participante(inscripcion_id):
         return render_template('401.html', site = site), 401
     participantes = participante_repository.find_all(inscripcion_id)
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
-    inscripcion.participantes = participantes
+    for participante in participantes:
+        inscripcion.add_participante(participante)
 
     return render_template('index_participante.html',
             inscripcion_id = inscripcion_id,
             participantes = participantes,
-            monto_total = inscripcion.total_amount(),
+            monto_total = '${:,.2f}'.format(inscripcion.total_amount()),
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')

@@ -28,8 +28,7 @@ class InscripcionTestCase(unittest.TestCase):
                 monto = 25.50,
                 numero_deposito = '123456')
 
-        inscripcion.add_participante(participante_1)
-        inscripcion.add_participante(participante_2)
+        inscripcion.participantes = [participante_1, participante_2]
 
         self.assertEqual([ participante_1, participante_2 ],  inscripcion.participantes)
         self.assertEqual(inscripcion.total_amount(), 50.75)
