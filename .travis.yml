@@ -6,10 +6,12 @@ env:
 services:
   - docker
 
-install: make
+install:
+  - make
+  - snap
 
 before_script:
-  - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+  - snap install --edge heroku
   - make install_dependencies
   - make setup_credentials
 
