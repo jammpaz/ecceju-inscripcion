@@ -9,6 +9,7 @@ services:
 install: make
 
 before_script:
+  - apt-get --yes install snapd
   - snap install --edge heroku
   - make install_dependencies
   - make setup_credentials
