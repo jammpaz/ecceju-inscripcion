@@ -17,10 +17,11 @@ class Inscripcion:
         self.participantes.append(participante)
 
     def total_amount(self):
-        from functools import reduce
         if not self.participantes:
             return Decimal('0.00')
-        return sum(list(map(lambda p: p.monto, self.participantes)))
+
+        valid_participantes = list(filter(lambda p: isinstance(p.monto, Decimal), self.participantes))
+        return sum(list(map(lambda p: p.monto, valid_participantes)))
 
     def is_managed_by(self, admin):
         return admin in self.administradores
