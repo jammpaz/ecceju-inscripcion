@@ -123,6 +123,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue(participante_1.nombres_completos in response.get_data(as_text = True))
         self.assertTrue(str(participante_2.id) in response.get_data(as_text = True))
         self.assertTrue(participante_2.nombres_completos in response.get_data(as_text = True))
+        # self.assertTrue('2688.57' in response.get_data(as_text = True))
 
 
     def test_should_not_show_index_of_participantes_if_current_user_is_not_admin(self):

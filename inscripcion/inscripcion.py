@@ -3,6 +3,7 @@ import click
 from app import create_app, db, mail
 from flask_migrate import Migrate, upgrade
 from app.models import Usuario, InscripcionData, ParticipanteData
+from domain.models import Inscripcion
 from app.repositories import InscripcionRepository
 from utils.security import PasswordManager
 
@@ -66,6 +67,6 @@ def make_shell_context():
     return dict(
                 db = db,
                 Usuario=Usuario,
-                InscripcionData=InscripcionData,
-                ParticipanteData=ParticipanteData
+                Inscripcion=Inscripcion,
+                InscripcionRepository=InscripcionRepository
             )

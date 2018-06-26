@@ -40,16 +40,6 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col s12 l6">
-      <b>Monto total:</b>
-    </div>
-
-    <div class="col s12 l6">
-      {{ inscripcion.total_amount() }}
-    </div>
-  </div>
-
   {% if feature.is_enabled("COMPROBANTE_PAGO") %}
   <div class="row">
     <div class="col s12 l6">

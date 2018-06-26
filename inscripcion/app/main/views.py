@@ -127,10 +127,14 @@ def index_participante(inscripcion_id):
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
         return render_template('401.html', site = site), 401
+    participantes = participante_repository.find_all(inscripcion_id)
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    inscripcion.participantes = participantes
 
     return render_template('index_participante.html',
             inscripcion_id = inscripcion_id,
-            participantes = participante_repository.find_all(inscripcion_id),
+            participantes = participantes,
+            monto_total = inscripcion.total_amount(),
             site = site)
 
 @main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>')
