@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from app.models import InscripcionData, ParticipanteData
 from domain.models import Inscripcion, Participante
+from decimal import Decimal
 
 class InscripcionRepository:
     def __init__(self, session):
@@ -104,7 +105,7 @@ class ParticipanteRepository:
                 nombres_completos = data.nombres_completos,
                 sexo = data.sexo,
                 telefono_contacto = data.telefono_contacto,
-                monto = data.monto,
+                monto = Decimal(data.monto),
                 fecha_inscripcion = data.fecha_inscripcion,
                 numero_deposito = data.numero_deposito)
 
@@ -117,7 +118,7 @@ class ParticipanteRepository:
                     nombres_completos = data.nombres_completos,
                     sexo = data.sexo,
                     telefono_contacto = data.telefono_contacto,
-                    monto = data.monto,
+                    monto = Decimal(data.monto),
                     fecha_inscripcion = data.fecha_inscripcion,
                     numero_deposito = data.numero_deposito), data_list))
 
