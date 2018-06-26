@@ -6,9 +6,7 @@ env:
 services:
   - docker
 
-install:
-  - make
-  - snap
+install: make
 
 before_script:
   - snap install --edge heroku
