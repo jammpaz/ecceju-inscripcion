@@ -8,13 +8,14 @@
     <ul class="collection with-header">
       <li class="collection-header">
         <h4 class="header red-text">Participantes</h4>
-        <b>Monto total:</b> {{ monto_total }} USD
+        <p><b>Monto total:</b> {{ monto_total }} USD</p>
       </li>
       {% for participante in participantes %}
       <li class="collection-item">
         <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}">
-          <h5 class="title orange-text">{{ participante.nombres_completos }}</h5>
+          <span class="title orange-text">{{ participante.nombres_completos }}</span>
         </a>
+        <p><b>Monto: </b>{{ participante.monto }} USD<br/> <b>Nro. deposito: </b>{{ participante.numero_deposito }}</p>
       </li>
       {% endfor %}
     </ul>
