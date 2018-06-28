@@ -13,7 +13,7 @@
       {% for participante in participantes %}
       <li class="collection-item">
         <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}">
-          <span class="title orange-text">{{ participante.nombres_completos }}</span>
+          <h6 class="title orange-text">{{ participante.nombres_completos }}</h6>
         </a>
         <p><b>Monto: </b>{{ participante.monto }} USD<br/> <b>Nro. deposito: </b>{{ participante.numero_deposito }}</p>
       </li>
