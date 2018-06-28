@@ -1,10 +1,8 @@
 import unittest
 import uuid
 import datetime
-from decimal import getcontext, Decimal
+from decimal import Decimal
 from domain.models import Participante, InvalidMonto
-
-getcontext().prec = 2
 
 class ParticipanteTestCase(unittest.TestCase):
 

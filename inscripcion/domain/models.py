@@ -1,7 +1,5 @@
 from datetime import date
-from decimal import getcontext, Decimal
-
-getcontext().prec = 2
+from decimal import Decimal
 
 class Inscripcion:
     def __init__(self, id, localidad, servidor, fecha, comprobante_uri = '', administradores = []):
@@ -19,12 +17,15 @@ class Inscripcion:
     def total_amount(self):
         if not self.participantes:
             return Decimal('0.00')
-
         valid_participantes = list(filter(lambda p: isinstance(p.monto, Decimal), self.participantes))
-        return sum(list(map(lambda p: p.monto, valid_participantes)))
+        suma = sum(list(map(lambda p: float(p.monto), valid_participantes)))
+        return Decimal(suma)
 
     def is_managed_by(self, admin):
         return admin in self.administradores
+
+    def __repr__(self):
+        return f'Inscripcion [{self.id}]'
 
 class Participante:
     def __init__(self,
@@ -50,6 +51,9 @@ class Participante:
             return "Hombre"
         else:
             return "Desconocido"
+
+    def __repr__(self):
+        return f'Inscripcion [{self.id}]'
 
 
 class InvalidMonto(Exception):

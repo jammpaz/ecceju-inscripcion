@@ -1,9 +1,7 @@
 import unittest
 import uuid
 from domain.models import Inscripcion, Participante
-from decimal import Decimal, getcontext
-
-getcontext().prec = 2
+from decimal import Decimal
 
 class InscripcionTestCase(unittest.TestCase):
 
@@ -34,8 +32,7 @@ class InscripcionTestCase(unittest.TestCase):
         inscripcion.participantes = [participante_1, participante_2]
 
         self.assertEqual([ participante_1, participante_2 ],  inscripcion.participantes)
-        self.assertEqual(inscripcion.total_amount(), Decimal('50'))
-        # self.assertEqual(inscripcion.total_amount(), Decimal('50.75'))
+        self.assertEqual(inscripcion.total_amount(), Decimal('50.75'))
 
     def test_total_amount_is_zero_if_participantes_are_emtpy(self):
         inscripcion = Inscripcion(
@@ -80,7 +77,7 @@ class InscripcionTestCase(unittest.TestCase):
 
         inscripcion.participantes = [participante_1, participante_2, participante_3]
 
-        self.assertEqual(inscripcion.total_amount(), Decimal(51.00))
+        self.assertEqual(inscripcion.total_amount(), Decimal(50.50))
 
     def test_adds_new_admin(self):
         inscripcion = Inscripcion(
