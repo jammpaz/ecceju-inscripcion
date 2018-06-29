@@ -45,10 +45,12 @@ def show_inscripcion(id):
     inscripcion = inscripcion_repository.find_by(id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
         return render_template('401.html', site = site), 401
+    inscripcion.participantes = participante_repository.find_all(inscripcion.id)
 
     return render_template('show_inscripcion.html',
             feature = feature,
             inscripcion = inscripcion,
+            monto_total = '${:,.2f}'.format(inscripcion.total_amount()),
             site = site)
 
 @main.route('/inscripciones')

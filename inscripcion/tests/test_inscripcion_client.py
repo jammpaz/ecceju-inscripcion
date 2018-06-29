@@ -3,10 +3,12 @@ import uuid
 from flask import current_app
 from app import create_app, db, feature
 from io import BytesIO
-from domain.models import Inscripcion
-from app.repositories import InscripcionRepository
+from domain.models import Inscripcion, Participante
+from app.repositories import InscripcionRepository, ParticipanteRepository
 from app.models import Usuario
 from utils.security import PasswordManager
+from builders import ParticipanteBuilder
+from decimal import Decimal
 
 class InscripcionIntTestCase(unittest.TestCase):
 
@@ -17,6 +19,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         db.create_all()
         self.client = self.app.test_client(use_cookies = True)
         self.inscripcion_repository = InscripcionRepository(db.session)
+        self.participante_repository = ParticipanteRepository(db.session)
 
 
     def tearDown(self):
@@ -40,9 +43,12 @@ class InscripcionIntTestCase(unittest.TestCase):
                 fecha = '2018-08-01',
                 administradores = ['usuario_1'])
 
+        participante = ParticipanteBuilder(monto = Decimal('26.00')).build()
+
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'https://s3.aws.com/comprobante.jpg'
         self.inscripcion_repository.add(inscripcion)
+        self.participante_repository.add(participante, inscripcion.id)
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}")
 
@@ -50,6 +56,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion.id), response)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
+        self._assert_static_text('26.00', response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 
