@@ -25,7 +25,7 @@ class Inscripcion:
         return admin in self.administradores
 
     def __repr__(self):
-        return f'Inscripcion [{self.id}]'
+        return f'(id: {self.id}, nombre: {self.localidad})'
 
 class Participante:
     def __init__(self,
@@ -53,7 +53,7 @@ class Participante:
             return "Desconocido"
 
     def __repr__(self):
-        return f'Inscripcion [{self.id}]'
+        return f'(id: {self.id}, nombre: {self.nombres_completos})'
 
 
 class InvalidMonto(Exception):
