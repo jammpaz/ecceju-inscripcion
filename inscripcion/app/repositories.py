@@ -100,12 +100,13 @@ class ParticipanteRepository:
 
     def find_by(self, participante_id):
         data = ParticipanteData.query.filter_by(id = str(participante_id)).first()
+        monto = Decimal('0.00') if data.monto is None else Decimal(data.monto)
         return Participante(
                 id = uuid.UUID(data.id),
                 nombres_completos = data.nombres_completos,
                 sexo = data.sexo,
                 telefono_contacto = data.telefono_contacto,
-                monto = Decimal(data.monto),
+                monto = monto,
                 fecha_inscripcion = data.fecha_inscripcion,
                 numero_deposito = data.numero_deposito)
 
@@ -118,7 +119,7 @@ class ParticipanteRepository:
                     nombres_completos = data.nombres_completos,
                     sexo = data.sexo,
                     telefono_contacto = data.telefono_contacto,
-                    monto = Decimal(data.monto),
+                    monto = Decimal('0.00') if data.monto is None else Decimal(data.monto),
                     fecha_inscripcion = data.fecha_inscripcion,
                     numero_deposito = data.numero_deposito), data_list))
 

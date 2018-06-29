@@ -1,7 +1,7 @@
 import uuid
-from datetime import date
-from domain.models import Participante
+from domain.models import Participante, Inscripcion
 from decimal import Decimal
+from datetime import date
 
 class ParticipanteBuilder:
     def __init__(self,
@@ -30,4 +30,26 @@ class ParticipanteBuilder:
                 monto = self.monto,
                 fecha_inscripcion = self.fecha_inscripcion)
 
+class InscripcionBuilder:
+    def __init__(self,
+            id = uuid.uuid1(),
+            localidad = 'RCC UIO',
+            servidor = 'Conny Riera',
+            fecha = '2018-01-01' ,
+            comprobante_uri = 'http://google.com',
+            administradores = ['admin', 'usuario_1']):
+        self.id = id
+        self.localidad = localidad
+        self.servidor = servidor
+        self.fecha = fecha
+        self.comprobante_uri = comprobante_uri
+        self.administradores = administradores
 
+    def build(self):
+        return Inscripcion(
+                id = self.id,
+                localidad = self.localidad,
+                servidor = self.servidor,
+                fecha = self.fecha,
+                comprobante_uri = self.comprobante_uri,
+                administradores = self.administradores)
