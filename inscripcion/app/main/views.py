@@ -91,22 +91,20 @@ def create_inscripcion():
 @login_required
 def edit_inscripcion(id):
     form = InscripcionForm()
+    inscripcion = inscripcion_repository.find_by(id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
     if form.validate_on_submit():
-        inscripcion = Inscripcion(
-                id = id,
-                localidad = form.localidad.data,
-                servidor = form.servidor.data,
-                fecha = form.fecha.data)
+        inscripcion.localidad = form.localidad.data
+        inscripcion.servidor = form.servidor.data
+        inscripcion.fecha = form.fecha.data
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = form.comprobante_uri.data.filename
 
         inscripcion_repository.update(inscripcion)
         return redirect(url_for('main.index_inscripcion'))
-
-    inscripcion = inscripcion_repository.find_by(id)
-    if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
 
     form.localidad.data = inscripcion.localidad
     form.servidor.data = inscripcion.servidor

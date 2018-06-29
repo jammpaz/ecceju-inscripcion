@@ -191,7 +191,8 @@ class InscripcionIntTestCase(unittest.TestCase):
                 id = uuid.uuid1(),
                 localidad = 'Quito',
                 servidor = 'Conny Riera',
-                fecha = '2018-08-01')
+                fecha = '2018-08-01',
+                administradores = ['usuario_1', 'admin'])
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'comprobante.jpg'
