@@ -100,6 +100,9 @@ class ParticipanteRepository:
 
     def find_by(self, participante_id):
         data = ParticipanteData.query.filter_by(id = str(participante_id)).first()
+        if data is None:
+            return None
+
         monto = Decimal('0.00') if data.monto is None else Decimal(data.monto)
         return Participante(
                 id = uuid.UUID(data.id),

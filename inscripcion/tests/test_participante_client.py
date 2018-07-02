@@ -7,6 +7,7 @@ from app.repositories import InscripcionRepository, ParticipanteRepository
 from app.models import Usuario
 from utils.security import PasswordManager
 from decimal import Decimal
+from builders import ParticipanteBuilder, InscripcionBuilder
 
 class ParticipanteIntTestCase(unittest.TestCase):
 
@@ -310,6 +311,47 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 participantes))
         self.assertTrue(len(filtered_participante) == 1)
         self.assertEqual(response.status_code, 302)
+
+
+    def test_should_return_200_showing_participantes_page_after_deleting_one(self):
+        self._login()
+        inscripcion = InscripcionBuilder().build()
+        self.inscripcion_repository.add(inscripcion)
+
+        participante = ParticipanteBuilder().build()
+        self.participante_repository.add(participante, inscripcion.id)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/{participante.id}/destroy",
+                follow_redirects = True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(participante.nombres_completos in response.get_data(as_text = True))
+
+    def test_should_return_not_found_while_deleting_a_participante(self):
+        self._login()
+        inscripcion = InscripcionBuilder().build()
+        self.inscripcion_repository.add(inscripcion)
+
+        participante = ParticipanteBuilder().build()
+        self.participante_repository.add(participante, inscripcion.id)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/non-existing-participante/destroy",
+                follow_redirects = True)
+
+        self.assertEqual(response.status_code, 404)
+
+
+    def test_should_return_403_while_deleting_a_participante(self):
+        self._login()
+        inscripcion = InscripcionBuilder(administradores = ['usuario_2', 'admin']).build()
+        self.inscripcion_repository.add(inscripcion)
+        participante = ParticipanteBuilder().build()
+        self.participante_repository.add(participante, inscripcion.id)
+
+        response = self.client.get(f"/inscripciones/{inscripcion.id}/participantes/{participante.id}/destroy",
+                follow_redirects = True)
+
+        self.assertEqual(response.status_code, 401)
 
 
     def _assert_static_text(self, static_text, response):

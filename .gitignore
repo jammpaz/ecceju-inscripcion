@@ -11,5 +11,6 @@ instance/
 .venv
 venv/
 .env
+.db.env
 *.sqlite
 .vscode

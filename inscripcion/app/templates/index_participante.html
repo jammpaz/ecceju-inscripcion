@@ -11,11 +11,12 @@
         <p><b>Monto total:</b> {{ monto_total }} USD</p>
       </li>
       {% for participante in participantes %}
-      <li class="collection-item">
+      <li class="collection-item avatar">
         <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}">
-          <h6 class="title orange-text">{{ participante.nombres_completos }}</h6>
+          <span class="title orange-text">{{ participante.nombres_completos }}</span>
         </a>
         <p><b>Monto: </b>{{ participante.monto }} USD<br/> <b>Nro. deposito: </b>{{ participante.numero_deposito }}</p>
+        <a href="/inscripciones/{{ inscripcion_id }}/participantes/{{ participante.id }}/destroy" class="secondary-content"><i class="material-icons">delete</i></a>
       </li>
       {% endfor %}
     </ul>

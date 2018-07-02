@@ -1,4 +1,4 @@
-override PYTHON_IMAGE = python:3.6-alpine3.7
+override PYTHON_IMAGE = python:3.6-alpine
 override APPLICATION_SCRIPT = inscripcion.py
 override APPLICATION_FOLDER = inscripcion
 override IMAGE_TAG = ecceju/inscripcion
@@ -10,10 +10,21 @@ install_dependencies:
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
 	  $(PYTHON_IMAGE) \
-	  sh  -c "python -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
+	  sh  -c "apk --no-cache add build-base postgresql-dev && python -m venv venv && venv/bin/pip install -r requirements.txt && venv/bin/pip install psycopg2 psycopg2-binary"
+
+run_db:
+	@docker container run \
+	  --name db_inscripcion \
+	  --rm \
+	  -d \
+	  --env-file $(shell pwd)/.db.env \
+	  postgres:10.4-alpine
+
+stop_db:
+	@docker container rm --force db_inscripcion
 
 run_dev:
-	@docker run \
+	@docker container run \
 	  --rm \
 	  --name run_inscripcion \
 	  -it \
@@ -23,9 +34,11 @@ run_dev:
 	  -p 5000:5000 \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -e FLASK_DEBUG=1 \
+	  --env-file $(shell pwd)/.db.env \
 	  --env-file $(shell pwd)/.env \
+	  --link db_inscripcion:db_inscripcion \
 	  $(PYTHON_IMAGE) \
-	  sh -c "source venv/bin/activate && flask run --host=0.0.0.0"
+	  sh -c "apk --no-cache add build-base postgresql-dev && source venv/bin/activate && flask run --host=0.0.0.0"
 
 ssh:
 	@docker run \

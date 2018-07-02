@@ -100,10 +100,12 @@ class LoginIntTestCase(unittest.TestCase):
                 'inscripciones/<inscripcion_id>/participantes/new',
                 'inscripciones/<inscripcion_id>/participantes/<participante_id>',
                 'inscripciones/<inscripcion_id>/participantes/<participante_id>/edit',
+                'inscripciones/<inscripcion_id>/participantes/<participante_id>/destroy',
                 ]
         for url in protected_urls:
             response = self.client.get(url, follow_redirects = True)
             self._assert_login_form(response)
+
 
     def test_show_logout(self):
         response = self.client.get('/auth/logout', follow_redirects = True)

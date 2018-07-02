@@ -208,3 +208,20 @@ def edit_participante(inscripcion_id, participante_id):
     return render_template('save_participante.html',
             form = form,
             site = site)
+
+
+@main.route('/inscripciones/<inscripcion_id>/participantes/<participante_id>/destroy')
+@login_required
+def destroy_participante(inscripcion_id, participante_id):
+    participante = participante_repository.find_by(participante_id)
+    if participante is None:
+        return render_template('404.html', site = site), 404
+
+    inscripcion = inscripcion_repository.find_by(inscripcion_id)
+    if not inscripcion.is_managed_by(current_user.nombre_usuario):
+        return render_template('401.html', site = site), 401
+
+    participante_repository.delete(participante)
+    return redirect(url_for(
+        'main.index_participante',
+        inscripcion_id = inscripcion_id))
