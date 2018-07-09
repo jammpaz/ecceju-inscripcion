@@ -17,7 +17,7 @@ script:
   - make test
   - make build_image
   - make deploy_to_qa
-  - make deploy_to_prod BUILD_DEBUG=no
+  - make deploy_to_prod BUILD_DEBUG=yes
 
 after_script:
   - make clean_credentials

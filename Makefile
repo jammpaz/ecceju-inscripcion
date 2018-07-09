@@ -41,15 +41,9 @@ run_dev:
 	  sh -c "apk --no-cache add build-base postgresql-dev && source venv/bin/activate && flask run --host=0.0.0.0"
 
 ssh:
-	@docker run \
-	  --rm \
-	  --name ssh_inscripcion \
+	@docker exec \
 	  -it \
-	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
-	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
-	  --env-file $(shell pwd)/.env \
-	  -w /$(APPLICATION_FOLDER) \
-	  $(PYTHON_IMAGE) \
+	  run_inscripcion \
 	  sh -c "source venv/bin/activate && ash"
 
 test:
