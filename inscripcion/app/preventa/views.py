@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, flash
 from . import preventa
 from .forms import PreventaCamisetaForm
 from domain.models import PreventaCamiseta
@@ -46,8 +46,17 @@ def create_preventa_camiseta():
         preventa_camiseta_repository.add(preventa_camiseta)
         return redirect(url_for('preventa.create_preventa_camiseta'))
 
+    flash_errors(form)
     return render_template(
             'preventa/save_preventa_camiseta.html',
             site = site,
             form = form
             )
+
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error en el campo: %s - %s" % (
+                getattr(form, field).label.text,
+                error
+                ))
