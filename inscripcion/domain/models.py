@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+import uuid
 
 class Inscripcion:
     def __init__(self, id, localidad, servidor, fecha, comprobante_uri = '', administradores = []):
@@ -54,6 +55,26 @@ class Participante:
 
     def __repr__(self):
         return f'(id: {self.id}, nombre: {self.nombres_completos})'
+
+
+class PreventaCamiseta:
+    def __init__(self,
+            id = uuid.uuid1(),
+            nombres_completos = 'Desconocido',
+            localidad = 'Desconocido',
+            color = 'blanco',
+            talla = '34',
+            cantidad = 1,
+            fecha_deposito = date.today(),
+            numero_deposito = 'Desconocido'):
+        self.id = id
+        self.nombres_completos = nombres_completos
+        self.localidad = localidad
+        self.color = color
+        self.talla = talla
+        self.cantidad = cantidad
+        self.fecha_deposito = fecha_deposito
+        self.numero_deposito = numero_deposito
 
 
 class InvalidMonto(Exception):

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
-from app.models import InscripcionData, ParticipanteData
-from domain.models import Inscripcion, Participante
+from app.models import InscripcionData, ParticipanteData, PreventaCamisetaData
+from domain.models import Inscripcion, Participante, PreventaCamiseta
 from decimal import Decimal
 
 class InscripcionRepository:
@@ -124,5 +124,38 @@ class ParticipanteRepository:
                     telefono_contacto = data.telefono_contacto,
                     monto = Decimal('0.00') if data.monto is None else Decimal(data.monto),
                     fecha_inscripcion = data.fecha_inscripcion,
+                    numero_deposito = data.numero_deposito), data_list))
+
+
+class PreventaCamisetaRepository:
+    def __init__(self, session):
+        self.session = session
+
+
+    def add(self, preventa_camiseta):
+        data = PreventaCamisetaData(
+                id = str(preventa_camiseta.id),
+                nombres_completos = preventa_camiseta.nombres_completos,
+                localidad = preventa_camiseta.localidad,
+                color = preventa_camiseta.color,
+                talla = preventa_camiseta.talla,
+                cantidad = preventa_camiseta.cantidad,
+                fecha_deposito = preventa_camiseta.fecha_deposito,
+                numero_deposito = preventa_camiseta.numero_deposito)
+        self.session.add(data)
+        self.session.commit()
+
+
+    def find_all(self):
+        data_list = PreventaCamisetaData.query.all()
+        return list(map(lambda data:
+                PreventaCamiseta(
+                    id = uuid.UUID(data.id),
+                    nombres_completos = data.nombres_completos,
+                    localidad = data.localidad,
+                    color = data.color,
+                    talla = data.talla,
+                    cantidad = data.cantidad,
+                    fecha_deposito = data.fecha_deposito,
                     numero_deposito = data.numero_deposito), data_list))
 

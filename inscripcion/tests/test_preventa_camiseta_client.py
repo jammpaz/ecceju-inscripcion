@@ -2,8 +2,9 @@ import unittest
 import uuid
 from flask import current_app
 from app import create_app, db, feature
+from app.repositories import PreventaCamisetaRepository
 
-class PreventaCamisetaTestCase(unittest.TestCase):
+class PreventaCamisetaIntTestCase(unittest.TestCase):
 
     def setUp(self):
         self.app = create_app('testing')
@@ -11,6 +12,7 @@ class PreventaCamisetaTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
         self.client = self.app.test_client(use_cookies = True)
+        self.preventa_camiseta_repository = PreventaCamisetaRepository(db.session)
 
 
     def tearDown(self):
@@ -31,6 +33,27 @@ class PreventaCamisetaTestCase(unittest.TestCase):
         self._assert_static_text('Cantidad', response)
         self._assert_static_text('Fecha de depósito', response)
         self._assert_static_text('Número de depósito', response)
+
+    def test_create_preventa_camiseta(self):
+        data = {
+                'nombres_completos': 'Conny Riera',
+                'localidad': 'Quito',
+                'color': 'blanco',
+                'talla': '34',
+                'cantidad': 2,
+                'fecha_deposito': '2018-09-01',
+                'numero_deposito': 'ABCD-0001'
+                }
+
+        response = self.client.post(
+                '/preventa/new',
+                content_type = 'multipart/form-data',
+                buffered = True,
+                data = data)
+
+        preventas = self.preventa_camiseta_repository.find_all()
+        self.assertTrue(len(preventas) == 1)
+        self.assertEqual(response.status_code, 302)
 
 
     # def test_create_an_inscripcion(self):

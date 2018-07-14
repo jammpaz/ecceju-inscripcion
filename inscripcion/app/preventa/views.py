@@ -1,6 +1,9 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from . import preventa
 from .forms import PreventaCamisetaForm
+from domain.models import PreventaCamiseta
+from app.repositories import PreventaCamisetaRepository
+from app import db
 
 site = {
         'title': 'Inscripciones ECCEJU 2018',
@@ -25,10 +28,24 @@ site = {
             }
         }
 
+preventa_camiseta_repository = PreventaCamisetaRepository(db.session)
 
-@preventa.route('/new')
+
+@preventa.route('/new', methods = ['GET', 'POST'])
 def create_preventa_camiseta():
     form = PreventaCamisetaForm()
+    if form.validate_on_submit():
+        preventa_camiseta = PreventaCamiseta(
+                    nombres_completos = form.nombres_completos.data,
+                    localidad = form.localidad.data,
+                    color = form.color.data,
+                    talla = form.talla.data,
+                    cantidad = form.cantidad.data,
+                    fecha_deposito = form.fecha_deposito.data,
+                    numero_deposito = form.numero_deposito.data)
+        preventa_camiseta_repository.add(preventa_camiseta)
+        return redirect(url_for('preventa.create_preventa_camiseta'))
+
     return render_template(
             'preventa/save_preventa_camiseta.html',
             site = site,

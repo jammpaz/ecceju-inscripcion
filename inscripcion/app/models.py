@@ -30,6 +30,17 @@ class Usuario(UserMixin, db.Model):
     readable_name = db.Column(db.String(128))
     hashed_password = db.Column(db.String(128))
 
+class PreventaCamisetaData(db.Model):
+    __tablename__ = 'preventas_camiseta'
+    id = db.Column(db.String, primary_key = True)
+    nombres_completos = db.Column(db.String(200), nullable = False)
+    localidad = db.Column(db.String(200), nullable = False)
+    color = db.Column(db.String(20), nullable = False)
+    talla = db.Column(db.String(2), nullable = False)
+    cantidad = db.Column(db.Integer, nullable = False)
+    fecha_deposito = db.Column(db.Date, nullable = False)
+    numero_deposito = db.Column(db.String(64))
+
 @login_manager.user_loader
 def load_user(usuario_id):
     return Usuario.query.get(int(usuario_id))
