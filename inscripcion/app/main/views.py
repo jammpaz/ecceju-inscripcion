@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, session
+from flask import render_template, redirect, url_for, session, flash
 from flask_login import login_required, current_user
 from . import main
 from .forms import InscripcionForm, ParticipanteForm
@@ -172,6 +172,7 @@ def create_participante(inscripcion_id):
             'main.index_participante',
             inscripcion_id = inscripcion_id))
 
+    flash_errors(form)
     return render_template('save_participante.html',
             form = form,
             site = site)
@@ -225,3 +226,11 @@ def destroy_participante(inscripcion_id, participante_id):
     return redirect(url_for(
         'main.index_participante',
         inscripcion_id = inscripcion_id))
+
+def flash_errors(form):
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error en el campo: %s - %s" % (
+                getattr(form, field).label.text,
+                error
+                ))

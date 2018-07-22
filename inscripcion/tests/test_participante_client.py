@@ -220,6 +220,37 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue(len(filtered_participante) == 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_should_return_error_if_required_fields_are_not_present_during_participante_creation(self):
+        self._login()
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = ['usuario_1', 'admin'])
+        self.inscripcion_repository.add(inscripcion)
+
+        participante_data = {
+                        'sexo': 'M',
+                        'telefono_contacto': '9999999999',
+                       }
+
+        response = self.client.post(
+                f'/inscripciones/{inscripcion.id}/participantes/new',
+                data = participante_data)
+
+        participantes = self.participante_repository.find_all(inscripcion.id)
+        filtered_participante = list(filter(lambda i:
+                i.nombres_completos == 'Nayeli Chiriboga' and
+                i.sexo == 'M' and
+                i.telefono_contacto == '9999999999',
+                participantes))
+        self.assertTrue(len(filtered_participante) == 0)
+        self._assert_static_text('Error en el campo: Monto cancelado (USD) - This field is required', response)
+        self._assert_static_text('Error en el campo: Nombres completos - This field is required', response)
+        self._assert_static_text('Error en el campo: Número de depósito - This field is required', response)
+
+
     def test_should_return_form_for_edit_a_participante(self):
         self._login()
         inscripcion = Inscripcion(
