@@ -22,14 +22,6 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="input-field col s12 m6">
-        <i class="material-icons prefix">access_time</i>
-        {{ form.fecha(class = 'datepicker') }}
-        {{ form.fecha.label }}
-      </div>
-    </div>
-
     {% if feature.is_enabled("COMPROBANTE_PAGO") %}
     <div class="row">
       <div class="file-field input-field col s12">
