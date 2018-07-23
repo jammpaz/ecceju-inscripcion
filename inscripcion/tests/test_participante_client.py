@@ -376,6 +376,39 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue(len(filtered_participante) == 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_should_throw_error_while_edit_a_participante(self):
+        self._login()
+        inscripcion = Inscripcion(
+                id = uuid.uuid1(),
+                localidad = 'Quito',
+                servidor = 'Conny Riera',
+                fecha = '2018-08-01',
+                administradores = ['usuario_1', 'admin'])
+        self.inscripcion_repository.add(inscripcion)
+
+        participante = Participante(
+                id = uuid.uuid1(),
+                nombres_completos = 'Raul Riera',
+                sexo = 'H',
+                telefono_contacto = '9999999999',
+                monto = Decimal('25.00'),
+                numero_deposito = '14587')
+        self.participante_repository.add(participante, inscripcion.id)
+
+        participante_data = {
+                        'nombres_completos': 'Nayeli Chiriboga',
+                        'sexo': 'M',
+                        'telefono_contacto': '9999999999',
+                        'monto': 15.00,
+                        'fecha_inscripcion': '2018-8-27',
+                        'numero_deposito': 'xxxxx'
+                       }
+
+        response = self.client.post(
+                f'/inscripciones/{inscripcion.id}/participantes/{participante.id}/edit',
+                data = participante_data)
+        self._assert_static_text('El valor del monto debe ser 25.00 USD', response)
+
 
     def test_should_return_200_showing_participantes_page_after_deleting_one(self):
         self._login()

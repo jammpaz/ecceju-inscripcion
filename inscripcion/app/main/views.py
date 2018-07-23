@@ -188,17 +188,20 @@ def edit_participante(inscripcion_id, participante_id):
 
     form = ParticipanteForm()
     if form.validate_on_submit():
-        participante = Participante(
-                id = participante_id,
-                nombres_completos = form.nombres_completos.data,
-                sexo = form.sexo.data,
-                telefono_contacto = form.telefono_contacto.data,
-                monto = form.monto.data,
-                numero_deposito = form.numero_deposito.data)
-
-        participante_repository.update(participante)
-        return redirect(url_for('main.index_participante',
-            inscripcion_id = inscripcion_id))
+        try:
+            participante = Participante(
+                    id = participante_id,
+                    nombres_completos = form.nombres_completos.data,
+                    sexo = form.sexo.data,
+                    telefono_contacto = form.telefono_contacto.data,
+                    monto = form.monto.data,
+                    numero_deposito = form.numero_deposito.data)
+        except InvalidMonto as err:
+            flash(err)
+        else:
+            participante_repository.update(participante)
+            return redirect(url_for('main.index_participante',
+                inscripcion_id = inscripcion_id))
 
     participante = participante_repository.find_by(participante_id)
 
