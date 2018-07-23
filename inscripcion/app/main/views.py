@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, session, flash
 from flask_login import login_required, current_user
 from . import main
 from .forms import InscripcionForm, ParticipanteForm
-from domain.models import Inscripcion, Participante
+from domain.models import Inscripcion, Participante, InvalidMonto
 from app.repositories import InscripcionRepository, ParticipanteRepository
 from app import db, feature
 import uuid
@@ -159,19 +159,21 @@ def create_participante(inscripcion_id):
 
     form = ParticipanteForm()
     if form.validate_on_submit():
-        participante = Participante(
-                id = uuid.uuid1(),
-                nombres_completos = form.nombres_completos.data,
-                sexo = form.sexo.data,
-                telefono_contacto = form.telefono_contacto.data,
-                monto = form.monto.data,
-                numero_deposito = form.numero_deposito.data)
-
-        participante_repository.add(participante, inscripcion_id)
-        return redirect(url_for(
-            'main.index_participante',
-            inscripcion_id = inscripcion_id))
-
+        try:
+            participante = Participante(
+                    id = uuid.uuid1(),
+                    nombres_completos = form.nombres_completos.data,
+                    sexo = form.sexo.data,
+                    telefono_contacto = form.telefono_contacto.data,
+                    monto = form.monto.data,
+                    numero_deposito = form.numero_deposito.data)
+        except InvalidMonto as err:
+            flash(err)
+        else:
+            participante_repository.add(participante, inscripcion_id)
+            return redirect(url_for(
+                'main.index_participante',
+                inscripcion_id = inscripcion_id))
     flash_errors(form)
     return render_template('save_participante.html',
             form = form,
