@@ -1,6 +1,7 @@
 from datetime import date
 from decimal import Decimal
 import uuid
+import datetime
 
 class Inscripcion:
     def __init__(self, id, localidad, servidor, fecha, comprobante_uri = '', administradores = []):
@@ -41,9 +42,26 @@ class Participante:
         self.nombres_completos = nombres_completos
         self.sexo = sexo
         self.telefono_contacto = telefono_contacto
+        self._validate_fecha_inscripcion_and_monto(monto, fecha_inscripcion)
         self.monto = monto
         self.numero_deposito = numero_deposito
         self.fecha_inscripcion = fecha_inscripcion
+
+    def _validate_fecha_inscripcion_and_monto(self, monto, fecha_inscripcion):
+        if fecha_inscripcion <= datetime.date(2018, 8, 15):
+            if monto is None or monto != Decimal('25.00'):
+                raise InvalidMonto('El valor del monto debe ser 25.00 USD')
+
+        if datetime.date(2018, 8, 16) <= fecha_inscripcion < datetime.date(2018, 8, 30):
+            if monto is None or monto != Decimal('30.00'):
+                raise InvalidMonto('El valor del monto debe ser 30.00 USD')
+
+        if datetime.date(2018, 8, 31) <= fecha_inscripcion <= datetime.date(2018, 9, 1):
+            if monto is None or monto != Decimal('20.00'):
+                raise InvalidMonto('El valor del monto debe ser 20.00 USD')
+
+        if datetime.date(2018, 9, 2) <= fecha_inscripcion:
+            raise InvalidMonto('Ya no es posible inscribir personas después del evento')
 
     def readable_sexo(self):
         if (self.sexo is "M"):

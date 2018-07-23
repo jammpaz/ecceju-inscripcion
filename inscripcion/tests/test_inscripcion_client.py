@@ -43,7 +43,7 @@ class InscripcionIntTestCase(unittest.TestCase):
                 fecha = '2018-08-01',
                 administradores = ['usuario_1'])
 
-        participante = ParticipanteBuilder(monto = Decimal('26.00')).build()
+        participante = ParticipanteBuilder(monto = Decimal('25.00')).build()
 
         if feature.is_enabled("COMPROBANTE_PAGO"):
             inscripcion.comprobante_uri = 'https://s3.aws.com/comprobante.jpg'
@@ -56,7 +56,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion.id), response)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
-        self._assert_static_text('26.00', response)
+        self._assert_static_text('25.00', response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue(inscripcion.comprobante_uri in response.get_data(as_text = True))
 

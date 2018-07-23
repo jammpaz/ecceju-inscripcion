@@ -101,7 +101,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
-                monto = Decimal('280.00'),
+                monto = Decimal('25.00'),
                 numero_deposito = '123456')
 
         participante_2 = Participante(
@@ -109,7 +109,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Gustavo de las Mercedes Riera',
                 sexo = 'H',
                 telefono_contacto = '8888888888',
-                monto = Decimal('2408.57'),
+                monto = Decimal('25.00'),
                 numero_deposito = '12457')
 
         self.inscripcion_repository.add(inscripcion_1)
@@ -124,7 +124,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         self.assertTrue(participante_1.nombres_completos in response.get_data(as_text = True))
         self.assertTrue(str(participante_2.id) in response.get_data(as_text = True))
         self.assertTrue(participante_2.nombres_completos in response.get_data(as_text = True))
-        self.assertTrue('2,688.57' in response.get_data(as_text = True))
+        self.assertTrue('50' in response.get_data(as_text = True))
 
 
     def test_should_not_show_index_of_participantes_if_current_user_is_not_admin(self):
@@ -142,7 +142,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
-                monto = Decimal('280.00'),
+                monto = Decimal('25.00'),
                 numero_deposito = '123456')
 
 
@@ -203,7 +203,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                         'nombres_completos': 'Nayeli Chiriboga',
                         'sexo': 'M',
                         'telefono_contacto': '9999999999',
-                        'monto': 45.00,
+                        'monto': 25.00,
                         'numero_deposito': 'ABCD-1111'
                        }
 
@@ -318,7 +318,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                 nombres_completos = 'Raul Riera',
                 sexo = 'H',
                 telefono_contacto = '9999999999',
-                monto = Decimal('280.00'),
+                monto = Decimal('25.00'),
                 numero_deposito = '14587')
         self.participante_repository.add(participante, inscripcion.id)
 
@@ -326,7 +326,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
                         'nombres_completos': 'Nayeli Chiriboga',
                         'sexo': 'M',
                         'telefono_contacto': '9999999999',
-                        'monto': 25.20,
+                        'monto': 25.00,
                         'numero_deposito': 'xxxxx'
                        }
 
