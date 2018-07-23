@@ -111,6 +111,7 @@ class InscripcionIntTestCase(unittest.TestCase):
 
         self._assert_static_text('Nombre de la Localidad', response)
         self._assert_static_text('Nombre del servidor/a', response)
+        self._assert_static_text('Fecha de pago', response)
         if feature.is_enabled("COMPROBANTE_PAGO"):
             self.assertTrue('Comprobante de pago' in response.get_data(as_text = True))
 
@@ -166,6 +167,7 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self._assert_static_text(inscripcion.localidad, response)
         self._assert_static_text(inscripcion.servidor, response)
+        self._assert_static_text(inscripcion.fecha, response)
 
     def test_should_not_to_allow_edit_an_inscripcion_if_current_user_is_not_admin(self):
         self._login('conny', 'secreto')
