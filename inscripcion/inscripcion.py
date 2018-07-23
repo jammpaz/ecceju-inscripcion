@@ -4,7 +4,7 @@ from app import create_app, db, mail
 from flask_migrate import Migrate, upgrade
 from app.models import Usuario, InscripcionData, ParticipanteData
 from domain.models import Inscripcion
-from app.repositories import InscripcionRepository
+from app.repositories import InscripcionRepository, ParticipanteRepository
 from utils.security import PasswordManager
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -68,5 +68,6 @@ def make_shell_context():
                 db = db,
                 Usuario=Usuario,
                 Inscripcion=Inscripcion,
-                InscripcionRepository=InscripcionRepository
+                InscripcionRepository=InscripcionRepository,
+                ParticipanteRepository=ParticipanteRepository
             )
