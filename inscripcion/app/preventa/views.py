@@ -44,7 +44,7 @@ def create_preventa_camiseta():
                     fecha_deposito = form.fecha_deposito.data,
                     numero_deposito = form.numero_deposito.data)
         preventa_camiseta_repository.add(preventa_camiseta)
-        flash('Tu pedido de camiseta ha sido enviada satisfactoriamente!')
+        flash('Tu pedido de camiseta ha sido enviada satisfactoriamente!', 'green')
         return redirect(url_for('preventa.create_preventa_camiseta'))
 
     flash_errors(form)
@@ -60,4 +60,4 @@ def flash_errors(form):
             flash(u"Error en el campo: %s - %s" % (
                 getattr(form, field).label.text,
                 error
-                ))
+                ), 'red')

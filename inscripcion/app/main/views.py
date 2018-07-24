@@ -168,7 +168,7 @@ def create_participante(inscripcion_id):
                     monto = form.monto.data,
                     numero_deposito = form.numero_deposito.data)
         except InvalidMonto as err:
-            flash(err)
+            flash(err, 'red')
         else:
             participante_repository.add(participante, inscripcion_id)
             return redirect(url_for(
@@ -197,7 +197,7 @@ def edit_participante(inscripcion_id, participante_id):
                     monto = form.monto.data,
                     numero_deposito = form.numero_deposito.data)
         except InvalidMonto as err:
-            flash(err)
+            flash(err, 'red')
         else:
             participante_repository.update(participante)
             return redirect(url_for('main.index_participante',
@@ -238,4 +238,4 @@ def flash_errors(form):
             flash(u"Error en el campo: %s - %s" % (
                 getattr(form, field).label.text,
                 error
-                ))
+                ), 'red')

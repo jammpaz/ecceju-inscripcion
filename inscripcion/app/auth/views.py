@@ -46,7 +46,7 @@ def login():
                 next = url_for('main.index_inscripcion')
             return redirect(next)
 
-        flash('Credenciales incorrectas')
+        flash('Credenciales incorrectas', 'red')
     return render_template(
             'auth/login.html',
             site = site,
