@@ -6,9 +6,31 @@
   {{ form.hidden_tag() }}
 
   <div class="container">
+
     <h4>Formulario para solicitar preventa de camiseta</h4>
 
     <div class="row">
+      <div class="col s12 m4">
+        <div class="card">
+          <div class="card-image">
+            <img src="{{ "/static/img/camisetas.png" }}">
+          </div>
+          <div class="card-content">
+            <b>Nota:</b>
+            <p>Recuerda que el valor de la camiseta en el evento será de <b>10 USD</b>,
+            pero puedes adquirirla a través de este medio hasta el <b>24 de Agosto de 2018</b>
+            en preventa por <b>8 USD</b>.</p>
+            <p>El valor debe ser depositado en la cuenta de la Pastoral Juvenil Quito
+            (<b>Cuenta ahorros Banco Pichincha, Mónica Tacuri #6155052300</b>).</p>
+            <p>Para mayor información al teléfono: <b>0999054186</b></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-field col s12 m6">
+        &nbsp;
+      </div>
+
       <div class="input-field col s12 m6">
         <i class="material-icons prefix">person</i>
         {{ form.nombres_completos(class = 'validate') }}
@@ -20,9 +42,7 @@
         {{ form.localidad(class = 'validate') }}
         {{ form.localidad.label }}
       </div>
-    </div>
 
-    <div class="row">
       <div class="input-field col s12 m6">
         <i class="material-icons prefix">color_lens</i>
         {{ form.color(class = 'validate') }}
@@ -34,17 +54,13 @@
         {{ form.talla(class = 'validate') }}
         {{ form.talla.label }}
       </div>
-    </div>
 
-    <div class="row">
       <div class="input-field col s12 m6">
         <i class="material-icons prefix">dialpad</i>
         {{ form.cantidad(class = 'validate') }}
         {{ form.cantidad.label }}
       </div>
-    </div>
 
-    <div class="row">
       <div class="input-field col s12 m6">
         <i class="material-icons prefix">receipt</i>
         {{ form.numero_deposito(class = 'validate') }}
