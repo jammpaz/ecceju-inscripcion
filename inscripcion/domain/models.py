@@ -84,7 +84,8 @@ class PreventaCamiseta:
             talla = '34',
             cantidad = 1,
             fecha_deposito = date.today(),
-            numero_deposito = 'Desconocido'):
+            numero_deposito = 'Desconocido',
+            cedula = '0000000000'):
         self.id = id
         self.nombres_completos = nombres_completos
         self.localidad = localidad
@@ -93,6 +94,7 @@ class PreventaCamiseta:
         self.cantidad = cantidad
         self.fecha_deposito = fecha_deposito
         self.numero_deposito = numero_deposito
+        self.cedula = cedula
 
 
 class InvalidMonto(Exception):

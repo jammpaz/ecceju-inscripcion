@@ -33,6 +33,7 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
         self._assert_static_text('Cantidad', response)
         self._assert_static_text('Fecha de depósito', response)
         self._assert_static_text('Número de depósito', response)
+        self._assert_static_text('Cédula', response)
 
     def test_create_preventa_camiseta(self):
         data = {
@@ -42,7 +43,8 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
                 'talla': '34',
                 'cantidad': 2,
                 'fecha_deposito': '2018-09-01',
-                'numero_deposito': 'ABCD-0001'
+                'numero_deposito': 'ABCD-0001',
+                'cedula': '0000000001'
                 }
 
         response = self.client.post(
@@ -55,41 +57,6 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
         self.assertTrue(len(preventas) == 1)
         self.assertEqual(response.status_code, 302)
 
-
-    # def test_create_an_inscripcion(self):
-        # self._login()
-        # inscripcion_data = {
-                        # 'localidad': 'Quito',
-                        # 'servidor': 'Conny Riera',
-                        # 'monto': '150.00',
-                        # 'fecha': '2018-08-01'
-                       # }
-
-        # if feature.is_enabled("COMPROBANTE_PAGO"):
-            # inscripcion_data = {
-                    # 'localidad': 'Quito',
-                    # 'servidor': 'Conny Riera',
-                    # 'monto': '150.00',
-                    # 'fecha': '2018-08-01',
-                    # 'comprobante_uri': (
-                        # BytesIO('Comprobante sample content'.encode('utf-8')),
-                        # 'comprobante.jpg'
-                        # )
-                    # }
-
-        # response = self.client.post(
-                # '/inscripciones/new',
-                # content_type = 'multipart/form-data',
-                # buffered = True,
-                # data = inscripcion_data)
-
-        # inscripciones = self.inscripcion_repository.find_all()
-        # filtered_inscripcion = list(filter(lambda i:
-                # i.localidad == 'Quito' and
-                # i.servidor == 'Conny Riera',
-                # inscripciones))
-        # self.assertTrue(len(filtered_inscripcion) == 1)
-        # self.assertEqual(response.status_code, 302)
 
     def _assert_static_text(self, static_text, response):
         self.assertTrue(static_text in response.get_data(as_text = True))

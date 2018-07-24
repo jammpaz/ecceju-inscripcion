@@ -40,6 +40,7 @@ class PreventaCamisetaData(db.Model):
     cantidad = db.Column(db.Integer, nullable = False)
     fecha_deposito = db.Column(db.Date, nullable = False)
     numero_deposito = db.Column(db.String(64))
+    cedula = db.Column(db.String(10), nullable = False)
 
 @login_manager.user_loader
 def load_user(usuario_id):

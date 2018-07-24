@@ -141,7 +141,8 @@ class PreventaCamisetaRepository:
                 talla = preventa_camiseta.talla,
                 cantidad = preventa_camiseta.cantidad,
                 fecha_deposito = preventa_camiseta.fecha_deposito,
-                numero_deposito = preventa_camiseta.numero_deposito)
+                numero_deposito = preventa_camiseta.numero_deposito,
+                cedula = preventa_camiseta.cedula)
         self.session.add(data)
         self.session.commit()
 
@@ -157,5 +158,6 @@ class PreventaCamisetaRepository:
                     talla = data.talla,
                     cantidad = data.cantidad,
                     fecha_deposito = data.fecha_deposito,
-                    numero_deposito = data.numero_deposito), data_list))
+                    numero_deposito = data.numero_deposito,
+                    cedula = data.cedula), data_list))
 

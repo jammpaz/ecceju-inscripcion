@@ -22,6 +22,9 @@
             en preventa por <b>8 USD</b>.</p>
             <p>El valor debe ser depositado en la cuenta de la Pastoral Juvenil Quito
             (<b>Cuenta ahorros Banco Pichincha, Mónica Tacuri #6155052300</b>).</p>
+            <br/>
+            <p><b>Para retirar tu camiseta debes presentar tu cédula al momento del evento.</b></p>
+            <br/>
             <p>Para mayor información al teléfono: <b>0999054186</b></p>
           </div>
         </div>
@@ -35,6 +38,12 @@
         <i class="material-icons prefix">person</i>
         {{ form.nombres_completos(class = 'validate') }}
         {{ form.nombres_completos.label }}
+      </div>
+
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">assignment_ind</i>
+        {{ form.cedula(class = 'validate') }}
+        {{ form.cedula.label }}
       </div>
 
       <div class="input-field col s12 m6">
@@ -72,6 +81,7 @@
         {{ form.fecha_deposito(class = 'datepicker') }}
         {{ form.fecha_deposito.label }}
       </div>
+
     </div>
 
   </div>
