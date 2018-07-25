@@ -15,7 +15,7 @@ class ParticipanteTestCase(unittest.TestCase):
                 telefono_contacto = '5252525',
                 fecha_inscripcion = datetime.date(2018, 8, 15),
                 monto = Decimal('15.25'),
-                numero_deposito = '123455')
+                numero_deposito = '123455').validate_fecha_inscripcion_and_monto()
 
         self.assertTrue('El valor del monto debe ser 25.00 USD' in str(context.exception))
 
@@ -28,7 +28,7 @@ class ParticipanteTestCase(unittest.TestCase):
                 telefono_contacto = '5252525',
                 fecha_inscripcion = datetime.date(2018, 8, 16),
                 monto = Decimal('25.00'),
-                numero_deposito = '123455')
+                numero_deposito = '123455').validate_fecha_inscripcion_and_monto()
 
         self.assertTrue('El valor del monto debe ser 30.00 USD' in str(context.exception))
 
@@ -41,7 +41,7 @@ class ParticipanteTestCase(unittest.TestCase):
                 telefono_contacto = '5252525',
                 fecha_inscripcion = datetime.date(2018, 8, 31),
                 monto = Decimal('30.00'),
-                numero_deposito = '123455')
+                numero_deposito = '123455').validate_fecha_inscripcion_and_monto()
 
         self.assertTrue('El valor del monto debe ser 20.00 USD' in str(context.exception))
 
@@ -54,6 +54,6 @@ class ParticipanteTestCase(unittest.TestCase):
                 telefono_contacto = '5252525',
                 fecha_inscripcion = datetime.date(2018, 9, 2),
                 monto = Decimal('20.00'),
-                numero_deposito = '123455')
+                numero_deposito = '123455').validate_fecha_inscripcion_and_monto()
 
         self.assertTrue('Ya no es posible inscribir personas después del evento' in str(context.exception))

@@ -167,6 +167,7 @@ def create_participante(inscripcion_id):
                     telefono_contacto = form.telefono_contacto.data,
                     monto = form.monto.data,
                     numero_deposito = form.numero_deposito.data)
+            participante.validate_fecha_inscripcion_and_monto()
         except InvalidMonto as err:
             flash(err, 'red')
         else:
@@ -196,6 +197,7 @@ def edit_participante(inscripcion_id, participante_id):
                     telefono_contacto = form.telefono_contacto.data,
                     monto = form.monto.data,
                     numero_deposito = form.numero_deposito.data)
+            participante.validate_fecha_inscripcion_and_monto()
         except InvalidMonto as err:
             flash(err, 'red')
         else:
