@@ -19,7 +19,8 @@ site = {
             'name': 'Inscripciones',
             },
         'home': {
-            'url': '/'
+            'url': 'https://www.rccec.org',
+            'name': 'Inicio'
             },
         'ecceju-urls': {
                 'programacion': 'https://ecceju.rccec.org/programacion',

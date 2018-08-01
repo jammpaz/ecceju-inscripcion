@@ -7,12 +7,18 @@
 
       <ul class="right hide-on-med-and-down">
         <li>
+          <a href="{{ site['home']['url'] }}">
+            <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
+            <i class="material-icons right icon-red">home</i>
+          </a>
+        </li>
+
+        <li>
           <a href="{{ url_for('main.index_inscripcion') }}">
             <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
             <i class="material-icons right icon-red">format_list_bulleted</i>
           </a>
         </li>
-
 
         {% if current_user.is_authenticated %}
         <li>
@@ -25,6 +31,12 @@
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
+        <li>
+          <a href="{{ site['home']['url'] }}">
+            <span class="red-text text-darken-1">{{ site['home']['name'] }}</span>
+          </a>
+        </li>
+
         <li>
           <a href="{{ url_for('main.index_inscripcion') }}">
             <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
