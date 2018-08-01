@@ -4,6 +4,7 @@ from .forms import PreventaCamisetaForm
 from domain.models import PreventaCamiseta
 from app.repositories import PreventaCamisetaRepository
 from app import db
+import uuid
 
 site = {
         'title': 'Inscripciones ECCEJU 2018',
@@ -36,6 +37,7 @@ def create_preventa_camiseta():
     form = PreventaCamisetaForm()
     if form.validate_on_submit():
         preventa_camiseta = PreventaCamiseta(
+                    id = uuid.uuid1(),
                     nombres_completos = form.nombres_completos.data,
                     localidad = form.localidad.data,
                     color = form.color.data,
