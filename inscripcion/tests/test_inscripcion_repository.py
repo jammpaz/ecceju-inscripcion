@@ -93,3 +93,10 @@ class InscripcionRepositoryTestCase(unittest.TestCase):
         with self.assertRaises(Exception) as context:
             self.inscripcion_repository.get_total_participantes( inscripcion_id = None )
         self.assertTrue('Inscripcion id is not valid' in str(context.exception))
+
+    def test_should_return_zero_if_there_is_no_participantes_while_getting_total_amount(self):
+        inscripcion = InscripcionBuilder().build()
+        self.inscripcion_repository.add(inscripcion)
+
+        self.assertEqual(self.inscripcion_repository.get_total_amount(inscripcion.id),
+                Decimal('0.00'))

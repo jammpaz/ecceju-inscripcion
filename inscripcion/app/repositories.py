@@ -63,10 +63,15 @@ class InscripcionRepository:
     def get_total_amount(self, inscripcion_id):
         if inscripcion_id is None:
             raise Exception('Inscripcion id is not valid')
-        return self.session.execute(
+        response = self.session.execute(
                 'select sum(monto) as total_amount from participantes where inscripcion_id = :id',
                 {'id': str( inscripcion_id )}
                 ).fetchone().total_amount
+        if response is None:
+            return Decimal('0.00')
+        else:
+            return response
+
 
     def get_total_participantes(self, inscripcion_id):
         if inscripcion_id is None:
