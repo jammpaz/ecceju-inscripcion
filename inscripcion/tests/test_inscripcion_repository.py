@@ -2,13 +2,16 @@ import unittest
 import uuid
 from app import create_app, db, feature
 from domain.models import Inscripcion
-from app.repositories import InscripcionRepository
+from app.repositories import InscripcionRepository, ParticipanteRepository
+from builders import InscripcionBuilder, ParticipanteBuilder
+from decimal import Decimal
 
 class InscripcionRepositoryTestCase(unittest.TestCase):
 
     def setUp(self):
         db.create_all()
         self.inscripcion_repository = InscripcionRepository(db.session)
+        self.participante_repository = ParticipanteRepository(db.session)
 
 
     def tearDown(self):
@@ -65,3 +68,28 @@ class InscripcionRepositoryTestCase(unittest.TestCase):
                 list(map(lambda i: i.id, response))
                 )
 
+
+    def test_get_number_of_registered_people_and_total_amount_per_localidad(self):
+        inscripcion = InscripcionBuilder().build()
+        self.inscripcion_repository.add(inscripcion)
+        participante_1 = ParticipanteBuilder(id = uuid.uuid1()).build()
+        self.participante_repository.add(participante_1, inscripcion.id)
+        participante_2 = ParticipanteBuilder(id = uuid.uuid1()).build()
+        self.participante_repository.add(participante_2, inscripcion.id)
+
+        self.assertEqual(self.inscripcion_repository.get_total_amount(inscripcion.id),
+                Decimal('50.00'))
+        self.assertEqual(self.inscripcion_repository.get_total_participantes(inscripcion.id),
+                2)
+
+
+    def test_should_return_error_if_inscripcion_id_is_nil_during_get_total_amount(self):
+        with self.assertRaises(Exception) as context:
+            self.inscripcion_repository.get_total_amount( inscripcion_id = None )
+        self.assertTrue('Inscripcion id is not valid' in str(context.exception))
+
+
+    def test_should_return_error_if_inscripcion_id_is_nil_during_get_total_participantes(self):
+        with self.assertRaises(Exception) as context:
+            self.inscripcion_repository.get_total_participantes( inscripcion_id = None )
+        self.assertTrue('Inscripcion id is not valid' in str(context.exception))

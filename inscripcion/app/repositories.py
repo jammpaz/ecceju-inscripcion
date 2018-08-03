@@ -60,6 +60,22 @@ class InscripcionRepository:
         inscripciones = self.find_all()
         return list(filter(lambda i: admin in i.administradores, inscripciones))
 
+    def get_total_amount(self, inscripcion_id):
+        if inscripcion_id is None:
+            raise Exception('Inscripcion id is not valid')
+        return self.session.execute(
+                'select sum(monto) as total_amount from participantes where inscripcion_id = :id',
+                {'id': str( inscripcion_id )}
+                ).fetchone().total_amount
+
+    def get_total_participantes(self, inscripcion_id):
+        if inscripcion_id is None:
+            raise Exception('Inscripcion id is not valid')
+        return self.session.execute(
+                'select count(*) as total_count from participantes where inscripcion_id = :id',
+                {'id': str( inscripcion_id )}
+                ).fetchone().total_count
+
 
 class ParticipanteRepository:
     def __init__(self, session):
