@@ -61,8 +61,16 @@ def index_inscripcion():
     if not inscripciones:
         return render_template('401.html', site = site), 401
 
+    hydrated_inscripciones = []
+    for i in inscripciones:
+        hydrated_inscripciones.append({
+            "object": i,
+            "total_amount": inscripcion_repository.get_total_amount(i.id),
+            "total_participantes": inscripcion_repository.get_total_participantes(i.id)
+            })
+
     return render_template('index_inscripcion.html',
-            inscripciones = inscripciones,
+            inscripciones = hydrated_inscripciones,
             site = site)
 
 

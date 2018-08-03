@@ -1,4 +1,5 @@
 import unittest
+import datetime
 import uuid
 from flask import current_app
 from app import create_app, db, feature
@@ -94,6 +95,16 @@ class InscripcionIntTestCase(unittest.TestCase):
         self.inscripcion_repository.add(inscripcion_1)
         self.inscripcion_repository.add(inscripcion_2)
 
+        participante_1 = ParticipanteBuilder(id = uuid.uuid1(),
+                fecha_inscripcion = datetime.date(2018, 8, 15),
+                monto = Decimal('25.00')).build()
+        participante_2 = ParticipanteBuilder(id = uuid.uuid1(),
+                fecha_inscripcion = datetime.date(2018, 8, 15),
+                monto = Decimal('25.00')).build()
+
+        self.participante_repository.add(participante_1, inscripcion_1.id)
+        self.participante_repository.add(participante_2, inscripcion_2.id)
+
         response = self.client.get(f"/inscripciones")
 
         self.assertEqual(response.status_code, 200)
@@ -101,6 +112,8 @@ class InscripcionIntTestCase(unittest.TestCase):
         self._assert_static_text(str(inscripcion_2.id), response)
         self._assert_static_text(inscripcion_1.localidad, response)
         self._assert_static_text(inscripcion_2.localidad, response)
+        self._assert_static_text("Total inscritos: </b>1", response)
+        self._assert_static_text("Monto total: </b>$25 USD", response)
 
 
     def test_new_inscripcion(self):
