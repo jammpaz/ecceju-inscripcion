@@ -1,6 +1,7 @@
 import unittest
 from utils.security import PasswordManager
 
+
 class PasswordManagerTestCase(unittest.TestCase):
 
     def test_hashed_password_should_not_be_none(self):

@@ -10,12 +10,11 @@ install_dependencies:
 	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
 	  -w /$(APPLICATION_FOLDER) \
 	  $(PYTHON_IMAGE) \
-	  sh  -c "apk --no-cache add build-base postgresql-dev && python -m venv venv && venv/bin/pip install -r requirements.txt && venv/bin/pip install psycopg2 psycopg2-binary"
+	  sh  -c "apk --no-cache add build-base postgresql-dev && python -m venv venv && venv/bin/pip install -r dev-requirements.txt && venv/bin/pip install psycopg2 psycopg2-binary"
 
 run_db:
 	@docker container run \
 	  --name db_inscripcion \
-	  --rm \
 	  -d \
 	  --env-file $(shell pwd)/.db.env \
 	  postgres:10.4-alpine
@@ -56,6 +55,24 @@ test:
 	  -e SECRET_KEY=secret \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"
+
+lint:
+	@docker run \
+	  --rm \
+	  --name lint_inscripcion \
+	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
+	  -w /$(APPLICATION_FOLDER) \
+	  $(PYTHON_IMAGE) \
+	  sh -c "source venv/bin/activate && pycodestyle --first **/*.py"
+
+fix_lint:
+	@docker run \
+	  --rm \
+	  --name fix_lint_inscripcion \
+	  -v $(shell pwd)/$(APPLICATION_FOLDER):/$(APPLICATION_FOLDER) \
+	  -w /$(APPLICATION_FOLDER) \
+	  $(PYTHON_IMAGE) \
+	  sh -c "source venv/bin/activate && autopep8 --in-place --aggressive --aggressive **/*.py"
 
 
 build_image:

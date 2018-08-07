@@ -1,5 +1,6 @@
 import yaml
 
+
 class Feature:
     def __init__(self):
         with open('features.yaml', 'r') as config_file:

@@ -5,6 +5,7 @@ from app import create_app, db
 from app.email import send_email
 from config import config
 
+
 class EmailIntTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -13,10 +14,8 @@ class EmailIntTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
 
-
     def tearDown(self):
         self.app_context.pop()
-
 
     def test_send_email(self):
         to_email = 'ecceju.rccec.org@gmail.com'
@@ -26,11 +25,11 @@ class EmailIntTestCase(unittest.TestCase):
         reply = 'Do not reply'
 
         response = send_email(
-                to_email,
-                subject,
-                template_path,
-                user = user,
-                reply = reply
-                )
+            to_email,
+            subject,
+            template_path,
+            user=user,
+            reply=reply
+        )
 
         self.assertIsNotNone(response)

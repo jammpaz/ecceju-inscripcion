@@ -2,6 +2,7 @@ import unittest
 import uuid
 from app.converters import UUIDUrlConverter
 
+
 class UUIDUrlConverterTestCase(unittest.TestCase):
 
     def test_to_python_from_string_to_uuid(self):
