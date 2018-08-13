@@ -3,6 +3,9 @@ import uuid
 from flask import current_app
 from app import create_app, db, feature
 from app.repositories import PreventaCamisetaRepository
+from app.models import Usuario
+from domain.models import PreventaCamiseta
+from utils.security import PasswordManager
 
 
 class PreventaCamisetaIntTestCase(unittest.TestCase):
@@ -57,5 +60,37 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
         self.assertTrue(len(preventas) == 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_list_preventa_camiseta(self):
+        self._login()
+        preventa_1 = PreventaCamiseta()
+        preventa_2 = PreventaCamiseta(id=uuid.uuid1())
+        self.preventa_camiseta_repository.add(preventa_1)
+        self.preventa_camiseta_repository.add(preventa_2)
+
+        response = self.client.get("/preventa/")
+
+        self.assertEqual(response.status_code, 200)
+        self._assert_static_text(str(preventa_1.id), response)
+        self._assert_static_text(str(preventa_2.id), response)
+
     def _assert_static_text(self, static_text, response):
         self.assertTrue(static_text in response.get_data(as_text=True))
+
+    def _new_usuario(self, nombre_usuario, clave):
+        usuario = Usuario(
+            nombre_usuario=nombre_usuario,
+            hashed_password=PasswordManager(clave).hash())
+        db.session.add(usuario)
+        db.session.commit()
+        return usuario
+
+    def _login(self, nombre_usuario='usuario_1', clave='secreto'):
+        self._new_usuario(nombre_usuario, clave)
+        login_data = {
+            'nombre_usuario': nombre_usuario,
+            'clave': clave
+        }
+        return self.client.post(
+            '/auth/login',
+            data=login_data,
+            follow_redirects=True)

@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from . import preventa
 from .forms import PreventaCamisetaForm
 from domain.models import PreventaCamiseta
@@ -16,6 +17,9 @@ site = {
             },
         'inscripciones': {
             'name': 'Inscripciones',
+            },
+        'preventa': {
+            'name': 'Preventa',
             },
         'home': {
             'url': 'https://www.rccec.org',
@@ -56,6 +60,16 @@ def create_preventa_camiseta():
             site = site,
             form = form
             )
+
+@preventa.route('/')
+@login_required
+def list_preventa_camisetas():
+    return render_template(
+            'preventa/list_preventa_camiseta.html',
+            preventas = preventa_camiseta_repository.find_all(),
+            site = site
+            )
+
 
 def flash_errors(form):
     for field, errors in form.errors.items():

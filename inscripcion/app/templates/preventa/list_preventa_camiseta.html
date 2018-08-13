@@ -1,0 +1,61 @@
+{% extends "default.html" %}
+
+{% block body %}
+
+<div class="container">
+  <br/>
+  <div class="row">
+    <h4 class="header red-text hide-on-med-and-down">Preventa Camisetas</h4>
+    <table class="striped hide-on-med-and-down">
+      <thead>
+        <tr>
+          <th>Cédula</th>
+          <th>Nombres Completos</th>
+          <th>Localidad</th>
+          <th>Color</th>
+          <th>Talla</th>
+          <th>Cantidad</th>
+          <th>Fecha depósito</th>
+          <th>Número depósito</th>
+          <th>Identificador</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for preventa in preventas %}
+        <tr>
+          <td>{{ preventa.cedula }}</td>
+          <td>{{ preventa.nombres_completos }}</td>
+          <td>{{ preventa.localidad }}</td>
+          <td>{{ preventa.color }}</td>
+          <td>{{ preventa.talla }}</td>
+          <td>{{ preventa.cantidad }}</td>
+          <td>{{ preventa.fecha_deposito }}</td>
+          <td>{{ preventa.numero_deposito }}</td>
+          <td>{{ preventa.id }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <ul class="collection with-header hide-on-large-only">
+      <li class="collection-header"><h4 class="header red-text">Preventa Camisetas</h4></li>
+      {% for preventa in preventas %}
+      <li class="collection-item avatar">
+        <span class="title orange-text"><b>{{ preventa.nombres_completos }}</b></span>
+        <p>
+          <b>Cedula:</b> {{ preventa.cedula }} <br/>
+          <b>Localidad:</b> {{ preventa.localidad }} <br/>
+          <b>Color:</b> {{ preventa.color }} <br/>
+          <b>Talla:</b> {{ preventa.talla }} <br/>
+          <b>Cantidad:</b> {{ preventa.cantidad }} <br/>
+          <b>Fecha depósito:</b> {{ preventa.fecha_deposito }} <br/>
+          <b>Número depósito:</b> {{ preventa.numero_deposito }} <br/>
+          <b>Identificador:</b> {{ preventa.id }} <br/>
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

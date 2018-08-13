@@ -18,6 +18,9 @@ site = {
         'inscripciones': {
             'name': 'Inscripciones',
             },
+        'preventa': {
+            'name': 'Preventa',
+            },
         'home': {
             'url': 'https://www.rccec.org',
             'name': 'Inicio'

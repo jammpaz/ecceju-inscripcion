@@ -5,6 +5,27 @@
         <img src="{{ "/static/img/logo.png" }}" class="responsive-img" alt="Logo">
       </a>
 
+
+      <ul id="dropdown-menu" class="dropdown-content">
+        <li>
+          <a href="{{ url_for('main.index_inscripcion') }}">
+            <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('preventa.list_preventa_camisetas') }}">
+            <span class="red-text text-darken-1">{{ site['preventa']['name'] }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('auth.logout') }}">
+            <span class="red-text text-darken-1">{{ site['logout']['name'] }}</span>
+          </a>
+        </li>
+      </ul>
+
       <ul class="right hide-on-med-and-down">
         <li>
           <a href="{{ site['home']['url'] }}">
@@ -13,18 +34,11 @@
           </a>
         </li>
 
-        <li>
-          <a href="{{ url_for('main.index_inscripcion') }}">
-            <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
-            <i class="material-icons right icon-red">format_list_bulleted</i>
-          </a>
-        </li>
-
         {% if current_user.is_authenticated %}
         <li>
-          <a href="{{ url_for('auth.logout') }}">
-            <span class="red-text text-darken-1">{{ site['logout']['name'] }}</span>
-            <i class="material-icons right icon-red">exit_to_app</i>
+          <a class="dropdown-button" data-constrainWidth="false" data-activates="dropdown-menu">
+            <span class="red-text text-darken-1">Menu</span>
+            <i class="material-icons right icon-red">arrow_drop_down</i>
           </a>
         </li>
         {% endif %}
@@ -37,13 +51,19 @@
           </a>
         </li>
 
+        {% if current_user.is_authenticated %}
         <li>
           <a href="{{ url_for('main.index_inscripcion') }}">
             <span class="red-text text-darken-1">{{ site['inscripciones']['name'] }}</span>
           </a>
         </li>
 
-        {% if current_user.is_authenticated %}
+        <li>
+          <a href="{{ url_for('preventa.list_preventa_camisetas') }}">
+            <span class="red-text text-darken-1">{{ site['preventa']['name'] }}</span>
+          </a>
+        </li>
+
         <li>
           <a href="{{ url_for('auth.logout') }}">
             <span class="red-text text-darken-1">{{ site['logout']['name'] }}</span>

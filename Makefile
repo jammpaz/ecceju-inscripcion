@@ -12,17 +12,20 @@ install_dependencies:
 	  $(PYTHON_IMAGE) \
 	  sh  -c "apk --no-cache add build-base postgresql-dev && python -m venv venv && venv/bin/pip install -r dev-requirements.txt && venv/bin/pip install psycopg2 psycopg2-binary"
 
-run_db:
+create_db:
 	@docker container run \
 	  --name db_inscripcion \
 	  -d \
 	  --env-file $(shell pwd)/.db.env \
 	  postgres:10.4-alpine
 
+run_db:
+	@docker container start db_inscripcion
+
 stop_db:
 	@docker container rm --force db_inscripcion
 
-run_dev:
+run_dev: run_db
 	@docker container run \
 	  --rm \
 	  --name run_inscripcion \
