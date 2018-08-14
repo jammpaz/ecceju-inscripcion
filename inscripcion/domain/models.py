@@ -61,14 +61,14 @@ class Participante:
         self.fecha_inscripcion = fecha_inscripcion
 
     def validate_fecha_inscripcion_and_monto(self):
-        if self.fecha_inscripcion <= datetime.date(2018, 8, 15):
+        if self.fecha_inscripcion <= datetime.date(2018, 8, 24):
             if self.monto is None or self.monto != Decimal('25.00'):
                 raise InvalidMonto('El valor del monto debe ser 25.00 USD')
 
         if datetime.date(
                 2018,
                 8,
-                16) <= self.fecha_inscripcion < datetime.date(
+                25) <= self.fecha_inscripcion < datetime.date(
                 2018,
                 8,
                 30):

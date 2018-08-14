@@ -7,14 +7,14 @@ from domain.models import Participante, InvalidMonto
 
 class ParticipanteTestCase(unittest.TestCase):
 
-    def test_error_if_monto_is_not_25_at_15_aug(self):
+    def test_error_if_monto_is_not_25_at_24_aug(self):
         with self.assertRaises(InvalidMonto) as context:
             Participante(
                 id=uuid.uuid1(),
                 nombres_completos='Isabel de las Mercedes',
                 sexo="Mujer",
                 telefono_contacto='5252525',
-                fecha_inscripcion=datetime.date(2018, 8, 15),
+                fecha_inscripcion=datetime.date(2018, 8, 24),
                 monto=Decimal('15.25'),
                 numero_deposito='123455'
             ).validate_fecha_inscripcion_and_monto()
@@ -23,14 +23,14 @@ class ParticipanteTestCase(unittest.TestCase):
             'El valor del monto debe ser 25.00 USD' in str(
                 context.exception))
 
-    def test_error_if_monto_is_not_30_bucks_from_16th_aug_to_30th_aug(self):
+    def test_error_if_monto_is_not_30_bucks_from_25th_aug_to_30th_aug(self):
         with self.assertRaises(InvalidMonto) as context:
             Participante(
                 id=uuid.uuid1(),
                 nombres_completos='Isabel de las Mercedes',
                 sexo="Mujer",
                 telefono_contacto='5252525',
-                fecha_inscripcion=datetime.date(2018, 8, 16),
+                fecha_inscripcion=datetime.date(2018, 8, 25),
                 monto=Decimal('25.00'),
                 numero_deposito='123455'
             ).validate_fecha_inscripcion_and_monto()
