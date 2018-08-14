@@ -49,7 +49,8 @@ def create_preventa_camiseta():
                     talla = form.talla.data,
                     cantidad = form.cantidad.data,
                     fecha_deposito = form.fecha_deposito.data,
-                    numero_deposito = form.numero_deposito.data)
+                    numero_deposito = form.numero_deposito.data,
+                    cedula = form.cedula.data)
         preventa_camiseta_repository.add(preventa_camiseta)
         flash('Tu pedido de camiseta ha sido enviada satisfactoriamente!', 'green')
         return redirect(url_for('preventa.create_preventa_camiseta'))
