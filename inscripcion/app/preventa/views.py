@@ -1,10 +1,10 @@
 from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from . import preventa
-from .forms import PreventaCamisetaForm
+from .forms import PreventaCamisetaForm;
 from domain.models import PreventaCamiseta
 from app.repositories import PreventaCamisetaRepository
-from app import db
+from app import db, preventa_camisetas_admin
 import uuid
 
 site = {
@@ -64,6 +64,9 @@ def create_preventa_camiseta():
 @preventa.route('/')
 @login_required
 def list_preventa_camisetas():
+    if not current_user.nombre_usuario in preventa_camisetas_admin['data']:
+            return render_template('403.html', site = site), 403
+
     return render_template(
             'preventa/list_preventa_camiseta.html',
             preventas = preventa_camiseta_repository.find_all(),

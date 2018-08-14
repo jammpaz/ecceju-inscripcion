@@ -36,6 +36,7 @@ run_dev: run_db
 	  -p 5000:5000 \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -e FLASK_DEBUG=1 \
+	  -e ECCEJU_PREVENTA_CAMISETAS_ADMIN="usuario_admin,usuario_1" \
 	  --env-file $(shell pwd)/.db.env \
 	  --env-file $(shell pwd)/.env \
 	  --link db_inscripcion:db_inscripcion \
@@ -56,6 +57,7 @@ test:
 	  -w /$(APPLICATION_FOLDER) \
 	  -e FLASK_APP=$(APPLICATION_SCRIPT) \
 	  -e SECRET_KEY=secret \
+	  -e ECCEJU_PREVENTA_CAMISETAS_ADMIN="usuario_admin,usuario_1" \
 	  $(PYTHON_IMAGE) \
 	  sh -c "source venv/bin/activate && flask test"
 

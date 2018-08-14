@@ -74,7 +74,7 @@ class InscripcionIntTestCase(unittest.TestCase):
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_index_of_inscripcion(self):
         self._login('usuario_1', 'secreto')
@@ -196,7 +196,7 @@ class InscripcionIntTestCase(unittest.TestCase):
 
         response = self.client.get(f"/inscripciones/{inscripcion.id}/edit")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_should_edit_an_inscripcion(self):
         self._login()

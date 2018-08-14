@@ -73,6 +73,13 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
         self._assert_static_text(str(preventa_1.id), response)
         self._assert_static_text(str(preventa_2.id), response)
 
+    def test_forbidden_if_current_user_not_admin(self):
+        self._login(nombre_usuario='forbidden_usuario')
+
+        response = self.client.get("/preventa/")
+
+        self.assertEqual(response.status_code, 403)
+
     def _assert_static_text(self, static_text, response):
         self.assertTrue(static_text in response.get_data(as_text=True))
 

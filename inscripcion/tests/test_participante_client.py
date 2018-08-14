@@ -86,7 +86,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         response = self.client.get(
             f"/inscripciones/{inscripcion.id}/participantes/{participante.id}")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_index_of_participantes(self):
         self._login()
@@ -165,7 +165,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         response = self.client.get(
             f"/inscripciones/{inscripcion_1.id}/participantes")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_new_participante(self):
         self._login()
@@ -205,7 +205,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
         response = self.client.get(
             f"/inscripciones/{inscripcion.id}/participantes/new")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_create_a_participante(self):
         self._login()
@@ -370,7 +370,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
             f"/inscripciones/{inscripcion.id}/participantes/' \
                     '{participante.id}/edit")
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_should_edit_a_participante(self):
         self._login()
@@ -497,7 +497,7 @@ class ParticipanteIntTestCase(unittest.TestCase):
             f"{participante.id}/destroy",
             follow_redirects=True)
 
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def _assert_static_text(self, static_text, response):
         self.assertTrue(static_text in response.get_data(as_text=True))

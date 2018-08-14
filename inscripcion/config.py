@@ -18,6 +18,7 @@ class Config:
         'ECCEJU_MAIL_SENDER',
         'Inscripciones ECCEJU <ecceju.rccec.org@gmail.com>')
     ECCEJU_ADMIN = os.environ.get('ECCEJU_ADMIN')
+    ECCEJU_PREVENTA_CAMISETAS_ADMIN = os.environ.get('ECCEJU_PREVENTA_CAMISETAS_ADMIN')
 
     @staticmethod
     def init_app(app):

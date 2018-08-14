@@ -48,7 +48,7 @@ def index():
 def show_inscripcion(id):
     inscripcion = inscripcion_repository.find_by(id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
     inscripcion.participantes = participante_repository.find_all(inscripcion.id)
 
     return render_template('show_inscripcion.html',
@@ -62,7 +62,7 @@ def show_inscripcion(id):
 def index_inscripcion():
     inscripciones = inscripcion_repository.find_all_by_admin(current_user.nombre_usuario)
     if not inscripciones:
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     hydrated_inscripciones = []
     for i in inscripciones:
@@ -105,7 +105,7 @@ def edit_inscripcion(id):
     form = InscripcionForm()
     inscripcion = inscripcion_repository.find_by(id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     if form.validate_on_submit():
         inscripcion.localidad = form.localidad.data
@@ -138,7 +138,7 @@ def edit_inscripcion(id):
 def index_participante(inscripcion_id):
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
     participantes = participante_repository.find_all(inscripcion_id)
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     for participante in participantes:
@@ -155,7 +155,7 @@ def index_participante(inscripcion_id):
 def show_participante(inscripcion_id, participante_id):
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     return render_template('show_participante.html',
             inscripcion_id = inscripcion_id,
@@ -167,7 +167,7 @@ def show_participante(inscripcion_id, participante_id):
 def create_participante(inscripcion_id):
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     form = ParticipanteForm()
     if form.validate_on_submit():
@@ -197,7 +197,7 @@ def create_participante(inscripcion_id):
 def edit_participante(inscripcion_id, participante_id):
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     form = ParticipanteForm()
     if form.validate_on_submit():
@@ -239,7 +239,7 @@ def destroy_participante(inscripcion_id, participante_id):
 
     inscripcion = inscripcion_repository.find_by(inscripcion_id)
     if not inscripcion.is_managed_by(current_user.nombre_usuario):
-        return render_template('401.html', site = site), 401
+        return render_template('403.html', site = site), 403
 
     participante_repository.delete(participante)
     return redirect(url_for(

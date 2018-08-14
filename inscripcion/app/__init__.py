@@ -11,6 +11,8 @@ mail = Mail()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
+preventa_camisetas_admin = {}
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -20,6 +22,9 @@ def create_app(config_name):
     db.init_app(app)
     mail.init_app(app)
     login_manager.init_app(app)
+    preventa_camisetas_admin['data'] = app.config[
+            'ECCEJU_PREVENTA_CAMISETAS_ADMIN'
+            ]
 
     if app.config['SSL_REDIRECT']:
         from flask_sslify import SSLify
