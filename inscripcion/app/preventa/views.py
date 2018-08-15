@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, make_response
 from flask_login import login_required, current_user
 from . import preventa
 from .forms import PreventaCamisetaForm;
@@ -6,6 +6,8 @@ from domain.models import PreventaCamiseta
 from app.repositories import PreventaCamisetaRepository
 from app import db, preventa_camisetas_admin
 import uuid
+import io
+import csv
 
 site = {
         'title': 'Inscripciones ECCEJU 2018',
@@ -73,6 +75,23 @@ def list_preventa_camisetas():
             preventas = preventa_camiseta_repository.find_all(),
             site = site
             )
+
+@preventa.route('/download')
+@login_required
+def download_preventa_camisetas():
+    if not current_user.nombre_usuario in preventa_camisetas_admin['data']:
+            return render_template('403.html', site = site), 403
+    data = [PreventaCamiseta.fields_names()]
+    preventas = preventa_camiseta_repository.find_all()
+    for preventa in preventas:
+        data.append(preventa.fields_values())
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerows(data)
+    output = make_response(si.getvalue())
+    output.headers['Content-Disposition'] = 'attachment; filename=export_preventa_camisetas.csv'
+    output.headers['Content-Type'] = 'text/csv'
+    return output
 
 
 def flash_errors(form):

@@ -73,10 +73,30 @@ class PreventaCamisetaIntTestCase(unittest.TestCase):
         self._assert_static_text(str(preventa_1.id), response)
         self._assert_static_text(str(preventa_2.id), response)
 
+    def test_download_preventa_camiseta(self):
+        self._login()
+        preventa_1 = PreventaCamiseta()
+        self.preventa_camiseta_repository.add(preventa_1)
+
+        response = self.client.get("/preventa/download")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'text/csv')
+        self.assertEqual(
+            response.headers['Content-Disposition'],
+            'attachment; filename=export_preventa_camisetas.csv')
+
     def test_forbidden_if_current_user_not_admin(self):
         self._login(nombre_usuario='forbidden_usuario')
 
         response = self.client.get("/preventa/")
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_download_forbidden_if_current_user_not_admin(self):
+        self._login(nombre_usuario='forbidden_usuario')
+
+        response = self.client.get("/preventa/download")
 
         self.assertEqual(response.status_code, 403)
 

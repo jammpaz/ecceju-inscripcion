@@ -122,6 +122,31 @@ class PreventaCamiseta:
         self.numero_deposito = numero_deposito
         self.cedula = cedula
 
+    @staticmethod
+    def fields_names():
+        return [
+            'Cédula',
+            'Nombres Completos',
+            'Localidad',
+            'Color',
+            'Talla',
+            'Cantidad',
+            'Fecha Depósito',
+            'Número Depósito',
+            'Identificador']
+
+    def fields_values(self):
+        return [
+            self.cedula,
+            self.nombres_completos,
+            self.localidad,
+            self.color,
+            self.talla,
+            self.cantidad,
+            self.fecha_deposito,
+            self.numero_deposito,
+            self.id]
+
 
 class InvalidMonto(Exception):
     pass
