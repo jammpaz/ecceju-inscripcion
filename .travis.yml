@@ -14,12 +14,12 @@ before_script:
   - make setup_credentials
 
 script:
-  - echo $TRAVIS_BUILD_DIR
-  #- make test
-  #- make lint
-  #- make build_image
-  #- make deploy_to_qa
-  #- make deploy_to_prod BUILD_DEBUG=yes
+  - make test
+  - make lint
+  - make build_image
+  - make deploy_to_qa
+  - make deploy_to_prod BUILD_DEBUG=yes
+  - echo $PROJECT
 
 after_script:
   - make clean_credentials
